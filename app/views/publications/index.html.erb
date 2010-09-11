@@ -1,0 +1,28 @@
+<% title "Publications" %>
+
+<table>
+  <tr>
+    <th>Title</th>
+    <th>Description</th>
+    <th>Language</th>
+    <th>Publication Type</th>
+  </tr>
+  <% for publication in @publications %>
+    <tr>
+      <td><%=h publication.title %></td>
+      <td><%=h publication.description %></td>
+      <td><%=h publication.language_id %></td>
+      <td><%=h publication.publication_type_id %></td>
+      <td><%= link_to "Show", publication %></td>
+    <% if permitted_to? :edit, @publication %>
+      <td><%= link_to "Edit", edit_publication_path(publication) %></td>
+    <% end %>  
+    <% if permitted_to? :destroy, @publication %>
+      <td><%= link_to "Destroy", publication, :confirm => 'Are you sure?', :method => :delete %></td>
+    <% end %>  
+    </tr>
+  <% end %>
+</table>
+<% if permitted_to? :create, Publication.new %>
+  <p><%= link_to "New Publication", new_publication_path %></p>
+<% end %>

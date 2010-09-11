@@ -1,5 +1,7 @@
 <% title "New User" %>
 
+<p>Already have an account? <%= link_to "Log in", login_path %>.</p>
+
 <%= render :partial => 'form' %>
 
 <p><%= link_to "Back to List", users_path %></p>

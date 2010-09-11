@@ -9,7 +9,16 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100911110422) do
+ActiveRecord::Schema.define(:version => 20100911163402) do
+
+  create_table "publications", :force => true do |t|
+    t.string   "title"
+    t.text     "description"
+    t.integer  "language_id"
+    t.integer  "publication_type_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "users", :force => true do |t|
     t.string   "email",              :default => "", :null => false
@@ -27,6 +36,7 @@ ActiveRecord::Schema.define(:version => 20100911110422) do
     t.string   "perishable_token",   :default => "", :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "roles_mask"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email"

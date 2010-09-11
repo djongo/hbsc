@@ -1,0 +1,11 @@
+one:
+  title: MyString
+  description: MyText
+  language_id: 1
+  publication_type_id: 1
+
+two:
+  title: MyString
+  description: MyText
+  language_id: 1
+  publication_type_id: 1

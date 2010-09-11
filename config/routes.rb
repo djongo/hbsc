@@ -1,4 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :publications
+
   map.resources :user_sessions
   map.resources :users
   map.resources :password_resets, :only => [ :new, :create, :edit, :update ]
