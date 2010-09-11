@@ -9,15 +9,27 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100911093759) do
+ActiveRecord::Schema.define(:version => 20100911110422) do
 
   create_table "users", :force => true do |t|
-    t.string   "name"
-    t.string   "email"
-    t.string   "login"
-    t.string   "password"
+    t.string   "email",              :default => "", :null => false
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "crypted_password"
+    t.string   "password_salt"
+    t.string   "persistence_token"
+    t.integer  "login_count",        :default => 0,  :null => false
+    t.integer  "failed_login_count", :default => 0,  :null => false
+    t.datetime "last_request_at"
+    t.datetime "current_login_at"
+    t.datetime "last_login_at"
+    t.string   "last_login_ip"
+    t.string   "perishable_token",   :default => "", :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "users", ["email"], :name => "index_users_on_email"
+  add_index "users", ["perishable_token"], :name => "index_users_on_perishable_token"
 
 end
