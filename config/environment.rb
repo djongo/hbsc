@@ -15,10 +15,6 @@ Rails::Initializer.run do |config|
   # config.load_paths += %W( #{RAILS_ROOT}/extras )
 
   # Specify gems that this application depends on and have them installed with rake gems:install
-  # config.gem "bj"
-  # config.gem "hpricot", :version => '0.6', :source => "http://code.whytheluckystiff.net"
-  # config.gem "sqlite3-ruby", :lib => "sqlite3"
-  # config.gem "aws-s3", :lib => "aws/s3"
 
   config.gem 'rails', :source => 'http://gemcutter.org', :version => '2.3.8'
   config.gem 'authlogic', :source => 'http://gemcutter.org'
@@ -45,4 +41,16 @@ Rails::Initializer.run do |config|
   # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
   # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}')]
   # config.i18n.default_locale = :de
+
+  # mail settings
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.delivery_method = :smtp
+  
+  config.action_mailer.smtp_settings = {
+    :address  => "smtp.gmail.com",
+    :port  => "587",
+    :user_name  => "puma.hbsc@gmail.com",
+    :password  => "lrnbijxp",
+    :authentication  => :login
+  }
 end
