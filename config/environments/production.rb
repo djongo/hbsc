@@ -26,3 +26,15 @@ config.action_view.cache_template_loading            = true
 
 # Enable threaded mode
 # config.threadsafe!
+config.action_mailer.delivery_method = :smtp
+config.action_mailer.raise_delivery_errors = true
+ActionMailer::Base.smtp_settings = {
+  :tls            => true,
+  :address        => 'smtp.gmail.com',
+  :port           => 587,
+  :domain         => 'puma.hbsc@gmail.com',
+  :authentication => :plain,
+  :user_name      => 'puma.hbsc@gmail.com',
+  :password       => 'lrnbijxp'
+}
+
