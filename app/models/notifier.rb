@@ -1,10 +1,9 @@
 class Notifier < ActionMailer::Base
-  def signup_notification(user)
-    recipients "#{user.name} <#{user.email}>"
-    from       "My Forum"
-    subject    "Please activate your new account"
-    sent_on    Time.now
-    body       "Test" #{ :user => user, :url => activate_url(user.activation_code), :host => user.site.host }
-  end  
-
+  def password_reset_instructions(user)
+    subject     "Password Reset Instructions for HBSC"
+    from        "Puma HBSC"
+    recipients  user.email
+    sent_on     Time.now
+    body        :edit_password_reset_url => edit_password_reset_url(user.persistence_token)
+  end
 end
