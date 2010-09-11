@@ -13,11 +13,11 @@
       <td><%=h user.first_name %></td>
       <td><%=h user.last_name %></td>
       <td><%=h user.password %></td>
-      <td><%= link_to "Show", user %></td>
-      <td><%= link_to "Edit", edit_user_path(user) %></td>
-      <td><%= link_to "Destroy", user, :confirm => 'Are you sure?', :method => :delete %></td>
+      <td><%= link_to "Show", user if permitted_to? :show, :users %></td>
+      <td><%= link_to "Edit", edit_user_path(user) if permitted_to? :edit, :users %></td>
+      <td><%= link_to "Destroy", user, :confirm => 'Are you sure?', :method => :delete if permitted_to? :destroy, :users %></td>
     </tr>
   <% end %>
 </table>
 
-<p><%= link_to "New User", new_user_path %></p>
+<p><%= link_to "New User", new_user_path if permitted_to? :new, :users %></p>

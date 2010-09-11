@@ -18,7 +18,7 @@
 </p>
 
 <p>
-  <%= link_to "Edit", edit_user_path(@user) %> |
-  <%= link_to "Destroy", @user, :confirm => 'Are you sure?', :method => :delete %> |
-  <%= link_to "View All", users_path %>
+  <%= link_to "Edit", edit_user_path(@user) if permitted_to? :edit, :users %> |
+  <%= link_to "Destroy", @user, :confirm => 'Are you sure?', :method => :delete if permitted_to? :destroy, :users %> |
+  <%= link_to "View All", users_path if permitted_to? :index, :users %>
 </p>

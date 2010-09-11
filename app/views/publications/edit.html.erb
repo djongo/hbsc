@@ -3,6 +3,6 @@
 <%= render :partial => 'form' %>
 
 <p>
-  <%= link_to "Show", @publication %> |
-  <%= link_to "View All", publications_path %>
+  <%= link_to "Show", @publication if permitted_to? :show, :publications %> |
+  <%= link_to "View All", publications_path if permitted_to? :index, :publications %>
 </p>

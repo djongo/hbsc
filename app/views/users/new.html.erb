@@ -4,4 +4,4 @@
 
 <%= render :partial => 'form' %>
 
-<p><%= link_to "Back to List", users_path %></p>
+<p><%= link_to "Back to List", users_path if permitted_to? :index, :users %></p>

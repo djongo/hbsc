@@ -18,11 +18,7 @@
 </p>
 
 <p>
-  <% if permitted_to? :edit, @publication %>
-    <%= link_to "Edit", edit_publication_path(@publication) %> |
-  <% end %>
-  <% if permitted_to? :destroy, @publication %>
-    <%= link_to "Destroy", @publication, :confirm => 'Are you sure?', :method => :delete %> |
-  <% end %>  
+  <%= link_to "Edit", edit_publication_path(@publication) if permitted_to? :edit, :publications %> |
+  <%= link_to "Destroy", @publication, :confirm => 'Are you sure?', :method => :delete if permitted_to? :destroy, :publications %> |
   <%= link_to "View All", publications_path %>
 </p>

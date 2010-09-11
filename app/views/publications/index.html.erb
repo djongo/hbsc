@@ -13,16 +13,11 @@
       <td><%=h publication.description %></td>
       <td><%=h publication.language_id %></td>
       <td><%=h publication.publication_type_id %></td>
-      <td><%= link_to "Show", publication %></td>
-    <% if permitted_to? :edit, @publication %>
-      <td><%= link_to "Edit", edit_publication_path(publication) %></td>
-    <% end %>  
-    <% if permitted_to? :destroy, @publication %>
-      <td><%= link_to "Destroy", publication, :confirm => 'Are you sure?', :method => :delete %></td>
-    <% end %>  
+      <td><%= link_to "Show", publication if permitted_to? :show, :publications %></td>
+      <td><%= link_to "Edit", edit_publication_path(publication) if permitted_to? :edit, :publications %></td>
+      <td><%= link_to "Destroy", publication, :confirm => 'Are you sure?', :method => :delete if permitted_to? :destroy, :publications %></td>
     </tr>
   <% end %>
 </table>
-<% if permitted_to? :create, Publication.new %>
-  <p><%= link_to "New Publication", new_publication_path %></p>
-<% end %>
+  <p><%= link_to "New Publication", new_publication_path if permitted_to? :new, :publications %></p>
+
