@@ -8,9 +8,10 @@ authorization do
 
   role :author do
     includes :guest
-    has_permission_on :publications, :to => [:edit, :update] do 
-      if_attribute :user => is { user }
-    end
+    has_permission_on :publications, :to => [:edit, :update]
+#     do 
+#      if_attribute :user => is { user }
+#    end
   end
   
   role :publication_group do
