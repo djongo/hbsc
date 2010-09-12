@@ -11,8 +11,8 @@
     <tr>
       <td><%=h publication.title %></td>
       <td><%=h publication.description %></td>
-      <td><%=h publication.language_id %></td>
-      <td><%=h publication.publication_type_id %></td>
+      <td><%=h publication.language.name %></td>
+      <td><%=h publication.publication_type.name %></td>
       <td><%= link_to "Show", publication if permitted_to? :show, :publications %></td>
       <td><%= link_to "Edit", edit_publication_path(publication) if permitted_to? :edit, :publications %></td>
       <td><%= link_to "Destroy", publication, :confirm => 'Are you sure?', :method => :delete if permitted_to? :destroy, :publications %></td>

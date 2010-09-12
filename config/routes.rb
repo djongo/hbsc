@@ -1,4 +1,18 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :variables
+
+  map.resources :focus_groups
+
+  map.resources :country_teams
+
+  map.resources :populations
+
+  map.resources :publication_types
+
+  map.resources :surveys
+
+  map.resources :languages
+
   map.resources :publications
 
   map.resources :user_sessions

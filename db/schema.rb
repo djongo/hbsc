@@ -9,7 +9,37 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100911223339) do
+ActiveRecord::Schema.define(:version => 20100912084432) do
+
+  create_table "country_teams", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "focus_groups", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "languages", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "populations", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "publication_types", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "publications", :force => true do |t|
     t.string   "title"
@@ -20,6 +50,12 @@ ActiveRecord::Schema.define(:version => 20100911223339) do
     t.datetime "updated_at"
     t.string   "state"
     t.string   "access_state"
+  end
+
+  create_table "surveys", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "users", :force => true do |t|
@@ -43,5 +79,11 @@ ActiveRecord::Schema.define(:version => 20100911223339) do
 
   add_index "users", ["email"], :name => "index_users_on_email"
   add_index "users", ["perishable_token"], :name => "index_users_on_perishable_token"
+
+  create_table "variables", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
 end
