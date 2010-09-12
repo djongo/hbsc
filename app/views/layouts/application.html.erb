@@ -8,16 +8,27 @@
   </head>
   <body>
     <div id="container">
-    <div id="user_nav">  
-      <% if current_user %>  
-        <%= link_to "Edit profile", edit_user_path(:current) %>  | 
-        <%= link_to "Logout", logout_path %>  
-      <% else %>  
-        <%= link_to "Register", new_user_path %>  |
-        <%= link_to "Log in", login_path %>  | 
-        <%= link_to "Forgot password", new_password_reset_path %>
-      <% end %>  
-    </div> 
+    <div id="nav">
+      <div id="site_nav">
+        <%= link_to "Home", root_path %> |
+        <%= link_to "Publications", publications_path if permitted_to? :index, :publications %> | 
+        <% if permitted_to? :master, :pages %>
+          <%= link_to "Master Data", master_path %> |
+        <% end %>
+        <%= link_to "About", about_path %> |
+        <%= link_to "Contact", contact_path %>      
+      </div>
+      <div id="user_nav">  
+        <% if current_user %>  
+          <%= link_to "Edit profile", edit_user_path(:current) %>  | 
+          <%= link_to "Logout", logout_path %>  
+        <% else %>  
+          <%= link_to "Register", new_user_path %>  |
+          <%= link_to "Log in", login_path %>  | 
+          <%= link_to "Forgot password", new_password_reset_path %>
+        <% end %>  
+      </div> 
+    </div>
       <%- flash.each do |name, msg| -%>
         <%= content_tag :div, msg, :id => "flash_#{name}" %>
       <%- end -%>

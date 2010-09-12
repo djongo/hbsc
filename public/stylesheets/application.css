@@ -82,9 +82,20 @@ a {
   list-style: disc;
 }
 
-/*  User navigation */
+/*  Navigation */
+
+div#nav {
+    height: 30px;
+}
 
 div#user_nav {
     float: right; 
     font-size: 0.9em; 
+    position: relative;
+}
+
+div#site_nav {
+    float: left; 
+    font-size: 0.9em; 
+    position: relative;    
 }

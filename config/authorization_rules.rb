@@ -3,6 +3,7 @@ authorization do
   role :guest do
     has_permission_on :publications, :to => [:index, :show]
     has_permission_on :user, :to => [:read, :update] 
+    has_permission_on :pages, :to => [:home, :about, :contact]
     # add check for current user only!
   end
 
@@ -25,6 +26,7 @@ authorization do
     has_permission_on :country_teams, :to => :manage
     has_permission_on :focus_groups, :to => :manage    
     has_permission_on :variables, :to => :manage    
+    has_permission_on :pages, :to => [:home, :contact, :about, :master]
   end
 end
 
@@ -33,5 +35,3 @@ privileges do
     includes :create, :new, :edit, :update, :destroy, :index, :show
   end
 end
-
-
