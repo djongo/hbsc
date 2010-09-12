@@ -18,7 +18,8 @@ ActionController::Routing::Routes.draw do |map|
   map.contact "/contact", :controller => "pages", :action => "contact"
   map.master "/master", :controller => "pages", :action => "master"  
   map.home "/", :controller => "pages", :action => "home"  
-  
+  map.connect 'auto_complete_for_variable_name', :controller => 'publications', :action => 'auto_complete_for_variable_name'
+ 
   map.connect ':controller/:action/:id'
   map.connect ':controller/:action/:id.:format'
   map.root :controller => "pages", :action => "home"  

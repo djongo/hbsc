@@ -1,20 +1,103 @@
 <% form_for @publication do |f| %>
   <%= f.error_messages %>
-  <p>
-    <%= f.label :title %><br />
-    <%= f.text_field :title %>
-  </p>
-  <p>
-    <%= f.label :description %><br />
-    <%= f.text_area :description %>
-  </p>
-  <p>
-    <%= f.label :language_id %><br />
-    <%= f.text_field :language_id %>
-  </p>
-  <p>
-    <%= f.label :publication_type_id %><br />
-    <%= f.text_field :publication_type_id %>
-  </p>
-  <p><%= f.submit %></p>
+<p>
+  <%= f.label :title %><br />
+  <%= f.text_field :title, :size => 80 %>
+</p>
+
+
+<table>
+  <tr>
+    <td>
+    <div class="line_of_boxes">
+      <div class="box_in_line">
+        Keyword(s):
+        <div id="keyword_children" class="box_in_line_content">
+          <% f.fields_for :keywords do |keyword_form| %>
+            <%= render :partial => 'keyword', :locals => { :f => keyword_form } %>
+          <% end %>
+        </div>
+        <%= add_child_link "Add a keyword", 'keyword', f  %>  
+      </div>
+      <div class="box_bottom"></div>
+    </div>
+    </td>
+    <td>
+      <%= f.label :publication_type %><br />
+      <%= f.collection_select :publication_type_id, PublicationType.all, :id, :name, options = { :prompt => "Select one..." } %>
+    </td>
+    <td>
+      <%= f.label :language %><br />
+      <%= f.collection_select :language_id, Language.all, :id, :name, options = { :prompt => "Select one..." } %>
+    </td>
+  </tr>
+</table>
+<p>
+  <%= f.label :description %><br />
+  <%= f.text_area :description, :cols => 100, :rows => 10 %>
+</p>
+<h3>Data</h3>   
+<div class="line_of_boxes">
+  <div class="box_in_line">
+    Survey data
+    <div id="foundation_children" class="box_in_line_content">
+      <% f.fields_for :foundations do |foundation_form| %>
+        <%= render :partial => 'foundation', :locals => { :f => foundation_form } %>
+      <% end %>
+    </div>
+    <%= add_child_link "Add a dataset", 'foundation', f  %>  
+  </div>
+  
+  <div class="box_in_line">
+    Populations(s):
+    <div id="inclusion_children" class="box_in_line_content">
+      <% f.fields_for :inclusions do |inclusion_form| %>
+        <%= render :partial => 'inclusion', :locals => { :f => inclusion_form } %>
+      <% end %>
+    </div>      
+    <%= add_child_link "Add a population", 'inclusion', f  %>  
+  </div>
+  <div class="box_bottom"></div>
+</div>
+ 
+<h3>Variables</h3> 
+ <div class="line_of_boxes">
+  <div class="box_in_line">
+    Outcome measure(s):
+    <div id="outcome_children" class="box_in_line_content">
+      <% f.fields_for :outcomes do |outcome_form| %>
+        <%= render :partial => 'outcome', :locals => { :f => outcome_form } %>
+      <% end %>
+    </div>
+    <%= add_child_link "Add an outcome measure", 'outcome', f  %>  
+  </div>
+
+  <div class="box_in_line">
+    Determinant(s):
+    <div id="determinant_children" class="box_in_line_content">
+      <% f.fields_for :determinants do |determinant_form| %>
+        <%= render :partial => 'determinant', :locals => { :f => determinant_form } %>
+      <% end %>
+    </div>
+    <%= add_child_link "Add a determinant", 'determinant', f  %>
+  </div>
+  
+  <div class="box_in_line">
+    Confounder(s)/mediator(s):
+    <div id="mediator_children" class="box_in_line_content">
+      <% f.fields_for :mediators do |mediator_form| %>
+        <%= render :partial => 'mediator', :locals => { :f => mediator_form } %>
+      <% end %>
+    </div>
+    <%= add_child_link "Add a mediator", 'mediator', f  %>
+  </div>
+  
+   <div class="box_bottom"></div>
+</div>
+
+
+
+<p>
+  <%= f.submit %>
+</p>
 <% end %>

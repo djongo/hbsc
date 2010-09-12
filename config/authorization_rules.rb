@@ -14,6 +14,7 @@ authorization do
 #      if_attribute :user => is { user }
 #    end
     has_permission_on :variables, :to => [:new,:create]
+    has_permission_on :publications, :to => [:auto_complete_for_variable_name]
   end
   
   role :publication_group do
@@ -25,8 +26,12 @@ authorization do
     has_permission_on :populations, :to => :manage
     has_permission_on :country_teams, :to => :manage
     has_permission_on :focus_groups, :to => :manage    
-    has_permission_on :variables, :to => :manage    
+    has_permission_on :variables, :to => :manage
+    has_permission_on :outcomes, :to => :manage
+    has_permission_on :mediators, :to => :manage            
+    has_permission_on :determinants, :to => :manage
     has_permission_on :pages, :to => [:home, :contact, :about, :master]
+    has_permission_on :publications, :to => [:auto_complete_for_variable_name]    
   end
 end
 

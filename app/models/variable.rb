@@ -1,5 +1,5 @@
 class Variable < ActiveRecord::Base
-  attr_accessible :name
+  attr_accessible :name, :publication_ids
   validates_presence_of :name
   has_many :keywords
   has_many :publications, :through => :keywords

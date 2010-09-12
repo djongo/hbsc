@@ -1,0 +1,13 @@
+<div class="child">
+  Variable:  
+      <%= f.text_field_with_auto_complete :variable_name,
+                  {},
+                  { :method => :get, 
+                    :skip_style => true,
+                    :url => '/auto_complete_for_variable_name',
+                    :param_name => 'variable[name]'
+                  }
+          %>
+  <%= f.hidden_field :_destroy, :class => 'destroy' %>
+  <%= remove_child_link 'remove', f %>
+</div>

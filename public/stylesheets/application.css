@@ -82,7 +82,7 @@ a {
   list-style: disc;
 }
 
-/*  Navigation */
+/* Navigation */
 
 div#nav {
     height: 30px;
@@ -99,3 +99,79 @@ div#site_nav {
     font-size: 0.9em; 
     position: relative;    
 }
+
+/* Publications */
+#publications {
+  font-family: Verdana, Helvetica, Arial;
+}
+
+#publications h2 {
+  font-size: 14px;
+  margin: 5px;
+}
+
+#publications p {
+  font-size: 12px;
+  opacity: 0.8;
+
+}
+
+/* Boxes */ 
+
+div.line_of_boxes {
+        position:relative;
+        padding-bottom: 10px;
+}
+
+div.box_in_line {
+        float: left;
+        margin-left: 5px;
+        padding: 5px;
+        height: 100%;
+}
+
+div.box_in_line_content {
+        border: 1px solid #ccc;
+        padding: 15px;
+        height: 100%;
+}
+
+div.box_bottom{
+        clear:both;
+}
+
+/* Auto complete */
+
+div.auto_complete {
+  width: 350px;
+  background: #fff;
+}
+div.auto_complete ul {
+  border:1px solid #888;
+  margin:0;
+  padding:0;
+  width:100%;
+  list-style-type:none;
+}
+div.auto_complete ul li {
+  margin:0;
+  padding:3px;
+}
+div.auto_complete ul li.selected {
+  background-color: #ffb;
+}
+div.auto_complete ul strong.highlight {
+  color: #800; 
+  margin:0;
+  padding:0;
+}
+
+.child {
+  padding-left:10px;
+  padding-top:5px;
+  padding-bottom:5px;
+}
+
+
+
+

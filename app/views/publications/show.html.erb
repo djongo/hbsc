@@ -4,10 +4,19 @@
   <strong>Title:</strong>
   <%=h @publication.title %>
 </p>
-<p>
-  <strong>Description:</strong>
-  <%=h @publication.description %>
-</p>
+<div class="line_of_boxes">
+  <div class="box_in_line">
+    Keyword(s):
+    <div class="box_in_line_content">
+      <% @publication.keywords.each do |keyword| %>
+        <div class="child">
+            <%=h keyword.variable_name %><br />
+        </div>
+      <% end %>
+      </div>
+  </div>
+   <div class="box_bottom"></div>
+</div>
 <p>
   <strong>Language:</strong>
   <%=h @publication.language.name %>
@@ -16,6 +25,71 @@
   <strong>Publication Type:</strong>
   <%=h @publication.publication_type.name %>
 </p>
+<p>
+  <strong>Description:</strong>
+  <%=h @publication.description %>
+</p>
+
+<h3>Data</h3>
+<div class="line_of_boxes">
+  <div class="box_in_line">
+    Survey data:
+    <div class="box_in_line_content">
+      <% @publication.foundations.each do |foundation| %>
+        <div class="child">
+            <%=h foundation.survey_name %><br />
+        </div>
+      <% end %>
+      </div>
+  </div>
+  <div class="box_in_line">
+    Population(s):
+    <div class="box_in_line_content">
+      <% @publication.inclusions.each do |inclusion| %>
+        <div class="child">
+            <%=h inclusion.population_name %><br />
+        </div>
+      <% end %>
+      </div>
+  </div>
+   <div class="box_bottom"></div>
+</div>
+<h3>Variables</h3>
+ <div class="line_of_boxes">
+  <div class="box_in_line">
+    Outcome measure(s):
+    <div class="box_in_line_content">
+      <% @publication.outcomes.each do |outcome| %>
+        <div class="child">
+            <%=h outcome.variable_name %><br />
+        </div>
+      <% end %>
+      </div>
+  </div>
+
+  <div class="box_in_line">
+    Determinant(s):
+    <div class="box_in_line_content">
+      <% @publication.determinants.each do |determinant| %>
+      <div class="child">
+          <%=h determinant.variable_name %></br />
+      </div>
+      <% end %>
+      </div>
+  </div>
+  <div class="box_in_line">
+    Confounder(s)/mediator(s):
+    <div class="box_in_line_content">
+    <% @publication.mediators.each do |mediator| %>
+      <div class="child">
+        <%=h mediator.variable_name %><br />
+      </div>
+    <% end %>
+    </div>
+    </div>
+
+   <div class="box_bottom"></div>
+</div>
 
 <p>
   <%= link_to "Edit", edit_publication_path(@publication) if permitted_to? :edit, :publications %> |

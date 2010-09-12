@@ -23,29 +23,29 @@ namespace :db do
       keyword.variable_id = (1..80)
     end
 
-    Outcome.populate 180 do |keyword|
+    Outcome.populate 180 do |outcome|
       outcome.publication_id = (1..60)
       outcome.variable_id = (1..80)
     end
 
-    Determinant.populate 180 do |keyword|
+    Determinant.populate 180 do |determinant|
       determinant.publication_id = (1..60)
       determinant.variable_id = (1..80)
     end
 
-    Mediator.populate 180 do |keyword|
+    Mediator.populate 180 do |mediator|
       mediator.publication_id = (1..60)
       mediator.variable_id = (1..80)
     end
 
-    Foundation.populate 180 do |keyword|
+    Foundation.populate 180 do |foundation|
       foundation.publication_id = (1..60)
-      foundation.survey_id = (1..80)
+      foundation.survey_id = (1..8)
     end
 
-    Inclusion.populate 180 do |keyword|
+    Inclusion.populate 180 do |inclusion|
       inclusion.publication_id = (1..60)
-      inclusion.population_id = (1..80)
+      inclusion.population_id = (1..7)
     end
         
     User.populate 10 do |user|

@@ -1,0 +1,22 @@
+<div class="child">
+    Author:<br />
+  <%= f.collection_select(:user_id, User.all, :id, :full_name, { :prompt => true }) %>
+ 
+<%= f.hidden_field :_destroy, :class => 'destroy' %>
+    <table border=1><tr><td>First name</td><td>Last name</td><td>email</td></tr>
+      <% @publication.authorships.each do |author| %>
+        <tr>
+          <td>
+            <%=h author.user.first_name %><br />
+          </td>
+          <td>
+            <%=h author.user.last_name %><br />
+          </td>
+          <td>
+            <%=h author.user.email %><br />
+          </td>
+        </tr>
+      <% end %>
+      </table>
+    <%= remove_child_link 'remove', f %>
+</div>

@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100912093128) do
+ActiveRecord::Schema.define(:version => 20100912131037) do
 
   create_table "country_teams", :force => true do |t|
     t.string   "name"
@@ -17,8 +17,29 @@ ActiveRecord::Schema.define(:version => 20100912093128) do
     t.datetime "updated_at"
   end
 
+  create_table "determinants", :force => true do |t|
+    t.integer  "publication_id"
+    t.integer  "variable_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "focus_groups", :force => true do |t|
     t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "foundations", :force => true do |t|
+    t.integer  "publication_id"
+    t.integer  "survey_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "inclusions", :force => true do |t|
+    t.integer  "publication_id"
+    t.integer  "population_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -32,6 +53,20 @@ ActiveRecord::Schema.define(:version => 20100912093128) do
 
   create_table "languages", :force => true do |t|
     t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "mediators", :force => true do |t|
+    t.integer  "publication_id"
+    t.integer  "variable_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "outcomes", :force => true do |t|
+    t.integer  "publication_id"
+    t.integer  "variable_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
