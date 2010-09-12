@@ -10,6 +10,11 @@ class Publication < ActiveRecord::Base
 
   belongs_to :language
   belongs_to :publication_type
+  
+  has_many :authorships
+  has_many :users, :through => :authorships
+  
+  
   has_many :keywords
   has_many :variables, :through => :keywords
   has_many :determinants
@@ -22,6 +27,12 @@ class Publication < ActiveRecord::Base
   has_many :surveys, :through => :foundations
   has_many :inclusions
   has_many :populations, :through => :inclusions
+
+  validates_presence_of :title
+  validates_associated :variables
+  validates_associated :surveys
+  validates_associated :populations
+  validates_associated :users
   
   accepts_nested_attributes_for :keywords,
                                 :allow_destroy => true,
@@ -49,7 +60,13 @@ class Publication < ActiveRecord::Base
                                 :reject_if => proc { |attrs|
                                 attrs['population_name'].blank? &&
                                   attrs['population_id'].blank? }
-  
+  accepts_nested_attributes_for :authorships,
+                                :allow_destroy => true,
+                                :reject_if => proc { |attrs|
+                                attrs['user_name'].blank? &&
+                                  attrs['user_id'].blank? }
+  accepts_nested_attributes_for :users
+    
   # functions for acts_as_indexed to enable 
   # multi model search
 

@@ -2,6 +2,9 @@ class User < ActiveRecord::Base
   # attr_accessible :email, :first_name, :last_name, :password, :password_confirmation, :roles_mask, :with_role
   acts_as_authentic
 
+  has_many :authorships
+  has_many :publications, :through => :authorships
+
   named_scope :with_role, lambda { |role| {:conditions => "roles_mask & #{2**ROLES.index(role.to_s)} > 0 "} }
 
 
