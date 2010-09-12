@@ -1,4 +1,6 @@
 log/*.log
+index/*
+test/*
 tmp/*
 tmp/**/*
 doc/api

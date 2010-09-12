@@ -7,6 +7,10 @@
     <th>Last Name</th>
     <th>Password</th>
   </tr>
+  Users per page:
+  <%= select_tag :per_page, options_for_select([15,30,60], params[:per_page].to_i),
+               :onchange => "if(this.value){window.location='?per_page='+this.value;}" %>
+  <%= will_paginate(@users) %>
   <% for user in @users %>
     <tr>
       <td><%=h user.email %></td>

@@ -3,7 +3,15 @@ class PublicationsController < ApplicationController
   # above loads current publication
   
   def index
-    @publications = Publication.all
+#    @publications = Publication.all
+    @per_page = params[:per_page] || 5
+
+    if(params[:search]).blank?
+      @publications = Publication.all.paginate(:page => params[:page], :per_page => @per_page, :order => 'title')
+    else
+      @publications = Publication.with_query(params[:search]).paginate( :page => params[:page], :per_page => @per_page, :order => 'title')
+    end
+ 
   end
   
   def show

@@ -4,6 +4,12 @@
   <tr>
     <th>Name</th>
   </tr>
+  Variables per page:
+  <%= select_tag :per_page, options_for_select([15,30,60], params[:per_page].to_i),
+               :onchange => "if(this.value){window.location='?per_page='+this.value;}" %>
+  <%= will_paginate(@variables) %>
+
+  
   <% for variable in @variables %>
     <tr>
       <td><%=h variable.name %></td>

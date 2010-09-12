@@ -1,23 +1,30 @@
 <% title "Publications" %>
 
-<table>
-  <tr>
-    <th>Title</th>
-    <th>Description</th>
-    <th>Language</th>
-    <th>Publication Type</th>
-  </tr>
+<% form_tag publications_path, :method => :get do %>
+  <p>
+    <%= text_field_tag :search, params[:search], :size => 50 %>
+    <%= submit_tag "Search", :name => nil %>
+  </p>
+  <p>Searching for numbers? Use '^' in front of the number.
+  </p>
+<% end %>
+<div id="publications">
+  Publications per page:
+  <%= select_tag :per_page, options_for_select([5,10,20,50], params[:per_page].to_i),
+               :onchange => "if(this.value){window.location='?per_page='+this.value;}" %>
+  <%= will_paginate(@publications) %>
+  <hr />
   <% for publication in @publications %>
-    <tr>
-      <td><%=h publication.title %></td>
-      <td><%=h publication.description %></td>
-      <td><%=h publication.language.name %></td>
-      <td><%=h publication.publication_type.name %></td>
-      <td><%= link_to "Show", publication if permitted_to? :show, :publications %></td>
-      <td><%= link_to "Edit", edit_publication_path(publication) if permitted_to? :edit, :publications %></td>
-      <td><%= link_to "Destroy", publication, :confirm => 'Are you sure?', :method => :delete if permitted_to? :destroy, :publications %></td>
-    </tr>
+    <h2>
+      <%= link_to h(publication.title), publication if permitted_to? :show, :publications %>
+    </h2>
+  <i>- a <%=h publication.publication_type.name %> in <%=h publication.language.name %></i>
+  <p><%=h truncate(publication.description, :omission => "...", :length => 300) %>
+  <%= link_to "Edit", edit_publication_path(publication) if permitted_to? :edit, :publications %> | <%= link_to "Destroy", publication, :confirm => 'Are you sure?', :method => :delete if permitted_to? :destroy, :publications %></p>
+  <hr />
   <% end %>
-</table>
+  <%= will_paginate(@publications) %>
+</div>
+
   <p><%= link_to "New Publication", new_publication_path if permitted_to? :new, :publications %></p>
 

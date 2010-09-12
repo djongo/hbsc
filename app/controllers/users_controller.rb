@@ -2,7 +2,10 @@ class UsersController < ApplicationController
 #  filter_resource_access
   
   def index
-    @users = User.all
+#    @users = User.all
+    @per_page = params[:per_page] || 15
+    @users = User.paginate( :per_page => @per_page, :page => params[:page] )
+  
   end
   
   def show
