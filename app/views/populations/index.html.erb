@@ -1,0 +1,17 @@
+<% title "Populations" %>
+
+<table>
+  <tr>
+    <th>Name</th>
+  </tr>
+  <% for population in @populations %>
+    <tr>
+      <td><%=h population.name %></td>
+      <td><%= link_to "Show", population %></td>
+      <td><%= link_to "Edit", edit_population_path(population) %></td>
+      <td><%= link_to "Destroy", population, :confirm => 'Are you sure?', :method => :delete %></td>
+    </tr>
+  <% end %>
+</table>
+
+<p><%= link_to "New Population", new_population_path %></p>

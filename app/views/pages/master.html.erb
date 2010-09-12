@@ -1,0 +1,13 @@
+<h1>Master data</h1>
+<p>Click on the links below to access master data</p>
+<ul>
+  <li><%= link_to "Publications", publications_path if permitted_to? :index, :publications %></li>
+  <li><%= link_to "Langugaes", languages_path if permitted_to? :index, :languages %></li>
+  <li><%= link_to "Survey data sets", surveys_path if permitted_to? :index, :surveys %></li>
+  <li><%= link_to "Populations", populations_path if permitted_to? :index, :populations %></li>
+  <li><%= link_to "Publication Types", publication_types_path if permitted_to? :index, :publication_types %></li>
+  <li><%= link_to "Country Teams", country_teams_path if permitted_to? :index, :country_teams %></li>
+  <li><%= link_to "Focus Groups", focus_groups_path if permitted_to? :index, :focus_groups %></li>
+  <li><%= link_to "Variables", variables_path if permitted_to? :index, :variables %></li>
+  <li><%= link_to "Users", users_path if permitted_to? :index, :users %></li>
+</ul>

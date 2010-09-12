@@ -1,0 +1,12 @@
+<% title "Population" %>
+
+<p>
+  <strong>Name:</strong>
+  <%=h @population.name %>
+</p>
+
+<p>
+  <%= link_to "Edit", edit_population_path(@population) %> |
+  <%= link_to "Destroy", @population, :confirm => 'Are you sure?', :method => :delete %> |
+  <%= link_to "View All", populations_path %>
+</p>

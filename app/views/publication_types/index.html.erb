@@ -1,0 +1,17 @@
+<% title "Publication Types" %>
+
+<table>
+  <tr>
+    <th>Name</th>
+  </tr>
+  <% for publication_type in @publication_types %>
+    <tr>
+      <td><%=h publication_type.name %></td>
+      <td><%= link_to "Show", publication_type %></td>
+      <td><%= link_to "Edit", edit_publication_type_path(publication_type) %></td>
+      <td><%= link_to "Destroy", publication_type, :confirm => 'Are you sure?', :method => :delete %></td>
+    </tr>
+  <% end %>
+</table>
+
+<p><%= link_to "New Publication Type", new_publication_type_path %></p>

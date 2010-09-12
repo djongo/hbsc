@@ -1,0 +1,17 @@
+<% title "Variables" %>
+
+<table>
+  <tr>
+    <th>Name</th>
+  </tr>
+  <% for variable in @variables %>
+    <tr>
+      <td><%=h variable.name %></td>
+      <td><%= link_to "Show", variable %></td>
+      <td><%= link_to "Edit", edit_variable_path(variable) %></td>
+      <td><%= link_to "Destroy", variable, :confirm => 'Are you sure?', :method => :delete %></td>
+    </tr>
+  <% end %>
+</table>
+
+<p><%= link_to "New Variable", new_variable_path %></p>

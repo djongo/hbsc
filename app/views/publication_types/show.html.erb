@@ -1,0 +1,12 @@
+<% title "Publication Type" %>
+
+<p>
+  <strong>Name:</strong>
+  <%=h @publication_type.name %>
+</p>
+
+<p>
+  <%= link_to "Edit", edit_publication_type_path(@publication_type) %> |
+  <%= link_to "Destroy", @publication_type, :confirm => 'Are you sure?', :method => :delete %> |
+  <%= link_to "View All", publication_types_path %>
+</p>

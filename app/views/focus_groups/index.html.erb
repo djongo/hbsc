@@ -1,0 +1,17 @@
+<% title "Focus Groups" %>
+
+<table>
+  <tr>
+    <th>Name</th>
+  </tr>
+  <% for focus_group in @focus_groups %>
+    <tr>
+      <td><%=h focus_group.name %></td>
+      <td><%= link_to "Show", focus_group %></td>
+      <td><%= link_to "Edit", edit_focus_group_path(focus_group) %></td>
+      <td><%= link_to "Destroy", focus_group, :confirm => 'Are you sure?', :method => :delete %></td>
+    </tr>
+  <% end %>
+</table>
+
+<p><%= link_to "New Focus Group", new_focus_group_path %></p>

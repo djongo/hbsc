@@ -1,0 +1,12 @@
+<% title "Variable" %>
+
+<p>
+  <strong>Name:</strong>
+  <%=h @variable.name %>
+</p>
+
+<p>
+  <%= link_to "Edit", edit_variable_path(@variable) %> |
+  <%= link_to "Destroy", @variable, :confirm => 'Are you sure?', :method => :delete %> |
+  <%= link_to "View All", variables_path %>
+</p>

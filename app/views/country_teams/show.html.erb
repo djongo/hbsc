@@ -1,0 +1,12 @@
+<% title "Country Team" %>
+
+<p>
+  <strong>Name:</strong>
+  <%=h @country_team.name %>
+</p>
+
+<p>
+  <%= link_to "Edit", edit_country_team_path(@country_team) %> |
+  <%= link_to "Destroy", @country_team, :confirm => 'Are you sure?', :method => :delete %> |
+  <%= link_to "View All", country_teams_path %>
+</p>

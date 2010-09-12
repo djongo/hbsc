@@ -1,0 +1,12 @@
+<% title "Focus Group" %>
+
+<p>
+  <strong>Name:</strong>
+  <%=h @focus_group.name %>
+</p>
+
+<p>
+  <%= link_to "Edit", edit_focus_group_path(@focus_group) %> |
+  <%= link_to "Destroy", @focus_group, :confirm => 'Are you sure?', :method => :delete %> |
+  <%= link_to "View All", focus_groups_path %>
+</p>
