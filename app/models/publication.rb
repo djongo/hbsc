@@ -10,6 +10,7 @@ class Publication < ActiveRecord::Base
 
   belongs_to :language
   belongs_to :publication_type
+  belongs_to :user
   
   has_many :authorships
   has_many :users, :through => :authorships
@@ -32,7 +33,7 @@ class Publication < ActiveRecord::Base
   validates_associated :variables
   validates_associated :surveys
   validates_associated :populations
-  validates_associated :users
+#  validates_associated :users
   
   accepts_nested_attributes_for :keywords,
                                 :allow_destroy => true,
@@ -63,7 +64,7 @@ class Publication < ActiveRecord::Base
   accepts_nested_attributes_for :authorships,
                                 :allow_destroy => true,
                                 :reject_if => proc { |attrs|
-                                attrs['user_name'].blank? &&
+                                attrs['full_name'].blank? &&
                                   attrs['user_id'].blank? }
   accepts_nested_attributes_for :users
     

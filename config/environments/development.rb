@@ -29,3 +29,4 @@ config.action_mailer.default_url_options = { :host => "localhost:3000" }
   :user_name      => 'puma.hbsc@gmail.com',
   :password       => 'lrnbijxp'
 }
+config.gem "rails-footnotes"

@@ -30,6 +30,7 @@ authorization do
     has_permission_on :outcomes, :to => :manage
     has_permission_on :mediators, :to => :manage            
     has_permission_on :determinants, :to => :manage
+    has_permission_on :authorships, :to => :manage    
     has_permission_on :pages, :to => [:home, :contact, :about, :master]
     has_permission_on :publications, :to => [:auto_complete_for_variable_name]    
   end

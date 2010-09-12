@@ -3,7 +3,7 @@ namespace :db do
   task :populate => :environment do
     require 'populator'
     require 'faker'
-    [Publication, User, Keyword, Outcome, Determinant, Mediator, Foundation, Variable, Inclusion].each(&:delete_all)
+    [Publication, User, Keyword, Outcome, Determinant, Mediator, Foundation, Variable, Inclusion, Authorship].each(&:delete_all)
     
     Publication.populate 60 do |publication|
       publication.title = Populator.words(3..7).titleize
@@ -47,6 +47,11 @@ namespace :db do
       inclusion.publication_id = (1..60)
       inclusion.population_id = (1..7)
     end
+
+    Authorship.populate 180 do |authorship|
+      authorship.publication_id = (1..60)
+      authorship.user_id = (1..11)
+    end
         
     User.populate 10 do |user|
       user.first_name = Faker::Name.first_name
@@ -55,8 +60,6 @@ namespace :db do
       user.login_count = (1..10)
       user.failed_login_count = (0..5)
       user.perishable_token = Populator.words(1)
-#      user.password = "test" 
-#      user.password_confirmation = "test"
       user.roles_mask = (0..3)
     end
   end

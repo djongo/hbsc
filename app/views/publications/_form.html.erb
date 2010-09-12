@@ -36,6 +36,20 @@
   <%= f.label :description %><br />
   <%= f.text_area :description, :cols => 100, :rows => 10 %>
 </p>
+<h3>Author(s)</h3>
+<p>
+      <%= f.label "First author" %><br />
+      <%= f.collection_select :user_id, User.all, :id, :full_name, options = { :prompt => "Select one..." } %>
+</p>
+<p>
+  <%= f.label "Additional author" %><br />
+     <div id="authorship_children">
+       <% f.fields_for :authorships do |authorship_form| %>
+         <%= render :partial => 'authorship', :locals => { :f => authorship_form } %>
+       <% end %>
+     </div>
+   <%= add_child_link "Add an author", 'authorship', f  %>
+</p>   
 <h3>Data</h3>   
 <div class="line_of_boxes">
   <div class="box_in_line">

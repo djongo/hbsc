@@ -29,7 +29,19 @@
   <strong>Description:</strong>
   <%=h @publication.description %>
 </p>
-
+<h3>Authors</h3>
+<p>
+  <strong>First author:</strong>
+  <%=h @publication.user.full_name %>
+</p>
+<p>
+  <strong>Additional author(s):</strong>
+<% @publication.authorships.each do |authorship| %>
+  <div class="child">
+      <%=h authorship.user_name %><br />
+  </div>
+<% end %>
+</p>
 <h3>Data</h3>
 <div class="line_of_boxes">
   <div class="box_in_line">

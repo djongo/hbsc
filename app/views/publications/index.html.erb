@@ -7,6 +7,7 @@
   </p>
   <p>Searching for numbers? Use '^' in front of the number.
   </p>
+  <p><%= link_to "New Publication", new_publication_path if permitted_to? :new, :publications %></p>  
 <% end %>
 <div id="publications">
   Publications per page:
@@ -25,6 +26,4 @@
   <% end %>
   <%= will_paginate(@publications) %>
 </div>
-
-  <p><%= link_to "New Publication", new_publication_path if permitted_to? :new, :publications %></p>
 

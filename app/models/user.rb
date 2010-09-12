@@ -2,6 +2,7 @@ class User < ActiveRecord::Base
   # attr_accessible :email, :first_name, :last_name, :password, :password_confirmation, :roles_mask, :with_role
   acts_as_authentic
 
+  has_many :publications
   has_many :authorships
   has_many :publications, :through => :authorships
 
