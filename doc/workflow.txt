@@ -1,0 +1,44 @@
+  workflow do
+    state :pre_planned do
+      event :submit_for_planned, :transitions_to => :review_pre_planned
+    end
+    state :review_pre_planned do
+      event :accept_pre_planned, :transitions_to => :planned
+      event :reject_pre_planned, :transitions_to => :rejected_pre_planned
+    end
+    state :planned do
+      event :submit_for_in_progress, :transitions_to => :review_in_progress
+    end
+    state :review_in_progress do
+      event :accept_in_progress, :transitions_to => :in_progress
+      event :reject_in_progress, :transitions_to => :rejected_in_progress
+    end
+    state :in_progress do
+      event :submit_for_submitted, :transitions_to => :review_submitted
+    end
+    state :review_submitted do
+      event :accept_submitted, :transitions_to => :submitted
+      event :reject_submitted, :transitions_to => :rejected_submitted
+    end    
+    state :submitted do
+      event :submit_for_accepted, :transitions_to => :review_accepted
+    end
+    state :review_accepted do
+      event :accept_accepted, :transitions_to => :accepted
+      event :reject_accepted, :transitions_to => :rejected_accepted
+    end    
+    state :accepted do
+      event :submit_for_published, :transitions_to => :review_published
+    end
+    state :review_published do
+      event :accept_published, :transitions_to => :published
+      event :reject_published, :transitions_to => :rejected_published
+    end    
+    
+    state :rejected_pre_planned
+    state :rejected_in_progress
+    state :ejected_submitted
+    state :rejected_accepted    
+    state :rejected_published    
+    state :published
+  end #workflow
