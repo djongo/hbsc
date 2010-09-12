@@ -3,7 +3,7 @@ namespace :db do
   task :populate => :environment do
     require 'populator'
     require 'faker'
-    [Publication, User, Keyword, Variable].each(&:delete_all)
+    [Publication, User, Keyword, Outcome, Determinant, Mediator, Foundation, Variable, Inclusion].each(&:delete_all)
     
     Publication.populate 60 do |publication|
       publication.title = Populator.words(3..7).titleize
@@ -21,6 +21,31 @@ namespace :db do
     Keyword.populate 180 do |keyword|
       keyword.publication_id = (1..60)
       keyword.variable_id = (1..80)
+    end
+
+    Outcome.populate 180 do |keyword|
+      outcome.publication_id = (1..60)
+      outcome.variable_id = (1..80)
+    end
+
+    Determinant.populate 180 do |keyword|
+      determinant.publication_id = (1..60)
+      determinant.variable_id = (1..80)
+    end
+
+    Mediator.populate 180 do |keyword|
+      mediator.publication_id = (1..60)
+      mediator.variable_id = (1..80)
+    end
+
+    Foundation.populate 180 do |keyword|
+      foundation.publication_id = (1..60)
+      foundation.survey_id = (1..80)
+    end
+
+    Inclusion.populate 180 do |keyword|
+      inclusion.publication_id = (1..60)
+      inclusion.population_id = (1..80)
     end
         
     User.populate 10 do |user|
