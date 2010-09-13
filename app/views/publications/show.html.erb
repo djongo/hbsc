@@ -103,6 +103,10 @@
    <div class="box_bottom"></div>
 </div>
 
+<p id="pdf_link">
+  <%= link_to "PDF version", publication_path(@publication, :format => "pdf") %>
+</p>
+
 <p>
   <%= link_to "Edit", edit_publication_path(@publication) if permitted_to? :edit, :publications %> |
   <%= link_to "Destroy", @publication, :confirm => 'Are you sure?', :method => :delete if permitted_to? :destroy, :publications %> |

@@ -172,6 +172,23 @@ div.auto_complete ul strong.highlight {
   padding-bottom:5px;
 }
 
+@media print {
+    body {
+        background-color: #FFF;
+    }
+    
+    #container {
+        width: auto;
+        margin: 0;
+        padding: 0;
+        border: none;
+    }
 
+    #pdf_link {
+        display: none;
+    }
 
-
+    a {
+        display: none;
+    }    
+}
