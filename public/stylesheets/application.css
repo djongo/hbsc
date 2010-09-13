@@ -188,7 +188,14 @@ div.auto_complete ul strong.highlight {
         display: none;
     }
 
-    a {
+    div#nav {
         display: none;
+    }
+
+/*    div.line_of_boxes {
+        page-break-before: always;
     }    
+*/        
 }
+
+
