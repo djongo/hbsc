@@ -2,7 +2,7 @@ authorization do
 
   role :guest do
     has_permission_on :publications, :to => [:index, :show]
-    has_permission_on :user, :to => [:read, :update] 
+    has_permission_on :users, :to => [:read, :update, :new, :create] 
     has_permission_on :pages, :to => [:home, :about, :contact]
     # add check for current user only!
   end
