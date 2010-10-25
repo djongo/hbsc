@@ -15,8 +15,10 @@ authorization do
 #    end
     has_permission_on :variables, :to => [:new,:create]
     has_permission_on :publications, :to => [:auto_complete_for_variable_name]
+    has_permission_on :publications, :to => :submit   
+            
   end
-  
+ 
   role :publication_group do
     has_permission_on :users, :to => :manage
     has_permission_on :publications, :to => :manage
@@ -32,7 +34,8 @@ authorization do
     has_permission_on :determinants, :to => :manage
     has_permission_on :authorships, :to => :manage    
     has_permission_on :pages, :to => [:home, :contact, :about, :master]
-    has_permission_on :publications, :to => [:auto_complete_for_variable_name]    
+    has_permission_on :publications, :to => [:auto_complete_for_variable_name] 
+    has_permission_on :publications, :to => :progress       
   end
 end
 
@@ -40,4 +43,14 @@ privileges do
   privilege :manage do
     includes :create, :new, :edit, :update, :destroy, :index, :show
   end
+  
+  privilege :progress do 
+   includes :preplanned_accept, :preplanned_reject, :planned_accept, :planned_reject, :inprogress_accept, :inprogress_reject, :submitted_accept, :submitted_reject, :submit_published, :accepted_accept, :accepted_reject
+
+  end
+
+  privilege :submit do
+    includes :submit_planned, :submit_inprogress, :submit_submitted, :submit_accepted, :submit_published 
+  end    
+  
 end

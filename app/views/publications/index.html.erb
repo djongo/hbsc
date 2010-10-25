@@ -19,7 +19,7 @@
     <h2>
       <%= link_to h(publication.title), publication if permitted_to? :show, :publications %>
     </h2>
-  <i>- a <%=h publication.publication_type.name %> in <%=h publication.language.name %></i>
+  <i>- a <%=h publication.publication_type.name %> in <%=h publication.language.name %></i> ( <%=h publication.state %> )
   <p><%=h truncate(publication.description, :omission => "...", :length => 300) %>
   <%= link_to "Edit", edit_publication_path(publication) if permitted_to? :edit, :publications %> | <%= link_to "Destroy", publication, :confirm => 'Are you sure?', :method => :delete if permitted_to? :destroy, :publications %></p>
   <hr />

@@ -6,7 +6,23 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :publication_types
   map.resources :surveys
   map.resources :languages
-  map.resources :publications
+#  map.resources :publications
+  map.resources :publications, :member => { :submit_planned => :put,  
+                                            :preplanned_accept => :put,
+                                            :preplanned_reject => :put, 
+                                            :submit_inprogress => :put,  
+                                            :planned_accept => :put,
+                                            :planned_reject => :put, 
+                                            :submit_submitted => :put,  
+                                            :inprogress_accept => :put,
+                                            :inprogress_reject => :put, 
+                                            :submit_accepted => :put,  
+                                            :submitted_accept => :put,
+                                            :submitted_reject => :put,
+                                            :submit_published => :put,  
+                                            :accepted_accept => :put,
+                                            :accepted_reject => :put
+                                            }  
   map.resources :user_sessions
   map.resources :users
   map.resources :password_resets, :only => [ :new, :create, :edit, :update ]

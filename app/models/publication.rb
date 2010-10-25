@@ -1,6 +1,6 @@
 class Publication < ActiveRecord::Base
 #  attr_accessible :title, :description, :language_id, :publication_type_id
-
+  include AASM
   acts_as_indexed :fields => [
     :title, :description,
     :variable_list, :survey_list, :language_list, :email_list, :username_list,
@@ -98,5 +98,131 @@ class Publication < ActiveRecord::Base
     publication_type.name
   end
 
+  # defining the workflow
+
+  aasm_column :state
+  aasm_initial_state :preplanned
+  aasm_state :preplanned
+  aasm_state :preplanned_submitted
+  aasm_state :preplanned_rejected
+  aasm_state :planned
+  aasm_state :planned_submitted
+  aasm_state :planned_rejected
+  aasm_state :inprogress
+  aasm_state :inprogress_submitted
+  aasm_state :inprogress_rejected
+  aasm_state :submitted
+  aasm_state :submitted_submitted
+  aasm_state :submitted_rejected
+  aasm_state :accepted
+  aasm_state :accepted_submitted
+  aasm_state :accepted_rejected
+  aasm_state :published
+
+  # Preplanned to planned  
+  aasm_event :preplanned_submit do
+    transitions :to => :preplanned_submitted, :from => [:preplanned]
+  end
+  
+  aasm_event :preplanned_reject do
+    transitions :to => :preplanned_rejected, :from => [:preplanned_submitted]
+  end
+
+  aasm_event :planned do
+    transitions :to => :planned, :from => [:preplanned_submitted]
+  end
+
+  # Planned to Inprogress
+  aasm_event :planned_submit do
+    transitions :to => :planned_submitted, :from => [:planned]
+  end
+  
+  aasm_event :planned_reject do
+    transitions :to => :planned_rejected, :from => [:planned_submitted]
+  end
+
+  aasm_event :inprogress do
+    transitions :to => :inprogress, :from => [:planned_submitted]
+  end
+  
+  # Inprogress to Submitted
+  aasm_event :inprogress_submit do
+    transitions :to => :inprogress_submitted, :from => [:inprogress]
+  end
+  
+  aasm_event :inprogress_reject do
+    transitions :to => :inprogress_rejected, :from => [:inprogress_submitted]
+  end
+
+  aasm_event :submitted do
+    transitions :to => :submitted, :from => [:inprogress_submitted]
+  end
+
+  # Submitted to Accepted
+  aasm_event :submitted_submit do
+    transitions :to => :submitted_submitted, :from => [:submitted]
+  end
+  
+  aasm_event :submitted_reject do
+    transitions :to => :submitted_rejected, :from => [:submitted_submitted]
+  end
+
+  aasm_event :accepted do
+    transitions :to => :accepted, :from => [:submitted_submitted]
+  end
+  
+  # Accepted to Published
+  aasm_event :accepted_submit do
+    transitions :to => :accepted_submitted, :from => [:accepted]
+  end
+  
+  aasm_event :accepted_reject do
+    transitions :to => :accepted_rejected, :from => [:accepted_submitted]
+  end
+
+  aasm_event :published do
+    transitions :to => :published, :from => [:accepted_submitted]
+  end
+
+  # the functions      
+  def send_preplanned_accept
+    flash[:notice] = "Accepted as planned"
+  end
+  
+  def send_preplanned_reject
+    flash[:error] = "Rejected"
+  end
+
+  def send_planned_accept
+    flash[:notice] = "Accepted as inprogress"
+  end
+  
+  def send_planned_reject
+    flash[:error] = "Rejected"
+  end
+
+  def send_inprogress_accept
+    flash[:notice] = "Accepted as submitted"
+  end
+  
+  def send_inprogress_reject
+    flash[:error] = "Rejected"
+  end
+
+  def send_submitted_accept
+    flash[:notice] = "Accepted as accepted"
+  end
+  
+  def send_submitted_reject
+    flash[:error] = "Rejected"
+  end
+
+  def send_accepted_accept
+    flash[:notice] = "Accepted as published"
+  end
+  
+  def send_accepted_reject
+    flash[:error] = "Rejected"
+  end
 
 end
