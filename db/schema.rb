@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100912175706) do
+ActiveRecord::Schema.define(:version => 20101004190628) do
 
   create_table "authorships", :force => true do |t|
     t.integer  "publication_id"
@@ -97,7 +97,7 @@ ActiveRecord::Schema.define(:version => 20100912175706) do
     t.integer  "publication_type_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "state"
+    t.string   "state",               :default => "preplanned"
     t.string   "access_state"
     t.integer  "user_id"
   end
