@@ -11,7 +11,13 @@ namespace :db do
       publication.publication_type_id = (1..3)
       publication.language_id = (1..5)
       publication.user_id = (1..12)
+      publication.state = ["preplanned","planned","inprogess","submitted","accepted"]
       publication.created_at = 2.years.ago..Time.now
+      publication.reference = Populator.words(3..7).titleize
+      publication.promotion = (0..1)
+      publication.responsible_id = (1..12)
+      publication.contact_id = (1..12)
+      publication.target_journal_id = (1..4)
     end
 
     Variable.populate 80 do |variable|

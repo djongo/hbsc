@@ -198,4 +198,10 @@ div.auto_complete ul strong.highlight {
 */        
 }
 
-
+#version_box {
+  width: 75%;
+  background-color: #FFD700;
+  border: solid 1px #B8860B;
+  padding: 5px 8px;
+  margin: 10px 0;  
+}

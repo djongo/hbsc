@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101004190628) do
+ActiveRecord::Schema.define(:version => 20101122071107) do
 
   create_table "authorships", :force => true do |t|
     t.integer  "publication_id"
@@ -97,12 +97,22 @@ ActiveRecord::Schema.define(:version => 20101004190628) do
     t.integer  "publication_type_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "state",               :default => "preplanned"
-    t.string   "access_state"
     t.integer  "user_id"
+    t.string   "state",               :default => "preplanned"
+    t.string   "reference"
+    t.boolean  "promotion"
+    t.integer  "responsible_id"
+    t.integer  "contact_id"
+    t.integer  "target_journal_id"
   end
 
   create_table "surveys", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "target_journals", :force => true do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -135,5 +145,17 @@ ActiveRecord::Schema.define(:version => 20101004190628) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "versions", :force => true do |t|
+    t.string   "item_type",      :null => false
+    t.integer  "item_id",        :null => false
+    t.string   "event",          :null => false
+    t.string   "whodunnit"
+    t.text     "object"
+    t.datetime "created_at"
+    t.integer  "publication_id"
+  end
+
+  add_index "versions", ["item_type", "item_id"], :name => "index_versions_on_item_type_and_item_id"
 
 end

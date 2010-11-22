@@ -38,9 +38,16 @@ end
   FocusGroup.find_or_create_by_name(fg)
 end
 
+# Load Target Journals
+["International Journal of Public Health","Journal of Adolescent Health","Journal of School Health","International Journal of Clinical and Health Psychology","Journal of Physical Activity and Health"].each do |tj|
+  TargetJournal.find_or_create_by_name(tj)
+end
+
 # Load admin user
 if User.find_by_email('jonasholstein@gmail.com').nil?
   User.create! :email => 'jonasholstein@gmail.com', :password => 'admin123', :password_confirmation => 'admin123', :first_name => "Jonas", :last_name => "Holstein", :roles_mask => "3"  
 end
 
-
+if User.find_by_email('jonasholstein@gmail.com').nil?
+  User.create! :email => 'kapu@niph.dk', :password => 'admin123', :password_confirmation => 'admin123', :first_name => "Kaisa", :last_name => "Puhakka", :roles_mask => "3"  
+end

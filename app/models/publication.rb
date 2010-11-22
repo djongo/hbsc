@@ -1,6 +1,7 @@
 class Publication < ActiveRecord::Base
 #  attr_accessible :title, :description, :language_id, :publication_type_id
   include AASM
+  has_paper_trail
   acts_as_indexed :fields => [
     :title, :description,
     :variable_list, :survey_list, :language_list, :email_list, :username_list,
@@ -11,6 +12,10 @@ class Publication < ActiveRecord::Base
   belongs_to :language
   belongs_to :publication_type
   belongs_to :user
+  belongs_to :responsible, :class_name => "User"
+  belongs_to :contact, :class_name => "User"
+  belongs_to :target_journal
+  
   
   has_many :authorships
   has_many :users, :through => :authorships

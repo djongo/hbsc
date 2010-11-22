@@ -1,6 +1,6 @@
 class AddStateToPublication < ActiveRecord::Migration
   def self.up
-    change_column :publications, :state, :string, :default => "preplanned"
+    add_column :publications, :state, :string, :default => "preplanned"
   end
 
   def self.down

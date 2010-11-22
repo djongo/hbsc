@@ -1,4 +1,8 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :target_journals
+
+  map.resources :journals
+
   map.resources :variables
   map.resources :focus_groups
   map.resources :country_teams

@@ -4,6 +4,32 @@
   <strong>Title:</strong>
   <%=h @publication.title %>
 </p>
+<p>
+
+
+<% if @publication.versions.length > 0 %>
+  Number of previous versions: <%=h @publication.versions.length %>  
+  <%= link_to_function("Show/Hide","Element.toggle('version_box')") %>
+<div id="version_box">
+<% else %>
+<div id="version_box" style="display:none;">
+<% end %>
+
+
+<% @publication.versions.each do |version| %>
+  <% book = version.reify %>
+  <% if version == @version  %>
+    Version <%=h version.index.to_s %> Created at <%=h (version.created_at) %> is the version currently displayed<br />
+  <% else %>
+    <%=h link_to "Version " + version.index.to_s, :version => version %> Created at <%=h (version.created_at) %> by <%=h User.find(version.whodunnit.to_i).full_name %><br />
+  <% end %>
+<% end %>
+<% if params[:version] %>
+  <%=h link_to "Lastest version", :version => nil %> from <%=h @publication.updated_at %>
+<% end %>
+</div> 
+    
+</p>
 <div class="line_of_boxes">
   <div class="box_in_line">
     Keyword(s):
@@ -42,6 +68,17 @@
   </div>
 <% end %>
 </p>
+<table>
+  <tr>
+    <td>
+      <strong>Responsible PI:</strong>
+      <%=h @publication.responsible.full_name %>
+    </td><td>
+      <strong>Contact person:</strong>
+      <%=h @publication.contact.full_name %>
+    </td>
+  </tr>
+</table>
 <h3>Data</h3>
 <div class="line_of_boxes">
   <div class="box_in_line">
@@ -111,6 +148,19 @@
   <%= link_to "Edit", edit_publication_path(@publication) if permitted_to? :edit, :publications %> |
   <%= link_to "Destroy", @publication, :confirm => 'Are you sure?', :method => :delete if permitted_to? :destroy, :publications %> |
   <%= link_to "View All", publications_path %>
+</p>
+<p>
+  <strong>Target Journal:</strong>
+  <%=h @publication.target_journal.name %>
+</p>
+
+<p>
+  <strong>Article Promotion:</strong>
+  <%=h @publication.promotion %>
+</p>
+<p>
+  <strong>Reference/Citation:</strong>
+  <%=h @publication.reference %>
 </p>
 <p>
   <strong>Current State:</strong>

@@ -49,7 +49,15 @@
        <% end %>
      </div>
    <%= add_child_link "Add an author", 'authorship', f  %>
-</p>   
+</p>
+<p>
+      <%= f.label "Responsible PI" %><br />
+      <%= f.collection_select :responsible_id, User.all, :id, :full_name, options = { :prompt => "Select one..." } %>
+</p>
+<p>
+      <%= f.label "Contact person" %><br />
+      <%= f.collection_select :contact_id, User.all, :id, :full_name, options = { :prompt => "Select one..." } %>
+</p>
 <h3>Data</h3>   
 <div class="line_of_boxes">
   <div class="box_in_line">
@@ -108,8 +116,20 @@
   
    <div class="box_bottom"></div>
 </div>
-
-
+<p>
+      <%= f.label "Target Journal" %><br />
+      <%= f.collection_select :target_journal_id, TargetJournal.all, :id, :name, options = { :prompt => "Select one..." } %>
+</p>
+<p>
+  <%= f.label "Article Promotion" %><br />
+  Would you like the ICC to promote your final work? 
+  <%= f.radio_button :promotion, true %><%= f.label "Yes" %>
+  <%= f.radio_button :promotion, false %><%= f.label "No" %>
+</p>
+<p>
+  <%= f.label "Reference/Citation" %><br />
+  <%= f.text_field :reference, :size => 80 %>
+</p>
 
 <p>
   <%= f.submit %>
