@@ -1,0 +1,2 @@
+module TargetJournalsHelper
+end

@@ -1,0 +1,12 @@
+<% title "Target Journal" %>
+
+<p>
+  <strong>Name:</strong>
+  <%=h @target_journal.name %>
+</p>
+
+<p>
+  <%= link_to "Edit", edit_target_journal_path(@target_journal) %> |
+  <%= link_to "Destroy", @target_journal, :confirm => 'Are you sure?', :method => :delete %> |
+  <%= link_to "View All", target_journals_path %>
+</p>

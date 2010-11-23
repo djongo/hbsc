@@ -1,0 +1,17 @@
+<% title "Target Journals" %>
+
+<table>
+  <tr>
+    <th>Name</th>
+  </tr>
+  <% for target_journal in @target_journals %>
+    <tr>
+      <td><%=h target_journal.name %></td>
+      <td><%= link_to "Show", target_journal %></td>
+      <td><%= link_to "Edit", edit_target_journal_path(target_journal) %></td>
+      <td><%= link_to "Destroy", target_journal, :confirm => 'Are you sure?', :method => :delete %></td>
+    </tr>
+  <% end %>
+</table>
+
+<p><%= link_to "New Target Journal", new_target_journal_path %></p>
