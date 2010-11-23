@@ -16,7 +16,7 @@ Rails::Initializer.run do |config|
 
   # Specify gems that this application depends on and have them installed with rake gems:install
 
-  config.gem 'rails', :source => 'http://gemcutter.org', :version => '2.3.8'
+#  config.gem 'rails', :source => 'http://gemcutter.org', :version => '2.3.8'
   config.gem 'authlogic', :source => 'http://gemcutter.org'
   config.gem 'declarative_authorization', :source => 'http://gemcutter.org'
   config.gem 'will_paginate', :source => 'http://gemcutter.org'
