@@ -5,7 +5,7 @@ namespace :db do
     require 'faker'
     [Publication, User, Keyword, Outcome, Determinant, Mediator, Foundation, Variable, Inclusion, Authorship].each(&:delete_all)
     
-    Publication.populate 60 do |publication|
+    Publication.populate 50 do |publication|
       publication.title = Populator.words(3..7).titleize
       publication.description = Populator.sentences(4..10)
       publication.publication_type_id = (1..3)
@@ -14,7 +14,7 @@ namespace :db do
       publication.state = ["preplanned","planned","inprogess","submitted","accepted"]
       publication.created_at = 2.years.ago..Time.now
       publication.reference = Populator.words(3..7).titleize
-      publication.promotion = (0..1)
+      publication.promotion = ["false","true"]
       publication.responsible_id = (1..12)
       publication.contact_id = (1..12)
       publication.target_journal_id = (1..4)
@@ -24,37 +24,37 @@ namespace :db do
       variable.name = Populator.words(1)  
     end
     
-    Keyword.populate 180 do |keyword|
+    Keyword.populate 150 do |keyword|
       keyword.publication_id = (1..60)
       keyword.variable_id = (1..80)
     end
 
-    Outcome.populate 180 do |outcome|
+    Outcome.populate 150 do |outcome|
       outcome.publication_id = (1..60)
       outcome.variable_id = (1..80)
     end
 
-    Determinant.populate 180 do |determinant|
+    Determinant.populate 150 do |determinant|
       determinant.publication_id = (1..60)
       determinant.variable_id = (1..80)
     end
 
-    Mediator.populate 180 do |mediator|
+    Mediator.populate 150 do |mediator|
       mediator.publication_id = (1..60)
       mediator.variable_id = (1..80)
     end
 
-    Foundation.populate 180 do |foundation|
+    Foundation.populate 150 do |foundation|
       foundation.publication_id = (1..60)
       foundation.survey_id = (1..8)
     end
 
-    Inclusion.populate 180 do |inclusion|
+    Inclusion.populate 150 do |inclusion|
       inclusion.publication_id = (1..60)
       inclusion.population_id = (1..7)
     end
 
-    Authorship.populate 180 do |authorship|
+    Authorship.populate 150 do |authorship|
       authorship.publication_id = (1..60)
       authorship.user_id = (1..11)
     end

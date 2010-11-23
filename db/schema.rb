@@ -100,7 +100,7 @@ ActiveRecord::Schema.define(:version => 20101122071107) do
     t.integer  "user_id"
     t.string   "state",               :default => "preplanned"
     t.string   "reference"
-    t.boolean  "promotion"
+    t.boolean  "promotion",           :default => false
     t.integer  "responsible_id"
     t.integer  "contact_id"
     t.integer  "target_journal_id"
