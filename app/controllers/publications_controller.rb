@@ -19,6 +19,10 @@ class PublicationsController < ApplicationController
   
   def show
     @publication = Publication.find(params[:id])
+    if params[:version]
+      @version = @publication.versions.find(params[:version])
+      @publication = @version.reify
+    end    
   end
   
   def new
