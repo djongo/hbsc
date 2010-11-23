@@ -6,4 +6,4 @@ acts_as_indexed -v '>=0.6.6' -s 'http://gemcutter.org'
 declarative_authorization -v '>=0.5' -s 'http://gemcutter.org' --ignore-dependencies
 pdfkit -v '>=0.4.6' -s 'http://gemcutter.org' 
 aasm -v '>=2.2.0' -s 'http://gemcutter.org'
-paper_trail -v 1.6.2 -s 'http://gemcutter.org'
+paper_trail -v '>=1.6.4' -s 'http://gemcutter.org' --ignore-dependencies
