@@ -16,7 +16,6 @@ Rails::Initializer.run do |config|
 
   # Specify gems that this application depends on and have them installed with rake gems:install
 
-  config.gem 'rails', :source => 'http://gemcutter.org', :version => '2.3.8'
   config.gem 'authlogic', :source => 'http://gemcutter.org'
   config.gem 'declarative_authorization', :source => 'http://gemcutter.org'
   config.gem 'will_paginate', :source => 'http://gemcutter.org'
@@ -25,7 +24,8 @@ Rails::Initializer.run do |config|
   config.gem 'pdfkit', :source => 'http://gemcutter.org'
   config.gem 'aasm', :source => 'http://gemcutter.org'
   config.gem 'paper_trail', :source => 'http://gemcutter.org', :version => '1.6.3'    
-  
+  config.gem 'rails', :source => 'http://gemcutter.org', :version => '2.3.8'
+    
   # Only load the plugins named here, in the order given (default is alphabetical).
   # :all can be used as a placeholder for all plugins not explicitly named
   # config.plugins = [ :exception_notification, :ssl_requirement, :all ]
