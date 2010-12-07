@@ -1,0 +1,21 @@
+<% title "Emails" %>
+
+<table>
+  <tr>
+    <th>Trigger</th>
+    <th>Subject</th>
+    <th>Content</th>
+  </tr>
+  <% for email in @emails %>
+    <tr>
+      <td><%=h email.trigger %></td>
+      <td><%=h email.subject %></td>
+      <td><%=h email.content %></td>
+      <td><%= link_to "Show", email %></td>
+      <td><%= link_to "Edit", edit_email_path(email) %></td>
+      <td><%= link_to "Destroy", email, :confirm => 'Are you sure?', :method => :delete %></td>
+    </tr>
+  <% end %>
+</table>
+
+<p><%= link_to "New Email", new_email_path %></p>

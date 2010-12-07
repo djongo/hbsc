@@ -1,0 +1,9 @@
+one:
+  trigger: MyString
+  subject: MyString
+  content: MyText
+
+two:
+  trigger: MyString
+  subject: MyString
+  content: MyText
