@@ -6,7 +6,7 @@ authorization do
     has_permission_on :pages, :to => [:home, :about, :contact]
     # add check for current user only!
   end
-
+  
   role :author do
     includes :guest
     has_permission_on :publications, :to => [:edit, :update]
@@ -38,6 +38,7 @@ authorization do
     has_permission_on :publications, :to => :progress
     has_permission_on :target_journals, :to => :manage
     has_permission_on :versions, :to => :manage
+    has_permission_on :emails, :to => :manage    
   end
 end
 

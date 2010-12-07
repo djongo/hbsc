@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101122071107) do
+ActiveRecord::Schema.define(:version => 20101207202823) do
 
   create_table "authorships", :force => true do |t|
     t.integer  "publication_id"
@@ -27,6 +27,14 @@ ActiveRecord::Schema.define(:version => 20101122071107) do
   create_table "determinants", :force => true do |t|
     t.integer  "publication_id"
     t.integer  "variable_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "emails", :force => true do |t|
+    t.string   "trigger"
+    t.string   "subject"
+    t.text     "content"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -98,9 +106,9 @@ ActiveRecord::Schema.define(:version => 20101122071107) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "user_id"
-    t.string   "state",               :default => "preplanned"
-    t.string   "reference"
-    t.boolean  "promotion",           :default => false
+    t.string   "state",                              :default => "preplanned"
+    t.text     "reference",           :limit => 255
+    t.boolean  "promotion",                          :default => false
     t.integer  "responsible_id"
     t.integer  "contact_id"
     t.integer  "target_journal_id"
@@ -119,22 +127,23 @@ ActiveRecord::Schema.define(:version => 20101122071107) do
   end
 
   create_table "users", :force => true do |t|
-    t.string   "email",              :default => "", :null => false
+    t.string   "email",              :default => "",    :null => false
     t.string   "first_name"
     t.string   "last_name"
     t.string   "crypted_password"
     t.string   "password_salt"
     t.string   "persistence_token"
-    t.integer  "login_count",        :default => 0,  :null => false
-    t.integer  "failed_login_count", :default => 0,  :null => false
+    t.integer  "login_count",        :default => 0,     :null => false
+    t.integer  "failed_login_count", :default => 0,     :null => false
     t.datetime "last_request_at"
     t.datetime "current_login_at"
     t.datetime "last_login_at"
     t.string   "last_login_ip"
-    t.string   "perishable_token",   :default => "", :null => false
+    t.string   "perishable_token",   :default => "",    :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "roles_mask"
+    t.boolean  "hbsc_member",        :default => false
   end
 
   add_index "users", ["email"], :name => "index_users_on_email"

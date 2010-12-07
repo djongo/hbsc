@@ -17,7 +17,7 @@
   <hr />
   <% for publication in @publications %>
     <h2>
-      <%= link_to h(publication.title), publication if permitted_to? :show, :publications %>
+      <%= link_to h(publication.title), publication if permitted_to? :show, :publications %> ( ID: <%=h publication.id %> )
     </h2>
   <i>- a <%=h publication.publication_type.name %> in <%=h publication.language.name %></i> ( <%=h publication.state %> )
   <p><%=h truncate(publication.description, :omission => "...", :length => 300) %>
