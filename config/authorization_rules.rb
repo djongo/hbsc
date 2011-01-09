@@ -2,9 +2,12 @@ authorization do
 
   role :guest do
     has_permission_on :publications, :to => [:index, :show]
-    has_permission_on :users, :to => [:read, :update, :new, :create] 
+    has_permission_on :users, :to => [:read, :new, :create] 
     has_permission_on :pages, :to => [:home, :about, :contact]
-    # add check for current user only!
+    has_permission_on :users, :to => [:edit, :update] do
+      if_attribute :id => is { user.id }
+    end
+      # add check for current user only!
   end
   
   role :author do

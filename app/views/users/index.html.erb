@@ -1,11 +1,15 @@
 <% title "Users" %>
 
-<table>
+<table class="pretty">
   <tr>
     <th>Email</th>
     <th>First Name</th>
     <th>Last Name</th>
-    <th>Password</th>
+    <th>Created</th>
+    <th>Last Login</th>
+    <th>HBSC Member</th>
+    <th>Roles</th>
+    <th colspan="3">Actions</th>
   </tr>
   Users per page:
   <%= select_tag :per_page, options_for_select([15,30,60], params[:per_page].to_i),
@@ -16,12 +20,17 @@
       <td><%=h user.email %></td>
       <td><%=h user.first_name %></td>
       <td><%=h user.last_name %></td>
-      <td><%=h user.password %></td>
+      <td><%=h user.created_at.strftime('%Y-%m-%d') %></td>
+      <td align="center"><%= user.last_login_at? ? user.last_login_at.strftime('%Y-%m-%d') : 'N/A' %></td>
+      <td align="center"><%=h user.hbsc_member? ? 'Yes' : 'No' %></td>
+      <td><%=h user.role_symbols.join(', ').titleize %></td>
+
       <td><%= link_to "Show", user if permitted_to? :show, :users %></td>
       <td><%= link_to "Edit", edit_user_path(user) if permitted_to? :edit, :users %></td>
       <td><%= link_to "Destroy", user, :confirm => 'Are you sure?', :method => :delete if permitted_to? :destroy, :users %></td>
     </tr>
   <% end %>
 </table>
+
 
 <p><%= link_to "New User", new_user_path if permitted_to? :new, :users %></p>

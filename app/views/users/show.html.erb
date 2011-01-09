@@ -14,13 +14,44 @@
 </p>
 <p>
   <strong>HBSC Member:</strong>
-  <%=h @user.hbsc_member %>
+  <%=h @user.hbsc_member? ? 'Yes' : 'No' %>
 </p>
 <p>
-  <strong>Password:</strong>
-  <%=h @user.password %>
+  <strong>Roles:</strong>
+  <%=h @user.role_symbols.join(', ').titleize %>
 </p>
+<p>
+  <strong># Logins:</strong>
+  <%=h @user.login_count %>
+</p>
+<p>
+  <strong># Failed Logins:</strong>
+  <%=h @user.failed_login_count %>
+</p>
+<p>
+  <strong>Last Request:</strong>
+  <%=h @user.last_request_at %>
+</p>
+<p>
+  <strong>Current Login:</strong>
+  <%=h @user.current_login_at %>
+</p>
+<p>
+  <strong>Last Login:</strong>
+  <%=h @user.last_login_at %> 
+  <% if @user.last_login_ip? %>
+    from IP address: <%=h @user.last_login_ip %> 
+  <% end %>
 
+</p>
+<p>
+  <strong>Created:</strong>
+  <%=h @user.created_at %>
+</p>
+<p>
+  <strong>Updated:</strong>
+  <%=h @user.updated_at %>
+</p>
 <p>
   <%= link_to "Edit", edit_user_path(@user) if permitted_to? :edit, :users %> |
   <%= link_to "Destroy", @user, :confirm => 'Are you sure?', :method => :delete if permitted_to? :destroy, :users %> |

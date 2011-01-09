@@ -67,6 +67,7 @@ namespace :db do
       user.failed_login_count = (0..5)
       user.perishable_token = Populator.words(1)
       user.roles_mask = (0..3)
+      user.hbsc_member = ["false","true"]
     end
   end
 end

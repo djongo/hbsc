@@ -191,6 +191,10 @@ div.auto_complete ul strong.highlight {
     div#nav {
         display: none;
     }
+    
+    #version_box {
+        display: none;
+    }
 
 /*    div.line_of_boxes {
         page-break-before: always;
@@ -204,4 +208,15 @@ div.auto_complete ul strong.highlight {
   border: solid 1px #B8860B;
   padding: 5px 8px;
   margin: 10px 0;  
+}
+
+/* Pretty tables */
+
+table.pretty {
+  border-collapse: collapse;
+}
+
+.pretty td, .pretty th {
+  padding: 4px 10px;
+  border: solid 1px #AAA;
 }

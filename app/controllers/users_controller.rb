@@ -27,17 +27,24 @@ class UsersController < ApplicationController
   end
   
   def edit
-#    @user = User.find(params[:id])
-     @user = current_user
+      @user = User.find(params[:id])
+#    if @user.roles.include?("publication_group")
+#      @user = User.find(params[:id])
+#    else
+#      @user = current_user
+#    end
   end
   
   def update
-#    @user = User.find(params[:id])
-    @user = current_user
+      @user = User.find(params[:id])
     if @user.update_attributes(params[:user])
       flash[:notice] = "Successfully updated profile."
-      redirect_to root_url
-    else
+      if(current_user.roles.include?("publication_group"))
+        redirect_to users_url
+       else
+        redirect_to root_url
+       end
+     else
       render :action => 'edit'
     end
   end

@@ -45,12 +45,17 @@ end
 
 # Load admin user
 if User.find_by_email('jonasholstein@gmail.com').nil?
-  User.create! :email => 'jonasholstein@gmail.com', :password => 'admin123', :password_confirmation => 'admin123', :first_name => "Jonas", :last_name => "Holstein", :roles_mask => "3"  
+  User.create! :email => 'jonasholstein@gmail.com', :password => 'admin123', :password_confirmation => 'admin123', :first_name => "Jonas", :last_name => "Holstein", :roles_mask => "3", :hbsc_member => true  
 end
 
 if User.find_by_email('kapu@niph.dk').nil?
-  User.create! :email => 'kapu@niph.dk', :password => 'admin123', :password_confirmation => 'admin123', :first_name => "Kaisa", :last_name => "Puhakka", :roles_mask => "3"  
+  User.create! :email => 'kapu@niph.dk', :password => 'admin123', :password_confirmation => 'admin123', :first_name => "Kaisa", :last_name => "Puhakka", :roles_mask => "3", :hbsc_member => true
 end
+
+if User.find_by_email('Ashley.Theunissen@ed.ac.uk').nil?
+  User.create! :email => 'Ashley.Theunissen@ed.ac.uk', :password => 'admin123', :password_confirmation => 'admin123', :first_name => "Ashley", :last_name => "Theunissen", :roles_mask => "3", :hbsc_member => true 
+end
+
 
 # Load standard email texts
 if Email.find_by_trigger('submit_planned').nil?

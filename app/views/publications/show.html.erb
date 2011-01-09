@@ -1,20 +1,27 @@
 <% title "Publication" %>
+<table width="100%">
+  <tr>
+    <td>
+      <strong>Title:</strong><%=h @publication.title %> ( ID: <%=h @publication.id %> )
+    </td>
+    <td>
+      <strong>Created at:</strong> <%=h @publication.created_at.strftime('%Y-%m-%d') %>
+    </td>
+    <td>
+      <strong>Updated at:</strong> <%=h @publication.updated_at.strftime('%Y-%m-%d') %>
+    </td>
+  </tr>
+</table>
 
-<p>
-  <strong>Title:</strong>
-  <%=h @publication.title %> ( ID: <%=h @publication.id %> )
+<p id="pdf_link">
+  <% if @publication.versions.length > 0 %>
+    Number of previous versions: <%=h @publication.versions.length %>  
+    <%= link_to_function("Show/Hide","Element.toggle('version_box')") %>
+  <div id="version_box">
+  <% else %>
+  <div id="version_box" style="display:none;">
+  <% end %>
 </p>
-<p>
-
-
-<% if @publication.versions.length > 0 %>
-  Number of previous versions: <%=h @publication.versions.length %>  
-  <%= link_to_function("Show/Hide","Element.toggle('version_box')") %>
-<div id="version_box">
-<% else %>
-<div id="version_box" style="display:none;">
-<% end %>
-
 
 <% @publication.versions.each do |version| %>
   <% book = version.reify %>
@@ -139,16 +146,6 @@
 
    <div class="box_bottom"></div>
 </div>
-
-<p id="pdf_link">
-  <%= link_to "PDF version", publication_path(@publication, :format => "pdf") %>
-</p>
-
-<p>
-  <%= link_to "Edit", edit_publication_path(@publication) if permitted_to? :edit, :publications %> |
-  <%= link_to "Destroy", @publication, :confirm => 'Are you sure?', :method => :delete if permitted_to? :destroy, :publications %> |
-  <%= link_to "View All", publications_path %>
-</p>
 <p>
   <strong>Target Journal:</strong>
   <%=h @publication.target_journal.name %>
@@ -156,7 +153,7 @@
 
 <p>
   <strong>Article Promotion:</strong>
-  <%=h @publication.promotion %>
+  <%=h @publication.promotion? ? 'Yes' : 'No' %>
 </p>
 <p>
   <strong>Reference/Citation:</strong>
@@ -164,9 +161,44 @@
 </p>
 <p>
   <strong>Current State:</strong>
-  <%=h @publication.state %>
+  <%=h @publication.state.humanize %>
 </p>
-<p>
+
+<table>
+  <tr>
+    <th align="left">Status</th>
+    <th>Date</th>
+    <th>Notes</th>
+  </tr>
+  <tr>
+    <td>Planned</td>
+    <td></td>
+    <td></td>    
+  </tr>
+  <tr>
+    <td>In progess</td>
+    <td></td>
+    <td></td>    
+  </tr>
+  <tr>
+    <td>Submitted</td>
+    <td></td>
+    <td></td>    
+  </tr>
+  <tr>
+    <td>Accepted</td>
+    <td></td>
+    <td></td>    
+  </tr>
+  <tr>
+    <td>Published</td>
+    <td></td>
+    <td></td>    
+  </tr>
+</table>
+
+
+<p id="pdf_link">
 <% if @publication.state == "preplanned" %>
   <%= link_to "Submit", submit_planned_publication_path(@publication), :method => :put if permitted_to? :submit, :publications %>
 <% elsif @publication.state == "preplanned_submitted" %>
@@ -193,4 +225,13 @@
   <%= link_to "Accept as published", accepted_accept_publication_path(@publication), :method => :put if permitted_to? :progress, :publications %> | 
   <%= link_to "Reject as published", accepted_reject_publication_path(@publication), :method => :put if permitted_to? :progress, :publications %>
 <% end %>
+</p>
+<p id="pdf_link">
+  <%= link_to "PDF version", publication_path(@publication, :format => "pdf") %>
+</p>
+
+<p id="pdf_link">
+  <%= link_to "Edit", edit_publication_path(@publication) if permitted_to? :edit, :publications %> |
+  <%= link_to "Destroy", @publication, :confirm => 'Are you sure?', :method => :delete if permitted_to? :destroy, :publications %> |
+  <%= link_to "View All", publications_path %>
 </p>

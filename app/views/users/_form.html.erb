@@ -20,13 +20,15 @@
     <%= f.label :password_confirmation %><br />
     <%= f.password_field :password_confirmation %>
   </p>
+  <% permitted_to? :manage, :users do %>
   <p>
-    <%= f.label "HBSC Member" %><br />
+    <%= f.label :hbsc_member %><br />
     Is the user a member of HSBC? 
     <%= f.radio_button :hbsc_member, true %><%= f.label "Yes" %>
     <%= f.radio_button :hbsc_member, false %><%= f.label "No" %>
   </p>  
   <p>
+
     <%= f.label :roles %><br />
     <% for role in User::ROLES %>
       <%= check_box_tag "user[roles][]", role, @user.roles.include?(role) %>
@@ -34,6 +36,8 @@
     <% end %>
     <%= hidden_field_tag "user[roles][]", "" %>
   </p>
-  
+
+  <% end %>  
+
   <p><%= f.submit %></p>
 <% end %>

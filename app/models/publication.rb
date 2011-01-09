@@ -5,7 +5,7 @@ class Publication < ActiveRecord::Base
   acts_as_indexed :fields => [
     :title, :description,
     :variable_list, :survey_list, :language_list, :email_list, :username_list,
-    :population_list, :publication_type_list,
+    :population_list, :publication_type_list, :state
 #    :focus_group_list, :country_team_list
     ]
 
