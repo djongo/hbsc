@@ -20,24 +20,34 @@
     <%= f.label :password_confirmation %><br />
     <%= f.password_field :password_confirmation %>
   </p>
-  <% permitted_to? :manage, :users do %>
-  <p>
-    <%= f.label :hbsc_member %><br />
-    Is the user a member of HSBC? 
-    <%= f.radio_button :hbsc_member, true %><%= f.label "Yes" %>
-    <%= f.radio_button :hbsc_member, false %><%= f.label "No" %>
-  </p>  
-  <p>
 
-    <%= f.label :roles %><br />
-    <% for role in User::ROLES %>
-      <%= check_box_tag "user[roles][]", role, @user.roles.include?(role) %>
-      <%= h role.humanize %><br />
-    <% end %>
-    <%= hidden_field_tag "user[roles][]", "" %>
-  </p>
+  <% if permitted_to? :manage, :users %>
+    <p>
+      <%= f.label :hbsc_member %><br />
+      Is the user a member of HSBC? 
+      <%= f.radio_button :hbsc_member, true %><%= f.label "Yes" %>
+      <%= f.radio_button :hbsc_member, false %><%= f.label "No" %>
+    </p>  
+    <p>
 
+      <%= f.label :roles %><br />
+      <% for role in User::ROLES %>
+        <%= check_box_tag "user[roles][]", role, @user.roles.include?(role) %>
+        <%= h role.humanize %><br />
+      <% end %>
+      <%= hidden_field_tag "user[roles][]", "" %>
+    </p>
+  <% elsif !@user.new_record? %>
+    <p>You are currently registered with the following:</p>
+    <p>
+      <strong>HBSC Member:</strong>
+      <%=h @user.hbsc_member? ? 'Yes' : 'No' %>
+    </p>
+    <p>
+      <strong>Roles:</strong>
+      <%=h @user.role_symbols.join(', ').titleize %>
+    </p>
+    <p>Please contact the Publication Group if this is not correct.</p>
   <% end %>  
-
-  <p><%= f.submit %></p>
+  <p><%= f.submit @user.new_record? ? "Create account" : "Update account" %></p>
 <% end %>
