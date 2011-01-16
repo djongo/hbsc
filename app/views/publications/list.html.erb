@@ -1,0 +1,26 @@
+<% title "Publications" %>
+
+<table class="pretty">
+  <tr>
+    <th>ID</th>
+    <th>Publication</th>
+    <th>State</th>
+    <th colspan="5">Actions</th>
+  </tr>
+  <% for publication in @publications %>
+    <tr>
+      <td><%=h publication.id %></td>
+      <td><%=h publication.title %></td>
+      <td><%=h publication.state.humanize %></td>      
+      <td><%= link_to "Show", publication %></td>
+      <td><%= link_to "Edit", edit_publication_path(publication) %></td>
+
+      <td><%= link_to "Archive", edit_publication_path(publication) %></td>
+      <td><%= link_to "Accept", edit_publication_path(publication) %></td>
+
+      <td><%= link_to "Destroy", publication, :confirm => 'Are you sure?', :method => :delete %></td>
+    </tr>
+  <% end %>
+</table>
+
+<p><%= link_to "New Publication", new_publication_path %></p>
