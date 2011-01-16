@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
   has_many :publications
   has_many :authorships
   has_many :publications, :through => :authorships
+  has_many :notes
 
   named_scope :with_role, lambda { |role| {:conditions => "roles_mask & #{2**ROLES.index(role.to_s)} > 0 "} }
 

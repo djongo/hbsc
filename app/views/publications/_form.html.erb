@@ -130,6 +130,15 @@
   <%= f.label "Reference/Citation" %><br />
    <%= f.text_area :description, :cols => 60, :rows => 10 %>  
 </p>
+<p>
+  <%= f.label "Notes" %><br />
+     <div id="note_children">
+      <% f.fields_for :notes do |note_form| %>
+        <%= render :partial => "note", :locals => { :f => note_form } %>
+      <% end %>
+     </div>
+  <%= add_child_link "Add a note", 'note', f  %>
+</p>
 
 <p>
   <%= f.submit %>

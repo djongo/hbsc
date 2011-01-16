@@ -164,37 +164,21 @@
   <%=h @publication.state.humanize %>
 </p>
 
-<table>
+<table class="pretty">
   <tr>
-    <th align="left">Status</th>
+    <th align="left">State</th>
     <th>Date</th>
+    <th>User</th>
     <th>Notes</th>
   </tr>
-  <tr>
-    <td>Planned</td>
-    <td></td>
-    <td></td>    
-  </tr>
-  <tr>
-    <td>In progess</td>
-    <td></td>
-    <td></td>    
-  </tr>
-  <tr>
-    <td>Submitted</td>
-    <td></td>
-    <td></td>    
-  </tr>
-  <tr>
-    <td>Accepted</td>
-    <td></td>
-    <td></td>    
-  </tr>
-  <tr>
-    <td>Published</td>
-    <td></td>
-    <td></td>    
-  </tr>
+  <% for notes in @publication.notes %>
+    <tr>
+      <td><%=h notes.state.humanize %></td>
+      <td><%=h notes.created_at.strftime('%Y-%m-%d %H:%M') %></td>
+      <td><%=h notes.user.full_name %></td>
+      <td><%=h notes.content %></td>
+    </tr>
+  <% end %>
 </table>
 
 

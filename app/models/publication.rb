@@ -16,6 +16,8 @@ class Publication < ActiveRecord::Base
   belongs_to :contact, :class_name => "User"
   belongs_to :target_journal
   
+  has_many :notes, :dependent => :destroy
+  accepts_nested_attributes_for :notes, :reject_if => lambda { |a| a[:content].blank? }, :allow_destroy => true
   
   has_many :authorships
   has_many :users, :through => :authorships
