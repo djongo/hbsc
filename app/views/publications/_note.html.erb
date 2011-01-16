@@ -1,0 +1,8 @@
+<div class="child">
+  <%= f.text_field :state %>
+  <%= f.text_area :content, :cols => 60, :rows => 4 %>
+  <%= f.hidden_field :state, :value => @publication.state %>
+  <%= f.hidden_field :user_id, :value => current_user.id %>
+  <%= f.hidden_field :_destroy, :class => 'destroy' %>
+  <%= remove_child_link 'remove', f %>
+</div>

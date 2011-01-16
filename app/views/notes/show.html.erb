@@ -1,0 +1,33 @@
+<% title "Note" %>
+
+<p>
+  <strong>Publication:</strong>
+  <%=h @note.publication.title %>
+</p>
+<p>
+  <strong>User:</strong>
+  <%=h @note.user.full_name %>
+</p>
+<p>
+  <strong>State:</strong>
+  <%=h @note.state.humanize %>
+</p>
+<p>
+  <strong>Created at:</strong>
+  <%=h @note.created_at.strftime('%Y-%m-%d %H:%M') %>
+</p>
+<p>
+  <strong>Last updated at:</strong>
+  <%=h @note.updated_at.strftime('%Y-%m-%d %H:%M') %>
+</p>
+
+<p>
+  <strong>Content:</strong>
+  <%=h @note.content %>
+</p>
+
+<p>
+  <%= link_to "Edit", edit_note_path(@note) %> |
+  <%= link_to "Destroy", @note, :confirm => 'Are you sure?', :method => :delete %> |
+  <%= link_to "View All", notes_path %>
+</p>
