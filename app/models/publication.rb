@@ -18,6 +18,7 @@ class Publication < ActiveRecord::Base
   
   has_many :notes, :dependent => :destroy
   accepts_nested_attributes_for :notes, :reject_if => lambda { |a| a[:content].blank? }, :allow_destroy => true
+
   
   has_many :authorships
   has_many :users, :through => :authorships

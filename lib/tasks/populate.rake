@@ -18,6 +18,7 @@ namespace :db do
       publication.responsible_id = (1..12)
       publication.contact_id = (1..12)
       publication.target_journal_id = (1..4)
+      publication.archived = ["false","true"]      
     end
 
     Variable.populate 80 do |variable|

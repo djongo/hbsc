@@ -3,6 +3,7 @@
 <table class="pretty">
   <tr>
     <th>Publication</th>
+    <th>#</th>
     <th>User</th>
     <th>State</th>
     <th>Content</th>
@@ -11,6 +12,7 @@
   <% for note in @notes %>
     <tr>
       <td><%=h note.publication.title %></td>
+      <td><%=h note.publication.id %></td>
       <td><%=h note.user.full_name %></td>
       <td><%=h note.state.humanize %></td>
       <td><%=h note.content %></td>

@@ -17,6 +17,24 @@ class PublicationsController < ApplicationController
  
   end
   
+  def list
+    @publications = Publication.all
+  end
+  
+  def archive
+    @publication = Publication.find(params[:id])
+    @publication.update_attribute :archived, true
+    flash[:notice] = "Publication archived."
+    redirect_to list_publications_path
+  end
+  
+  def unarchive
+    @publication = Publication.find(params[:id])
+    @publication.update_attribute :archived, false
+    flash[:notice] = "Publication removed from archive to active status."
+    redirect_to list_publications_path    
+  end
+  
   def show
     @publication = Publication.find(params[:id])
     if params[:version]

@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110109142634) do
+ActiveRecord::Schema.define(:version => 20110116164815) do
 
   create_table "authorships", :force => true do |t|
     t.integer  "publication_id"
@@ -121,6 +121,7 @@ ActiveRecord::Schema.define(:version => 20110109142634) do
     t.integer  "responsible_id"
     t.integer  "contact_id"
     t.integer  "target_journal_id"
+    t.boolean  "archived",                           :default => false
   end
 
   create_table "surveys", :force => true do |t|

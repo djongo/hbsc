@@ -30,7 +30,8 @@ ActionController::Routing::Routes.draw do |map|
                                             :submit_published => :put,  
                                             :accepted_accept => :put,
                                             :accepted_reject => :put
-                                            }  
+                                            }, 
+                :collection => { :list => :get }                                            
   map.resources :user_sessions
   map.resources :users
   map.resources :password_resets, :only => [ :new, :create, :edit, :update ]
