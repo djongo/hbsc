@@ -2,7 +2,10 @@
 <table width="100%">
   <tr>
     <td>
-      <strong>Title:</strong><%=h @publication.title %> ( ID: <%=h @publication.id %> )
+      <strong>Title:</strong> <%=h @publication.title %>
+    </td>
+    <td>
+      <strong>ID:</strong> <%=h @publication.id %>
     </td>
     <td>
       <strong>Created at:</strong> <%=h @publication.created_at.strftime('%Y-%m-%d') %>
@@ -10,6 +13,11 @@
     <td>
       <strong>Updated at:</strong> <%=h @publication.updated_at.strftime('%Y-%m-%d') %>
     </td>
+<% if @publication.archived %>
+    <td>
+      <strong>Archived</strong>
+    </td>           
+<% end %>
   </tr>
 </table>
 

@@ -1,7 +1,7 @@
 <% title "Master Data" %>
 <p>Click on the links below to access master data</p>
 <ul>
-  <li><%= link_to "Publications", list_publications_path if permitted_to? :index, :publications %></li>
+  <li><%= link_to "Publication list", list_publications_path if permitted_to? :index, :publications %></li>
   <li><%= link_to "Langugaes", languages_path if permitted_to? :index, :languages %></li>
   <li><%= link_to "Survey data sets", surveys_path if permitted_to? :index, :surveys %></li>
   <li><%= link_to "Populations", populations_path if permitted_to? :index, :populations %></li>

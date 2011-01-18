@@ -29,7 +29,9 @@ ActionController::Routing::Routes.draw do |map|
                                             :submitted_reject => :put,
                                             :submit_published => :put,  
                                             :accepted_accept => :put,
-                                            :accepted_reject => :put
+                                            :accepted_reject => :put,
+                                            :archive => :put,
+                                            :unarchive => :put
                                             }, 
                 :collection => { :list => :get }                                            
   map.resources :user_sessions

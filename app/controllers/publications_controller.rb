@@ -6,13 +6,16 @@ class PublicationsController < ApplicationController
   # above loads current publication
   
   def index
-    @publications = Publication.all
+    # , :conditions => ['archived = ?', false] ensures that the indes
+    # never shows publications that are archived
+    
+    @publications = Publication.find(:all, :conditions => ['archived = ?', false])
     @per_page = params[:per_page] || 5
 
     if(params[:search]).blank?
-      @publications = Publication.all.paginate(:page => params[:page], :per_page => @per_page, :order => 'title')
+      @publications = Publication.paginate(:page => params[:page], :per_page => @per_page, :order => 'title', :conditions => ['archived = ?', false])
     else
-      @publications = Publication.with_query(params[:search]).paginate( :page => params[:page], :per_page => @per_page, :order => 'title')
+      @publications = Publication.with_query(params[:search]).paginate( :page => params[:page], :per_page => @per_page, :order => 'title', :conditions => ['archived = ?', false])
     end
  
   end
@@ -59,6 +62,14 @@ class PublicationsController < ApplicationController
   
   def edit
     @publication = Publication.find(params[:id])
+    if @publication.state == "preplanned_submitted" || @publication.state = "planned_submitted" || @publication.state = "inprogress_submitted" || @publication.state = "submitted_submitted" || @publication.state = "accepted_submitted"
+      flash[:error] = "Publication has been submitted and cannot be edited."
+      redirect_to @publication
+    end
+    if @publication.archived 
+      flash[:error] = "Publication is archived and cannot be edited."
+      redirect_to @publication
+    end
   end
   
   def update

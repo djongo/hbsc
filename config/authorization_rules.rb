@@ -40,7 +40,8 @@ authorization do
     has_permission_on :pages, :to => [:home, :contact, :about, :master]
     has_permission_on :publications, :to => [:auto_complete_for_variable_name] 
     has_permission_on :publications, :to => :progress
-        has_permission_on :publications, :to => :list
+    has_permission_on :publications, :to => :list
+    has_permission_on :publications, :to => [ :archive, :unarchive ]
     has_permission_on :target_journals, :to => :manage
     has_permission_on :versions, :to => :manage
     has_permission_on :emails, :to => :manage
