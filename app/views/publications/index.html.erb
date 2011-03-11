@@ -1,18 +1,63 @@
 <% title "Publications" %>
 
 <% form_tag publications_path, :method => :get do %>
-  <p>
-    <%= text_field_tag :search, params[:search], :size => 50 %>
-    <%= submit_tag "Search", :name => nil %>
-  </p>
+
+<table width=100%>
+  <tr>
+    <td><%= text_field_tag :search, params[:search], :size => 50 %>
+    <%= submit_tag "Search", :name => nil %>  <%= link_to_function("Help","Element.toggle('help_explanation_box')") %></td>
+    <td align=right>Publications per page: <%= select_tag :per_page, options_for_select([5,10,20,50,100], params[:per_page].to_i) %></td>
+  </tr>
+</table> 
+
+
+  <div id="help_explanation_box" style="display:none;">
+
+<p>
+The following query operators are supported:
+</p>
+<ul>
+<li>AND :: This is the default option. ‘cat dog’ will find records
+matching ‘cat’ AND ‘dog’.
+
+</li>
+<li>NOT :: ‘cat -dog’ will find records matching ‘cat’
+AND NOT ‘dog’
+
+</li>
+<li>INCLUDE :: ‘cat +me’ will find records matching
+‘cat’ and ‘me’, even if ‘me’ is smaller
+than the <tt>min_word_size</tt>
+
+</li>
+<li>"" :: Quoted terms are matched as phrases. ’"cat
+dog"’ will find records matching the whole phrase. Quoted terms
+can be preceded by the NOT operator; ‘cat -"big dog"’
+etc. Quoted terms can include words shorter than the
+<tt>min_word_size</tt>.
+
+</li>
+
+<li>^ :: Terms that begin with ^ will match records that contain a word
+starting with the term. ’^cat’ will find matches containing
+‘cat’, ‘catapult’, ‘caterpillar’ etc.
+
+</li>
+<li>^"" :: A quoted term that begins with ^ matches any phrase that
+begin with this phrase. ’^"cat d"’ will find records
+matching the whole phrases "cat dog" and "cat dinner".
+This type of search is useful for autocomplete inputs.
+
+</li>
+</ul>
+</div>
+
+
   <p>Searching for numbers? Use '^' in front of the number.
   </p>
   <p><%= link_to "New Publication", new_publication_path if permitted_to? :new, :publications %></p>  
 <% end %>
 <div id="publications">
-  Publications per page:
-  <%= select_tag :per_page, options_for_select([5,10,20,50], params[:per_page].to_i),
-               :onchange => "if(this.value){window.location='?per_page='+this.value;}" %>
   <%= will_paginate(@publications) %>
   <hr />
   <% for publication in @publications %>

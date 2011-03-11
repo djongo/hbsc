@@ -15,7 +15,7 @@ class PublicationsController < ApplicationController
     if(params[:search]).blank?
       @publications = Publication.paginate(:page => params[:page], :per_page => @per_page, :order => 'title', :conditions => ['archived = ?', false])
     else
-      @publications = Publication.with_query(params[:search]).paginate( :page => params[:page], :per_page => @per_page, :order => 'title', :conditions => ['archived = ?', false])
+      @publications = Publication.with_query(params[:search]).paginate(:page => params[:page], :per_page => @per_page, :order => 'title', :conditions => ['archived = ?', false])
     end
  
   end
@@ -62,7 +62,7 @@ class PublicationsController < ApplicationController
   
   def edit
     @publication = Publication.find(params[:id])
-    if @publication.state == "preplanned_submitted" || @publication.state = "planned_submitted" || @publication.state = "inprogress_submitted" || @publication.state = "submitted_submitted" || @publication.state = "accepted_submitted"
+    if @publication.state == "preplanned_submitted" || @publication.state == "planned_submitted" || @publication.state == "inprogress_submitted" || @publication.state == "submitted_submitted" || @publication.state == "accepted_submitted"
       flash[:error] = "Publication has been submitted and cannot be edited."
       redirect_to @publication
     end

@@ -21,7 +21,8 @@
         <%= link_to "Contact", contact_path %>      
       </div>
       <div id="user_nav">  
-        <% if current_user %>  
+        <% if current_user %>
+          ( <%= current_user.email %> ) | 
           <%= link_to "Edit profile", edit_user_path(current_user) %>  | 
           <%= link_to "Logout", logout_path %>  
         <% else %>  

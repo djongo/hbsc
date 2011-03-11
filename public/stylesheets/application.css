@@ -210,6 +210,18 @@ div.auto_complete ul strong.highlight {
   margin: 10px 0;  
 }
 
+#help_explanation_box {
+  width: 75%;
+  background-color: #DDD;
+  border: solid 1px #AAA;
+  padding: 5px 8px;
+  margin-top:10px;
+  margin-left:auto;
+  margin-right:auto;
+  font-family: Verdana, Helvetica, Arial;
+  font-size: 12px;  
+}
+
 /* Pretty tables */
 
 table.pretty {

@@ -1,14 +1,17 @@
 <% title "Variables" %>
 
-<table>
+<table class="pretty">
   <tr>
-    <th>Name</th>
+    <th>Variable</th>
+    <th colspan="3">Actions</th>    
   </tr>
+<p>
   Variables per page:
   <%= select_tag :per_page, options_for_select([15,30,60], params[:per_page].to_i),
                :onchange => "if(this.value){window.location='?per_page='+this.value;}" %>
+  <br />
   <%= will_paginate(@variables) %>
-
+</p>
   
   <% for variable in @variables %>
     <tr>
