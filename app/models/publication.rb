@@ -36,7 +36,8 @@ class Publication < ActiveRecord::Base
   has_many :inclusions
   has_many :populations, :through => :inclusions
 
-  validates_presence_of :title
+  validates_presence_of :title, :language_id, :publication_type, :user_id
+  validates_presence_of :responsible_id, :contact_id, :target_journal
   validates_associated :variables
   validates_associated :surveys
   validates_associated :populations
