@@ -17,6 +17,11 @@ class PublicationsController < ApplicationController
     else
       @publications = Publication.with_query(params[:search]).paginate(:page => params[:page], :per_page => @per_page, :order => 'title', :conditions => ['archived = ?', false])
     end
+    
+    if @publications.empty?
+      flash[:error] = "No publications matched your search criteria."
+    end
+    
  
   end
   
@@ -75,7 +80,7 @@ class PublicationsController < ApplicationController
   def update
     @publication = Publication.find(params[:id])
     if @publication.update_attributes(params[:publication])
-      flash[:notice] = "Successfully updated publication."
+      flash[:notice] = "Successfully updated publication. Please note that this did not submit the publication for review."
       redirect_to @publication
     else
       render :action => 'edit'

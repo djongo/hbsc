@@ -2,21 +2,78 @@
 
 
 <% if current_user %>
-Your publications:
 
-This is you:   ( <%= current_user.email %> ) 
-<table class="pretty">
-  <% for publication in @publication %>
-<tr>
-<td>
-<%=h publication.title %>
-</td>
-</tr>
+  <% if current_user.roles.include?("publication_group") %>
+    <p>Publications awaiting acceptance:</p>
+    <table class="pretty">
+      <tr>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Last updated</th>
+        <th>Current state</th>
+        <th colspan="3">Actions</th>    
+      </tr>    
+      <% for pending in @pending %>
+        <tr>
+          <td><%=h pending.id %></td> 
+          <td><%=h pending.title %></td>
+          <td><%=h pending.updated_at.strftime('%Y-%m-%d') %></td>
+          <td><%=h pending.state.humanize %></td>
+          <td><%= link_to "Show", pending %></td>
+          <td>
+              <% if pending.state == "preplanned_submitted" %>
+                <%= link_to "Accept", preplanned_accept_publication_path(pending), :method => :put if permitted_to? :progress, :publications %></td><td>
+                <%= link_to "Reject", preplanned_reject_publication_path(pending), :method => :put if permitted_to? :progress, :publications %>
+              <% elsif pending.state == "planned_submitted" %>
+                <%= link_to "Accept", planned_accept_publication_path(pending), :method => :put if permitted_to? :progress, :publications %></td><td>
+                <%= link_to "Reject", planned_reject_publication_path(pending), :method => :put if permitted_to? :progress, :publications %>
+              <% elsif pending.state == "inprogress_submitted" %>
+                <%= link_to "Accept", inprogress_accept_publication_path(pending), :method => :put if permitted_to? :progress, :publications %></td><td>
+                <%= link_to "Reject", inprogress_reject_publication_path(pending), :method => :put if permitted_to? :progress, :publications %>
+              <% elsif pending.state == "submitted_submitted" %>
+                <%= link_to "Accept", submitted_accept_publication_path(pending), :method => :put if permitted_to? :progress, :publications %></td><td>
+                <%= link_to "Reject", submitted_reject_publication_path(pending), :method => :put if permitted_to? :progress, :publications %>
+              <% else pending.state == "accepted_submitted" %>
+                <%= link_to "Accept", accepted_accept_publication_path(pending), :method => :put if permitted_to? :progress, :publications %></td><td>
+                <%= link_to "Reject", accepted_reject_publication_path(pending), :method => :put if permitted_to? :progress, :publications %>
+              <% end %>
+          </td>          
+          
+        </tr>
+      <% end %>
+    </table>
   <% end %>
-</table>
 
+  <p>Your publications:</p>
+  <% if current_user.roles.include?("author") %>
+    <table class="pretty">
+      <tr>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Last updated</th>
+        <th>Current state</th>
+        <th colspan="2">Actions</th>    
+      </tr>
+      <% for publication in @publication %>
+        <tr>
+          <% if publication.updated_at >= current_user.last_login_at %>
+            <td style="color:red;"><%=h publication.id %> *</td>
+          <% else %>
+            <td><%=h publication.id %></td>      
+          <% end %>
+            
+          <td><%=h publication.title %></td>
+          <td><%=h publication.updated_at.strftime('%Y-%m-%d') %></td>
+          <td><%=h publication.state.humanize %></td>
+          <td><%= link_to "Show", publication %></td>
+          <td><%= link_to "Edit", edit_publication_path(publication) %></td>  
+        </tr>
+      <% end %>
+    </table>
+    <p class="explanation">* changed since your last login.</p>
+  <% end %>
 <% else %>  
-Please login:
+  Please login:
   <% form_for @user_session do |f| %>
     <%= f.error_messages %>
     <p>
@@ -31,5 +88,17 @@ Please login:
     <p><%= f.submit "Login" %></p>
   <% end %>
 <% end %>  
-OR DO A SEARCH TODO: insert search form
-<p>Search form coming. For now, please go to the publications page by clicking the link above.</p>
+
+<h1>Search</h1>
+
+<% form_tag publications_path, :method => :get do %>
+  <table width=100%>
+    <tr>
+      <td><%= text_field_tag :search, params[:search], :size => 50 %>
+      <%= submit_tag "Search", :name => nil %>  <%= link_to_function("Help","Element.toggle('help_explanation_box')") %></td>
+      <td align=right>Publications per page: <%= select_tag :per_page, options_for_select([5,10,20,50,100], params[:per_page].to_i) %></td>
+    </tr>
+  </table> 
+  <p class="explanation">Searching will take you to the publications search page.</p>
+  <%= render :partial => "layouts/search_help" %>
+<% end %>

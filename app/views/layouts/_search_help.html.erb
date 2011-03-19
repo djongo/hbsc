@@ -1,0 +1,41 @@
+  <div id="help_explanation_box" style="display:none;">
+
+<p>
+The following query operators are supported:
+</p>
+<ul>
+<li>AND :: This is the default option. ‘cat dog’ will find records
+matching ‘cat’ AND ‘dog’.
+
+</li>
+<li>NOT :: ‘cat -dog’ will find records matching ‘cat’
+AND NOT ‘dog’
+
+</li>
+<li>INCLUDE :: ‘cat +me’ will find records matching
+‘cat’ and ‘me’, even if ‘me’ is smaller
+than the <tt>min_word_size</tt>
+
+</li>
+<li>"" :: Quoted terms are matched as phrases. ’"cat
+dog"’ will find records matching the whole phrase. Quoted terms
+can be preceded by the NOT operator; ‘cat -"big dog"’
+etc. Quoted terms can include words shorter than the
+<tt>min_word_size</tt>.
+
+</li>
+
+<li>^ :: Terms that begin with ^ will match records that contain a word
+starting with the term. ’^cat’ will find matches containing
+‘cat’, ‘catapult’, ‘caterpillar’ etc.
+
+</li>
+<li>^"" :: A quoted term that begins with ^ matches any phrase that
+begin with this phrase. ’^"cat d"’ will find records
+matching the whole phrases "cat dog" and "cat dinner".
+This type of search is useful for autocomplete inputs.
+
+</li>
+</ul>
+</div>
+

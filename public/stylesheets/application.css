@@ -1,7 +1,7 @@
 body {
   background-color: #4B7399;
   font-family: Verdana, Helvetica, Arial;
-  font-size: 14px;
+  font-size: 12px;
 }
 
 a img {
@@ -61,7 +61,7 @@ a {
   text-align: left;
   font-weight: bold;
   padding: 5px 5px 5px 15px;
-  font-size: 12px;
+  font-size: 10px;
   margin: 0;
   background-color: #c00;
   color: #fff;
@@ -78,8 +78,13 @@ a {
 }
 
 #errorExplanation ul li {
-  font-size: 12px;
+  font-size: 10px;
   list-style: disc;
+}
+
+p.explanation {
+    font-size: 0.8em;
+    font-style: italic;
 }
 
 /* Navigation */
@@ -106,12 +111,12 @@ div#site_nav {
 }
 
 #publications h2 {
-  font-size: 14px;
+  font-size: 12px;
   margin: 5px;
 }
 
 #publications p {
-  font-size: 12px;
+  font-size: 10px;
   opacity: 0.8;
 
 }
@@ -219,7 +224,7 @@ div.auto_complete ul strong.highlight {
   margin-left:auto;
   margin-right:auto;
   font-family: Verdana, Helvetica, Arial;
-  font-size: 12px;  
+  font-size: 10px;  
 }
 
 /* Pretty tables */
