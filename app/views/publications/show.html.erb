@@ -154,10 +154,16 @@
 
    <div class="box_bottom"></div>
 </div>
+
 <p>
   <strong>Target Journal:</strong>
-  <%=h @publication.target_journal.name %>
+  <% if @publication.target_journal %>
+      <%=h @publication.target_journal.name %>
+  <% else %>
+    None chosen.
+  <% end %>
 </p>
+
 
 <p>
   <strong>Article Promotion:</strong>
