@@ -39,7 +39,7 @@
 <h3>Author(s)</h3>
 <p>
       <%= f.label "First author" %><br />
-      <%= f.collection_select :user_id, User.all, :id, :full_name, options = { :prompt => "Select one..." } %>
+      <%= f.collection_select :user_id, User.all, :id, :full_name, options = { :selected => current_user.id } %>
 </p>
 <p>
   <%= f.label "Additional author" %><br />
@@ -124,7 +124,7 @@
   <%= f.label "Article Promotion" %><br />
   Would you like the ICC to promote your final work? 
   <%= f.radio_button :promotion, true %><%= f.label "Yes" %>
-  <%= f.radio_button :promotion, false %><%= f.label "No" %>
+  <%= f.radio_button :promotion, false, options = { :checked => true } %><%= f.label "No" %>
 </p>
 <p>
   <%= f.label "Reference/Citation" %><br />
