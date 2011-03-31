@@ -138,6 +138,10 @@ class Publication < ActiveRecord::Base
     transitions :to => :preplanned_rejected, :from => [:preplanned_submitted]
   end
 
+  aasm_event :preplanned_remind do
+    transitions :to => :preplanned, :from => [:preplanned]
+  end
+# næste bør hedde preplanned_accept!!
   aasm_event :planned do
     transitions :to => :planned, :from => [:preplanned_submitted]
   end

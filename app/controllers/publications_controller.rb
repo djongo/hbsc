@@ -129,6 +129,14 @@ class PublicationsController < ApplicationController
     redirect_to publication_url
   end
   
+  def preplanned_remind
+    @publication = Publication.find(params[:id])
+    @publication.lock!
+    @publication.preplanned_remind!
+    @email = Email.find_by_trigger('preplanned_remind')    
+    Notifier.deliver_workflow_notification(@publication.user,@email)  
+  end
+
   # planned to inprogress
   def submit_inprogress
     @publication = Publication.find(params[:id])

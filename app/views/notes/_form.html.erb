@@ -4,6 +4,7 @@
     <%= f.label :publication_id %><br />
     <%= f.collection_select :publication_id, Publication.all, :id, :title, options = { :prompt => "Select one..." } %>
   </p>
+  <%= set_focus_to_id 'note_publication_id' %>  
   <p>
     <%= f.label :user_id %><br />
     <%= f.collection_select :user_id, User.all, :id, :full_name, options = { :prompt => "Select one..." } %>

@@ -94,11 +94,12 @@
 <% form_tag publications_path, :method => :get do %>
   <table width=100%>
     <tr>
-      <td><%= text_field_tag :search, params[:search], :size => 50 %>
+      <td><%= text_field_tag :search, params[:search], :size => 50, :autofocus => true %>
       <%= submit_tag "Search", :name => nil %>  <%= link_to_function("Help","Element.toggle('help_explanation_box')") %></td>
       <td align=right>Publications per page: <%= select_tag :per_page, options_for_select([5,10,20,50,100], params[:per_page].to_i) %></td>
     </tr>
   </table> 
+  <%= set_focus_to_id 'search' %>
   <p class="explanation">Searching will take you to the publications search page.</p>
   <%= render :partial => "layouts/search_help" %>
 <% end %>
