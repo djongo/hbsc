@@ -1,0 +1,20 @@
+<% title "Reminders" %>
+
+<table>
+  <tr>
+    <th>Publication</th>
+    <th>State</th>
+    <th>Action</th>
+    <th>Last Email At</th>
+  </tr>
+  <% for reminder in @reminders %>
+    <tr>
+      <td><%=h reminder.publication_id %></td>
+      <td><%=h reminder.state %></td>
+      <td><%=h reminder.action %></td>
+      <td><%=h reminder.last_email_at %></td>
+    </tr>
+  <% end %>
+</table>
+
+<p><%= link_to "New Reminder", new_reminder_path %></p>

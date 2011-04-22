@@ -1,0 +1,11 @@
+one:
+  publication_id: 1
+  state: MyString
+  action: MyString
+  last_email_at: 2011-04-19 17:29:10
+
+two:
+  publication_id: 1
+  state: MyString
+  action: MyString
+  last_email_at: 2011-04-19 17:29:10

@@ -1,0 +1,25 @@
+<% title "New Reminder" %>
+
+<% form_for @reminder do |f| %>
+  <%= f.error_messages %>
+  <p>
+    <%= f.label :publication_id %><br />
+    <%= f.text_field :publication_id %>
+  </p>
+  <p>
+    <%= f.label :state %><br />
+    <%= f.text_field :state %>
+  </p>
+  <p>
+    <%= f.label :action %><br />
+    <%= f.text_field :action %>
+  </p>
+  <p>
+    <%= f.label :last_email_at %><br />
+    <%= f.datetime_select :last_email_at %>
+  </p>
+  <p><%= f.submit %></p>
+<% end %>
+
+
+<p><%= link_to "Back to List", reminders_path %></p>
