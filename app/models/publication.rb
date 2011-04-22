@@ -19,7 +19,8 @@ class Publication < ActiveRecord::Base
   has_many :notes, :dependent => :destroy
   accepts_nested_attributes_for :notes, :reject_if => lambda { |a| a[:content].blank? }, :allow_destroy => true
 
-  
+  has_many :reminders, :dependent => :destroy
+ 
   has_many :authorships
   has_many :users, :through => :authorships
   
@@ -114,19 +115,14 @@ class Publication < ActiveRecord::Base
   aasm_initial_state :preplanned
   aasm_state :preplanned
   aasm_state :preplanned_submitted
-  aasm_state :preplanned_rejected
   aasm_state :planned
   aasm_state :planned_submitted
-  aasm_state :planned_rejected
   aasm_state :inprogress
   aasm_state :inprogress_submitted
-  aasm_state :inprogress_rejected
   aasm_state :submitted
   aasm_state :submitted_submitted
-  aasm_state :submitted_rejected
   aasm_state :accepted
   aasm_state :accepted_submitted
-  aasm_state :accepted_rejected
   aasm_state :published
 
   # Preplanned to planned  
@@ -135,15 +131,15 @@ class Publication < ActiveRecord::Base
   end
   
   aasm_event :preplanned_reject do
-    transitions :to => :preplanned_rejected, :from => [:preplanned_submitted]
+    transitions :to => :preplanned, :from => [:preplanned_submitted]
+  end
+
+  aasm_event :preplanned_accept do
+    transitions :to => :planned, :from => [:preplanned_submitted]
   end
 
   aasm_event :preplanned_remind do
     transitions :to => :preplanned, :from => [:preplanned]
-  end
-# næste bør hedde preplanned_accept!!
-  aasm_event :planned do
-    transitions :to => :planned, :from => [:preplanned_submitted]
   end
 
   # Planned to Inprogress
@@ -152,37 +148,49 @@ class Publication < ActiveRecord::Base
   end
   
   aasm_event :planned_reject do
-    transitions :to => :planned_rejected, :from => [:planned_submitted]
+    transitions :to => :planned, :from => [:planned_submitted]
   end
 
-  aasm_event :inprogress do
+  aasm_event :planned_accept do
     transitions :to => :inprogress, :from => [:planned_submitted]
   end
   
+  aasm_event :planned_remind do
+    transitions :to => :planned, :from => [:planned]
+  end
+    
   # Inprogress to Submitted
   aasm_event :inprogress_submit do
     transitions :to => :inprogress_submitted, :from => [:inprogress]
   end
   
   aasm_event :inprogress_reject do
-    transitions :to => :inprogress_rejected, :from => [:inprogress_submitted]
+    transitions :to => :inprogress, :from => [:inprogress_submitted]
   end
 
-  aasm_event :submitted do
+  aasm_event :inprogress_accept do
     transitions :to => :submitted, :from => [:inprogress_submitted]
   end
-
+  
+  aasm_event :inprogess_remind do
+    transitions :to => :inprogress, :from => [:inprogess]
+  end
+  
   # Submitted to Accepted
   aasm_event :submitted_submit do
     transitions :to => :submitted_submitted, :from => [:submitted]
   end
   
   aasm_event :submitted_reject do
-    transitions :to => :submitted_rejected, :from => [:submitted_submitted]
+    transitions :to => :submitted, :from => [:submitted_submitted]
   end
 
-  aasm_event :accepted do
+  aasm_event :submitted_accept do
     transitions :to => :accepted, :from => [:submitted_submitted]
+  end
+  
+  aasm_event :submitted_remind do
+    transitions :to => :submitted, :from => [:submitted]
   end
   
   # Accepted to Published
@@ -191,11 +199,15 @@ class Publication < ActiveRecord::Base
   end
   
   aasm_event :accepted_reject do
-    transitions :to => :accepted_rejected, :from => [:accepted_submitted]
+    transitions :to => :accepted, :from => [:accepted_submitted]
   end
 
-  aasm_event :published do
+  aasm_event :accepted_accept do
     transitions :to => :published, :from => [:accepted_submitted]
+  end
+  
+  aasm_event :accepted_remind do
+    transitions :to => :accepted, :from => [:accepted]
   end
 
   # the functions      

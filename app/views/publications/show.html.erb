@@ -198,27 +198,27 @@
 
 <p id="pdf_link">
 <% if @publication.state == "preplanned" %>
-  <%= link_to "Submit", submit_planned_publication_path(@publication), :method => :put if permitted_to? :submit, :publications %>
+  <%= link_to "Submit", preplanned_submit_publication_path(@publication), :method => :put if permitted_to? :submit, :publications %>
 <% elsif @publication.state == "preplanned_submitted" %>
   <%= link_to "Accept as planned", preplanned_accept_publication_path(@publication), :method => :put if permitted_to? :progress, :publications %> | 
   <%= link_to "Reject as planned", preplanned_reject_publication_path(@publication), :method => :put if permitted_to? :progress, :publications %>
 <% elsif @publication.state == "planned" %>
-  <%= link_to "Submit", submit_inprogress_publication_path(@publication), :method => :put if permitted_to? :submit, :publications %>
+  <%= link_to "Submit", planned_submit_publication_path(@publication), :method => :put if permitted_to? :submit, :publications %>
 <% elsif @publication.state == "planned_submitted" %>
   <%= link_to "Accept as in progress", planned_accept_publication_path(@publication), :method => :put if permitted_to? :progress, :publications %> | 
   <%= link_to "Reject as in progress", planned_reject_publication_path(@publication), :method => :put if permitted_to? :progress, :publications %>
 <% elsif @publication.state == "inprogress" %>
-  <%= link_to "Submit", submit_submitted_publication_path(@publication), :method => :put if permitted_to? :submit, :publications %>
+  <%= link_to "Submit", inprogress_submit_publication_path(@publication), :method => :put if permitted_to? :submit, :publications %>
 <% elsif @publication.state == "inprogress_submitted" %>
   <%= link_to "Accept as submitted", inprogress_accept_publication_path(@publication), :method => :put if permitted_to? :progress, :publications %> | 
   <%= link_to "Reject as submitted", inprogress_reject_publication_path(@publication), :method => :put if permitted_to? :progress, :publications %>
 <% elsif @publication.state == "submitted" %>
-  <%= link_to "Submit", submit_accepted_publication_path(@publication), :method => :put if permitted_to? :submit, :publications %>
+  <%= link_to "Submit", submitted_submit_publication_path(@publication), :method => :put if permitted_to? :submit, :publications %>
 <% elsif @publication.state == "submitted_submitted" %>
   <%= link_to "Accept as accepted", submitted_accept_publication_path(@publication), :method => :put if permitted_to? :progress, :publications %> | 
   <%= link_to "Reject as accepted", submitted_reject_publication_path(@publication), :method => :put if permitted_to? :progress, :publications %>
 <% elsif @publication.state == "accepted" %>
-  <%= link_to "Submit", submit_accepted_publication_path(@publication), :method => :put if permitted_to? :submit, :publications %>
+  <%= link_to "Submit", accepted_submit_publication_path(@publication), :method => :put if permitted_to? :submit, :publications %>
 <% elsif @publication.state == "accepted_submitted" %>
   <%= link_to "Accept as published", accepted_accept_publication_path(@publication), :method => :put if permitted_to? :progress, :publications %> | 
   <%= link_to "Reject as published", accepted_reject_publication_path(@publication), :method => :put if permitted_to? :progress, :publications %>

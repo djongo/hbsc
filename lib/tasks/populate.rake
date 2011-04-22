@@ -5,7 +5,7 @@ namespace :db do
     require 'faker'
     [Publication, User, Keyword, Outcome, Determinant, Mediator, Foundation, Variable, Inclusion, Authorship].each(&:delete_all)
     
-    Publication.populate 50 do |publication|
+    Publication.populate 60 do |publication|
       publication.title = Populator.words(3..7).titleize
       publication.description = Populator.sentences(4..10)
       publication.publication_type_id = (1..3)

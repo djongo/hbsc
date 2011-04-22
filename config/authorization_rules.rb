@@ -40,6 +40,7 @@ authorization do
     has_permission_on :pages, :to => [:home, :contact, :about, :master]
     has_permission_on :publications, :to => [:auto_complete_for_variable_name] 
     has_permission_on :publications, :to => :progress
+    has_permission_on :publications, :to => :remind    
     has_permission_on :publications, :to => :list
     has_permission_on :publications, :to => [ :archive, :unarchive ]
     has_permission_on :target_journals, :to => :manage
@@ -57,6 +58,9 @@ privileges do
   privilege :progress do 
    includes :preplanned_accept, :preplanned_reject, :planned_accept, :planned_reject, :inprogress_accept, :inprogress_reject, :submitted_accept, :submitted_reject, :submit_published, :accepted_accept, :accepted_reject
 
+  end
+  privilege :remind do 
+    includes :preplanned_remind, :planned_remind, :inprogress_remind, :submitted_remind, :accepted_remind
   end
 
   privilege :submit do

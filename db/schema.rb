@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110116164815) do
+ActiveRecord::Schema.define(:version => 20110419152910) do
 
   create_table "authorships", :force => true do |t|
     t.integer  "publication_id"
@@ -37,6 +37,7 @@ ActiveRecord::Schema.define(:version => 20110116164815) do
     t.text     "content"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "delay",      :default => 0
   end
 
   create_table "focus_groups", :force => true do |t|
@@ -122,6 +123,15 @@ ActiveRecord::Schema.define(:version => 20110116164815) do
     t.integer  "contact_id"
     t.integer  "target_journal_id"
     t.boolean  "archived",                           :default => false
+  end
+
+  create_table "reminders", :force => true do |t|
+    t.integer  "publication_id"
+    t.string   "state"
+    t.string   "action"
+    t.datetime "last_email_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "surveys", :force => true do |t|

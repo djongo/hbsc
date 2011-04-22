@@ -23,18 +23,36 @@
 <% if publication.state == "preplanned_submitted" %>
   <%= link_to "Accept", preplanned_accept_publication_path(publication), :method => :put if permitted_to? :progress, :publications %>/
   <%= link_to "Reject", preplanned_reject_publication_path(publication), :method => :put if permitted_to? :progress, :publications %>
+
+<% elsif publication.state == "preplanned" %>
+  <%= link_to "Remind", preplanned_remind_publication_path(publication), :method => :put if permitted_to? :remind, :publications %>
+
 <% elsif publication.state == "planned_submitted" %>
   <%= link_to "Accept", planned_accept_publication_path(publication), :method => :put if permitted_to? :progress, :publications %>/
   <%= link_to "Reject", planned_reject_publication_path(publication), :method => :put if permitted_to? :progress, :publications %>
+
+<% elsif publication.state == "planned" %>
+  <%= link_to "Remind", planned_remind_publication_path(publication), :method => :put if permitted_to? :remind, :publications %>  
+  
 <% elsif publication.state == "inprogress_submitted" %>
   <%= link_to "Accept", inprogress_accept_publication_path(publication), :method => :put if permitted_to? :progress, :publications %>/
   <%= link_to "Reject", inprogress_reject_publication_path(publication), :method => :put if permitted_to? :progress, :publications %>
+  
+<% elsif publication.state == "inprogress" %>
+  <%= link_to "Remind", inprogess_remind_publication_path(publication), :method => :put if permitted_to? :remind, :publications %>
+    
 <% elsif publication.state == "submitted_submitted" %>
   <%= link_to "Accept", submitted_accept_publication_path(publication), :method => :put if permitted_to? :progress, :publications %>/
   <%= link_to "Reject", submitted_reject_publication_path(publication), :method => :put if permitted_to? :progress, :publications %>
+
+<% elsif publication.state == "submitted" %>
+  <%= link_to "Remind", submitted_remind_publication_path(publication), :method => :put if permitted_to? :remind, :publications %>
+  
 <% elsif publication.state == "accepted_submitted" %>
   <%= link_to "Accept", accepted_accept_publication_path(publication), :method => :put if permitted_to? :progress, :publications %>/
   <%= link_to "Reject", accepted_reject_publication_path(publication), :method => :put if permitted_to? :progress, :publications %>
+<% elsif publication.state == "accepted" %>
+  <%= link_to "Remind", accepted_remind_publication_path(publication), :method => :put if permitted_to? :remind, :publications %>
 <% else %>
   NA
 <% end %>

@@ -58,62 +58,82 @@ end
 
 
 # Load standard email texts
-if Email.find_by_trigger('submit_planned').nil?
-  Email.create! :trigger => 'submit_planned', :subject => 'Publication submission', :content => 'You preplanned publication has been submitted for acceptance as planned.'
+if Email.find_by_trigger('preplanned_submit').nil?
+  Email.create! :trigger => 'preplanned_submit', :subject => 'Publication submission', :content => 'You preplanned publication has been submitted for acceptance as planned.', :delay => 0
 end
 
 if Email.find_by_trigger('preplanned_accept').nil?
-  Email.create! :trigger => 'preplanned_accept', :subject => 'Publication acceptance', :content => 'You preplanned publication has been acceptance as planned.'
+  Email.create! :trigger => 'preplanned_accept', :subject => 'Publication acceptance', :content => 'You preplanned publication has been acceptance as planned.', :delay => 0
 end
 
 if Email.find_by_trigger('preplanned_reject').nil?
-  Email.create! :trigger => 'preplanned_reject', :subject => 'Publication rejection', :content => 'You preplanned publication has been rejected as planned.'
+  Email.create! :trigger => 'preplanned_reject', :subject => 'Publication rejection', :content => 'You preplanned publication has been rejected as planned.', :delay => 0
 end
 
-if Email.find_by_trigger('submit_inprogress').nil?
-  Email.create! :trigger => 'submit_inprogress', :subject => 'Publication submission', :content => 'You planned publication has been submitted for acceptance as in progress.'
+if Email.find_by_trigger('preplanned_remind').nil?
+  Email.create! :trigger => 'preplanned_remind', :subject => 'Publication reminder', :content => 'You preplanned publication not been updated for a long time.', :delay => 60
+end
+
+if Email.find_by_trigger('planned_submit').nil?
+  Email.create! :trigger => 'planned_submit', :subject => 'Publication submission', :content => 'You planned publication has been submitted for acceptance as in progress.', :delay => 0
 end
 
 if Email.find_by_trigger('planned_accept').nil?
-  Email.create! :trigger => 'planned_accept', :subject => 'Publication acceptance', :content => 'You planned publication has been acceptance as in progress.'
+  Email.create! :trigger => 'planned_accept', :subject => 'Publication acceptance', :content => 'You planned publication has been acceptance as in progress.', :delay => 0
 end
 
 if Email.find_by_trigger('planned_reject').nil?
-  Email.create! :trigger => 'planned_reject', :subject => 'Publication rejection', :content => 'You planned publication has been rejected as in progress.'
+  Email.create! :trigger => 'planned_reject', :subject => 'Publication rejection', :content => 'You planned publication has been rejected as in progress.', :delay => 0
 end
 
-if Email.find_by_trigger('submit_submitted').nil?
-  Email.create! :trigger => 'submit_submitted', :subject => 'Publication submission', :content => 'You in progress publication has been submitted for acceptance as submitted.'
+if Email.find_by_trigger('planned_remind').nil?
+  Email.create! :trigger => 'planned_remind', :subject => 'Publication reminder', :content => 'You planned publication not been updated for a long time.', :delay => 60
+end
+
+if Email.find_by_trigger('inprogress_submit').nil?
+  Email.create! :trigger => 'inprogress_submit', :subject => 'Publication submission', :content => 'You in progress publication has been submitted for acceptance as submitted.', :delay => 0
 end
 
 if Email.find_by_trigger('inprogress_accept').nil?
-  Email.create! :trigger => 'inprogress_accept', :subject => 'Publication acceptance', :content => 'You in progress publication has been acceptance as submitted.'
+  Email.create! :trigger => 'inprogress_accept', :subject => 'Publication acceptance', :content => 'You in progress publication has been acceptance as submitted.', :delay => 0
 end
 
 if Email.find_by_trigger('inprogress_reject').nil?
-  Email.create! :trigger => 'inprogress_reject', :subject => 'Publication rejection', :content => 'You in progress publication has been rejected as submitted.'
+  Email.create! :trigger => 'inprogress_reject', :subject => 'Publication rejection', :content => 'You in progress publication has been rejected as submitted.', :delay => 0
 end
 
-if Email.find_by_trigger('submit_accepted').nil?
-  Email.create! :trigger => 'submit_accepted', :subject => 'Publication submission', :content => 'You submitted publication has been submitted for acceptance as accepted.'
+if Email.find_by_trigger('inprogress_remind').nil?
+  Email.create! :trigger => 'inprogress_remind', :subject => 'Publication reminder', :content => 'You in progress publication not been updated for a long time.', :delay => 60
+end
+
+if Email.find_by_trigger('submitted_submit').nil?
+  Email.create! :trigger => 'submitted_submit', :subject => 'Publication submission', :content => 'You submitted publication has been submitted for acceptance as accepted.', :delay => 0
 end
 
 if Email.find_by_trigger('submitted_accept').nil?
-  Email.create! :trigger => 'submitted_accept', :subject => 'Publication acceptance', :content => 'You submitted publication has been acceptance as accepted.'
+  Email.create! :trigger => 'submitted_accept', :subject => 'Publication acceptance', :content => 'You submitted publication has been acceptance as accepted.', :delay => 0
 end
 
 if Email.find_by_trigger('submitted_reject').nil?
-  Email.create! :trigger => 'submitted_reject', :subject => 'Publication rejection', :content => 'You submitted publication has been rejected as accepted.'
+  Email.create! :trigger => 'submitted_reject', :subject => 'Publication rejection', :content => 'You submitted publication has been rejected as accepted.', :delay => 0
 end
 
-if Email.find_by_trigger('submit_published').nil?
-  Email.create! :trigger => 'submit_published', :subject => 'Publication submission', :content => 'You accepted publication has been submitted for acceptance as published.'
+if Email.find_by_trigger('submitted_remind').nil?
+  Email.create! :trigger => 'submitted_remind', :subject => 'Publication reminder', :content => 'You submitted publication not been updated for a long time.', :delay => 60
+end
+
+if Email.find_by_trigger('accepted_submit').nil?
+  Email.create! :trigger => 'accepted_submit', :subject => 'Publication submission', :content => 'You accepted publication has been submitted for acceptance as published.', :delay => 0
 end
 
 if Email.find_by_trigger('accepted_accept').nil?
-  Email.create! :trigger => 'accepted_accept', :subject => 'Publication acceptance', :content => 'You accepted publication has been acceptance as published.'
+  Email.create! :trigger => 'accepted_accept', :subject => 'Publication acceptance', :content => 'You accepted publication has been acceptance as published.', :delay => 0
 end
 
 if Email.find_by_trigger('accepted_reject').nil?
-  Email.create! :trigger => 'accepted_reject', :subject => 'Publication rejection', :content => 'You accepted publication has been rejected as published.'
+  Email.create! :trigger => 'accepted_reject', :subject => 'Publication rejection', :content => 'You accepted publication has been rejected as published.', :delay => 0
+end
+
+if Email.find_by_trigger('accepted_remind').nil?
+  Email.create! :trigger => 'accepted_remind', :subject => 'Publication reminder', :content => 'You accepted publication not been updated for a long time.', :delay => 60
 end

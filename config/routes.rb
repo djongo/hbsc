@@ -1,12 +1,9 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :reminders
   map.resources :notes
-
   map.resources :emails
-
   map.resources :target_journals
-
   map.resources :journals
-
   map.resources :variables
   map.resources :focus_groups
   map.resources :country_teams
@@ -15,21 +12,27 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :surveys
   map.resources :languages
 #  map.resources :publications
-  map.resources :publications, :member => { :submit_planned => :put,  
+    map.resources :publications, :member => { 
+                                            :preplanned_submit => :put,  
                                             :preplanned_accept => :put,
                                             :preplanned_reject => :put, 
-                                            :submit_inprogress => :put,  
+                                            :preplanned_remind => :put,
+                                            :planned_submit => :put,  
                                             :planned_accept => :put,
                                             :planned_reject => :put, 
-                                            :submit_submitted => :put,  
+                                            :planned_remind => :put,
+                                            :inprogress_submit => :put,  
                                             :inprogress_accept => :put,
                                             :inprogress_reject => :put, 
-                                            :submit_accepted => :put,  
+                                            :inprogress_remind => :put,
+                                            :submitted_submit => :put,  
                                             :submitted_accept => :put,
                                             :submitted_reject => :put,
-                                            :submit_published => :put,  
+                                            :submitted_remind => :put,
+                                            :accepted_submit => :put,  
                                             :accepted_accept => :put,
                                             :accepted_reject => :put,
+                                            :accepted_remind => :put,
                                             :archive => :put,
                                             :unarchive => :put
                                             }, 
