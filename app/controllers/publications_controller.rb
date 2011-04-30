@@ -4,29 +4,36 @@ class PublicationsController < ApplicationController
   
   auto_complete_for :variable, :name
   # above loads current publication
+  helper_method :sort_column, :sort_direction
   
   def index
-    # , :conditions => ['archived = ?', false] ensures that the indes
+    # , :conditions => ['archived = ?', false] ensures that the index
     # never shows publications that are archived
     
-    @publications = Publication.find(:all, :conditions => ['archived = ?', 'false'])
+    @publications = Publication.find(:all, :conditions => ['archived = ?', false])
     @per_page = params[:per_page] || 5
 
     if(params[:search]).blank?
-      @publications = Publication.paginate(:page => params[:page], :per_page => @per_page, :order => 'title', :conditions => ['archived = ?', 'false'])
+      @publications = Publication.paginate(:page => params[:page], :per_page => @per_page, :order => 'title', :conditions => ['archived = ?', false])
     else
-      @publications = Publication.with_query(params[:search]).paginate(:page => params[:page], :per_page => @per_page, :order => 'title', :conditions => ['archived = ?', 'false'])
+      @publications = Publication.with_query(params[:search]).paginate(:page => params[:page], :per_page => @per_page, :order => 'title', :conditions => ['archived = ?', false])
     end
-    
+    # No match for your search criteria    
     if @publications.empty?
       flash[:error] = "No publications matched your search criteria."
     end
-    
- 
+  end
+  
+  # action for advanced search
+  def filter
+    @per_page = params[:per_page] || 5    
+    @search = Publication.searchlogic(params[:search])
+    @pcount = @search.all.count
+    @publications = @search.all.paginate(:page => params[:page], :per_page => @per_page)
   end
   
   def list
-    @publications = Publication.all
+    @publications = Publication.find(:all, :order => [sort_column, ' ', sort_direction]).paginate(:per_page => 15, :page => params[:page])
   end
   
   def archive
@@ -105,7 +112,7 @@ class PublicationsController < ApplicationController
     @publication.preplanned_submit!
     flash[:notice] = "Preplanned submitted for acceptance. Email sent to the author."
     @email = Email.find_by_trigger('preplanned_submit')
-    Notifier.deliver_workflow_notification(@publication.user,@email)
+    Notifier.delay.deliver_workflow_notification(@publication.user,@email,@publication)
     redirect_to publication_url
   end
   
@@ -115,7 +122,7 @@ class PublicationsController < ApplicationController
     @publication.preplanned_accept!
     flash[:notice] = "Publication accepted as planned. Email sent to the author."
     @email = Email.find_by_trigger('preplanned_accept')    
-    Notifier.deliver_workflow_notification(@publication.user,@email)
+    Notifier.delay.deliver_workflow_notification(@publication.user,@email,@publication)
     redirect_to publication_url
   end
   
@@ -125,7 +132,7 @@ class PublicationsController < ApplicationController
     @publication.preplanned_reject!
     flash[:error] = "Preplanned publication rejected. Email sent to the author."
     @email = Email.find_by_trigger('preplanned_reject')    
-    Notifier.deliver_workflow_notification(@publication.user,@email)  
+    Notifier.delay.deliver_workflow_notification(@publication.user,@email,@publication)  
     redirect_to publication_url
   end
   
@@ -134,7 +141,7 @@ class PublicationsController < ApplicationController
     @publication.lock!
     @publication.preplanned_remind!
     @email = Email.find_by_trigger('preplanned_remind')    
-    Notifier.deliver_workflow_notification(@publication.user,@email)  
+    Notifier.delay.deliver_workflow_notification(@publication.user,@email,@publication)  
     flash[:notice] = "Pre planned publication first author reminder sent."
     redirect_to list_publications_path       
   end
@@ -146,7 +153,7 @@ class PublicationsController < ApplicationController
     @publication.planned_submit!
     flash[:notice] = "Planned submitted for acceptance. Email sent to the author."
     @email = Email.find_by_trigger('planned_submit')    
-    Notifier.deliver_workflow_notification(@publication.user,@email)     
+    Notifier.delay.deliver_workflow_notification(@publication.user,@email,@publication)    
     redirect_to publication_url
   end
   
@@ -156,7 +163,7 @@ class PublicationsController < ApplicationController
     @publication.planned_accept!
     flash[:notice] = "Publication accepted as in progress. Email sent to the author."
     @email = Email.find_by_trigger('planned_accept')    
-    Notifier.deliver_workflow_notification(@publication.user,@email)     
+    Notifier.delay.deliver_workflow_notification(@publication.user,@email,@publication)
     redirect_to publication_url
   end
   
@@ -166,7 +173,7 @@ class PublicationsController < ApplicationController
     @publication.planned_reject!
     flash[:error] = "Planned publication rejected. Email sent to the author."
     @email = Email.find_by_trigger('planned_reject')    
-    Notifier.deliver_workflow_notification(@publication.user,@email)     
+    Notifier.delay.deliver_workflow_notification(@publication.user,@email,@publication)
     redirect_to publication_url
   end    
 
@@ -175,7 +182,7 @@ class PublicationsController < ApplicationController
     @publication.lock!
     @publication.planned_remind!
     @email = Email.find_by_trigger('planned_remind')    
-    Notifier.deliver_workflow_notification(@publication.user,@email)  
+    Notifier.delay.deliver_workflow_notification(@publication.user,@email,@publication)
     flash[:notice] = "Planned publication first author reminder sent."
     redirect_to list_publications_path    
   end
@@ -187,7 +194,7 @@ class PublicationsController < ApplicationController
     @publication.inprogress_submit!
     flash[:notice] = "In progress submitted for acceptance. Email sent to the author."
     @email = Email.find_by_trigger('inprogress_submit')    
-    Notifier.deliver_workflow_notification(@publication.user,@email)     
+    Notifier.delay.deliver_workflow_notification(@publication.user,@email,@publication)
     redirect_to publication_url
   end
   
@@ -197,7 +204,7 @@ class PublicationsController < ApplicationController
     @publication.inprogress_accept!
     flash[:notice] = "Publication accepted as submitted. Email sent to the author."
     @email = Email.find_by_trigger('inprogress_accept')    
-    Notifier.deliver_workflow_notification(@publication.user,@email)     
+    Notifier.delay.deliver_workflow_notification(@publication.user,@email,@publication)
     redirect_to publication_url
   end
   
@@ -207,7 +214,7 @@ class PublicationsController < ApplicationController
     @publication.inprogress_reject!
     flash[:error] = "In progress publication rejected. Email sent to the author."
     @email = Email.find_by_trigger('inprogress_reject')    
-    Notifier.deliver_workflow_notification(@publication.user,@email)     
+    Notifier.delay.deliver_workflow_notification(@publication.user,@email,@publication)
     redirect_to publication_url
   end   
 
@@ -216,7 +223,7 @@ class PublicationsController < ApplicationController
     @publication.lock!
     @publication.inprogress_remind!
     @email = Email.find_by_trigger('inprogress_remind')    
-    Notifier.deliver_workflow_notification(@publication.user,@email)
+    Notifier.delay.deliver_workflow_notification(@publication.user,@email,@publication)
     flash[:notice] = "In progress publication first author reminder sent."
     redirect_to list_publications_path    
   end    
@@ -228,7 +235,7 @@ class PublicationsController < ApplicationController
     @publication.submitted_submit!
     flash[:notice] = "Submitted submitted for acceptance. Email sent to the author."
     @email = Email.find_by_trigger('submitted_submit')    
-    Notifier.deliver_workflow_notification(@publication.user,@email)     
+    Notifier.delay.deliver_workflow_notification(@publication.user,@email,@publication)
     redirect_to publication_url
   end
   
@@ -238,7 +245,7 @@ class PublicationsController < ApplicationController
     @publication.submitted_accept!
     flash[:notice] = "Publication accepted as accepted. Email sent to the author."
     @email = Email.find_by_trigger('submitted_accept')    
-    Notifier.deliver_workflow_notification(@publication.user,@email)     
+    Notifier.delay.deliver_workflow_notification(@publication.user,@email,@publication)
     redirect_to publication_url
   end
   
@@ -248,7 +255,7 @@ class PublicationsController < ApplicationController
     @publication.submitted_reject!
     flash[:error] = "Submitted publication rejected. Email sent to the author."
     @email = Email.find_by_trigger('submitted_reject')    
-    Notifier.deliver_workflow_notification(@publication.user,@email)     
+    Notifier.delay.deliver_workflow_notification(@publication.user,@email,@publication)
     redirect_to publication_url
   end   
 
@@ -257,7 +264,7 @@ class PublicationsController < ApplicationController
     @publication.lock!
     @publication.submitted_remind!
     @email = Email.find_by_trigger('submitted_remind')    
-    Notifier.deliver_workflow_notification(@publication.user,@email)  
+    Notifier.delay.deliver_workflow_notification(@publication.user,@email,@publication)
     flash[:notice] = "Submitted publication first author reminder sent."
     redirect_to list_publications_path      
   end 
@@ -269,7 +276,7 @@ class PublicationsController < ApplicationController
     @publication.accepted_submit!
     flash[:notice] = "Accepted submitted for acceptance. Email sent to the author."
     @email = Email.find_by_trigger('accepted_submit')    
-    Notifier.deliver_workflow_notification(@publication.user,@email)     
+    Notifier.delay.deliver_workflow_notification(@publication.user,@email,@publication)
     redirect_to publication_url
   end
   
@@ -279,7 +286,7 @@ class PublicationsController < ApplicationController
     @publication.accepted_accept!
     flash[:notice] = "Accepted accepted as published. Email sent to the author."
     @email = Email.find_by_trigger('accepted_accept')    
-    Notifier.deliver_workflow_notification(@publication.user,@email)     
+    Notifier.delay.deliver_workflow_notification(@publication.user,@email,@publication)
     redirect_to publication_url
   end
   
@@ -289,7 +296,7 @@ class PublicationsController < ApplicationController
     @publication.accepted_reject!
     flash[:error] = "Accepted publication rejected. Email sent to the author."
     @email = Email.find_by_trigger('accepted_reject')    
-    Notifier.deliver_workflow_notification(@publication.user,@email)     
+    Notifier.delay.deliver_workflow_notification(@publication.user,@email,@publication)
     redirect_to publication_url
   end   
 
@@ -298,9 +305,20 @@ class PublicationsController < ApplicationController
     @publication.lock!
     @publication.accepted_remind!
     @email = Email.find_by_trigger('accepted_remind')    
-    Notifier.deliver_workflow_notification(@publication.user,@email)  
+    Notifier.delay.deliver_workflow_notification(@publication.user,@email,@publication)
     flash[:notice] = "Accepted publication first author reminder sent."  
     redirect_to list_publications_path    
   end 
+
+  private
+  
+  def sort_column
+    Publication.column_names.include?(params[:sort]) ? params[:sort] : "title"
+  end
+  
+  def sort_direction
+    %w[asc desc].include?(params[:direction]) ? params[:direction] : "asc"
+  end
+
     
 end

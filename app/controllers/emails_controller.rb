@@ -7,9 +7,9 @@ class EmailsController < ApplicationController
     @email = Email.find(params[:id])
   end
   
-  def new
-    @email = Email.new
-  end
+#  def new
+#    @email = Email.new
+#  end
   
   def create
     @email = Email.new(params[:email])
@@ -35,10 +35,10 @@ class EmailsController < ApplicationController
     end
   end
   
-  def destroy
-    @email = Email.find(params[:id])
-    @email.destroy
-    flash[:notice] = "Successfully destroyed email."
-    redirect_to emails_url
-  end
+#  def destroy
+#    @email = Email.find(params[:id])
+#    @email.destroy
+#    flash[:notice] = "Successfully destroyed email."
+#    redirect_to emails_url
+#  end
 end

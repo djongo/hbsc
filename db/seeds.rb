@@ -38,6 +38,23 @@ end
   FocusGroup.find_or_create_by_name(fg)
 end
 
+# Load Pages
+if Page.find_by_title('home').nil?
+  Page.create! :title => 'home', :content => ''
+end
+
+if Page.find_by_title('about').nil?
+  Page.create! :title => 'about', :content => 'Welcome to PUMA<br />PUMA is Publication Document Management System for the HBSC research project'
+end
+
+if Page.find_by_title('contact').nil?
+  Page.create! :title => 'contact', :content => 'Contact a member of the publication group for more detail'
+end
+
+if Page.find_by_title('master data').nil?
+  Page.create! :title => 'master data', :content => ''
+end
+
 # Load Target Journals
 ["International Journal of Public Health","Journal of Adolescent Health","Journal of School Health","International Journal of Clinical and Health Psychology","Journal of Physical Activity and Health"].each do |tj|
   TargetJournal.find_or_create_by_name(tj)

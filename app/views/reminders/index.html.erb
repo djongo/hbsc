@@ -1,11 +1,29 @@
 <% title "Reminders" %>
 
-<table>
+<% form_for @search do |f| %>
+<p>
+  <%= f.label :state_like, "State" %>
+  <%= f.text_field :state_like %>
+</p>
+<p>
+  <%= f.label :action_like, "Action" %>
+  <%= f.text_field :action_like %>
+</p>
+<p>
+  <%= f.submit "Search" %>
+</p>
+<% end %>
+<p>
+  Sort by: 
+  <%= order @search, :by => :state %> |
+  <%= order @search, :by => :action %>
+</p>
+<table class="pretty">
   <tr>
-    <th>Publication</th>
-    <th>State</th>
-    <th>Action</th>
-    <th>Last Email At</th>
+    <th><%= link_to "Publication", :sort => "publication_id" %></th>
+    <th><%= link_to "State", :sort => "state" %></th>
+    <th><%= link_to "Action", :sort => "action" %></th>
+    <th><%= link_to "Last Email At", :sort => "last_email_at" %></th>
   </tr>
   <% for reminder in @reminders %>
     <tr>

@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
-  # attr_accessible :email, :first_name, :last_name, :password, :password_confirmation, :roles_mask, :with_role
+attr_accessible :full_name
+   # attr_accessible :email, :first_name, :last_name, :password, :password_confirmation, :roles_mask, :with_role, :roles; :role_symbol, :deliver_password_reset_instructions, :full
   acts_as_authentic
   has_many :publications
   has_many :authorships

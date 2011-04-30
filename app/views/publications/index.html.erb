@@ -11,10 +11,15 @@
 </table> 
 <%= set_focus_to_id 'search' %>
 
+
 <%= render :partial => "layouts/search_help" %>
 
   <p>Searching for numbers? Use '^' in front of the number.
   </p>
+<p><%= link_to "Advanced Search", filter_publications_path if permitted_to? :filter, :publications %>
+</p>
+
+
   <p><%= link_to "New Publication", new_publication_path if permitted_to? :new, :publications %></p>  
 <% end %>
 <div id="publications">

@@ -1,7 +1,7 @@
 authorization do
 
   role :guest do
-    has_permission_on :publications, :to => [:index, :show]
+    has_permission_on :publications, :to => [:index, :show, :filter]
     has_permission_on :users, :to => [:read, :new, :create] 
     has_permission_on :pages, :to => [:home, :about, :contact]
     has_permission_on :users, :to => [:edit, :update] do
@@ -28,8 +28,9 @@ authorization do
     has_permission_on :publications, :to => :manage
     has_permission_on :languages, :to => :manage
     has_permission_on :surveys, :to => :manage
+    has_permission_on :populations, :to => :manage    
     has_permission_on :publication_types, :to => :manage
-    has_permission_on :populations, :to => :manage
+    has_permission_on :publication_types, :to => :filter
     has_permission_on :country_teams, :to => :manage
     has_permission_on :focus_groups, :to => :manage    
     has_permission_on :variables, :to => :manage
@@ -37,6 +38,7 @@ authorization do
     has_permission_on :mediators, :to => :manage            
     has_permission_on :determinants, :to => :manage
     has_permission_on :authorships, :to => :manage    
+    has_permission_on :pages, :to => :manage
     has_permission_on :pages, :to => [:home, :contact, :about, :master]
     has_permission_on :publications, :to => [:auto_complete_for_variable_name] 
     has_permission_on :publications, :to => :progress
@@ -64,7 +66,7 @@ privileges do
   end
 
   privilege :submit do
-    includes :submit_planned, :submit_inprogress, :submit_submitted, :submit_accepted, :submit_published 
+    includes :preplanned_submit, :inprogress_submit, :submitted_submit, :accepted_submit
   end    
   
 end

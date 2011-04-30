@@ -1,6 +1,10 @@
 <% title "Master Data" %>
+
+<%= @page.content %>
+
 <p>Click on the links below to access master data</p>
 <ul>
+  <li><%= link_to "Pages", pages_path if permitted_to? :index, :pages %></li>
   <li><%= link_to "Publication list", list_publications_path if permitted_to? :index, :publications %></li>
   <li><%= link_to "Languages", languages_path if permitted_to? :index, :languages %></li>
   <li><%= link_to "Survey data sets", surveys_path if permitted_to? :index, :surveys %></li>

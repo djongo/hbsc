@@ -26,6 +26,7 @@ class Publication < ActiveRecord::Base
   
   has_many :keywords
   has_many :variables, :through => :keywords
+
   has_many :determinants
   has_many :variables, :through => :determinants
   has_many :mediators

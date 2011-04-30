@@ -1,6 +1,7 @@
 class RemindersController < ApplicationController
   def index
-    @reminders = Reminder.all
+    @search = Reminder.search(params[:search])
+    @reminders = @search.all
   end
   
   def new

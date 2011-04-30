@@ -5,4 +5,5 @@ class Authorship < ActiveRecord::Base
   def user_name
     user.full_name if user
   end
+  
 end

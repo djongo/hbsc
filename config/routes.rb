@@ -4,6 +4,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :emails
   map.resources :target_journals
   map.resources :journals
+  map.resources :pages
   map.resources :variables
   map.resources :focus_groups
   map.resources :country_teams
@@ -36,7 +37,10 @@ ActionController::Routing::Routes.draw do |map|
                                             :archive => :put,
                                             :unarchive => :put
                                             }, 
-                :collection => { :list => :get }                                            
+                            :collection =>  { 
+                                            :list => :get,
+                                            :filter => :get
+                                             }
   map.resources :user_sessions
   map.resources :users
   map.resources :password_resets, :only => [ :new, :create, :edit, :update ]

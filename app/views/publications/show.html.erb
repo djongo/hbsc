@@ -177,7 +177,7 @@
   <strong>Current State:</strong>
   <%=h @publication.state.humanize %>
 </p>
-
+<% if !@publication.notes.empty? %>
 <table class="pretty">
   <tr>
     <th align="left">State</th>
@@ -194,6 +194,7 @@
     </tr>
   <% end %>
 </table>
+<% end %>
 
 
 <p id="pdf_link">

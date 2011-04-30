@@ -2,16 +2,37 @@
   <%= f.error_messages %>
   <p>
     <%= f.label :trigger %><br />
-    <%= f.text_field :trigger %>
-  <%= set_focus_to_id 'email_trigger' %>
+    <%= f.text_field :trigger, :disabled => true %>
   </p>
   <p>
     <%= f.label :subject %><br />
     <%= f.text_field :subject %>
+    <%= set_focus_to_id 'email_subject' %> 
   </p>
-  <p>
-    <%= f.label :content %><br />
-    <%= f.text_area :content %>
+
+  <%= f.label :content %><br />
+  <table>
+    <tr>
+      <td valign="top">
+        <%= f.text_area :content, :rows => 15, :cols => 65 %>           
+      </td>
+      <td valign="top" style="padding: 0px 5px;">
+      <strong>You can use the following parameters in the email text:</strong><br /><br />
+        <table>
+          <tr><td>[title]</td><td>the publications title</td></tr>
+          <tr><td>[id]</td><td>the publications id</td></tr>
+          <tr><td>[pi]</td><td>the PI's' full name</td></tr>
+          <tr><td>[contact]</td><td>the Contact Person's full name</td></tr>
+          <tr><td>[created]</td><td>when the publication was craeted</td></tr>
+          <tr><td>[update]</td><td>when the publication was last updated</td></tr>
+          <tr><td>[first_name]</td><td>the first author's first name</td></tr>
+          <tr><td>[last_name]</td><td>the first author's last name</td></tr>
+          <tr><td>[full_name]</td><td>the first author's full name</td></tr>
+          <tr><td>[email]</td><td>the first author's email address</td></tr>
+        </table>
+      </td>
+    </tr>
+  </table>
   </p>
   <p>
     <%= f.label "Delay (in days)" %><br />

@@ -2,9 +2,9 @@
 
 <table class="pretty">
   <tr>
-    <th>ID</th>
-    <th>Publication</th>
-    <th>State</th>
+    <th><%= sortable "id" %></th>
+    <th><%= sortable "title" %></th>
+    <th><%= sortable "state" %></th>
     <th colspan="6">Actions</th>
   </tr>
   <% for publication in @publications %>
@@ -61,3 +61,6 @@
     </tr>
   <% end %>
 </table>
+<p>
+  <%= will_paginate @publications %>
+</p>
