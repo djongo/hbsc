@@ -1,0 +1,26 @@
+<% title "Advanced Publication Search" %>
+<% form_tag publications_path, :method => 'get' do %>
+  <p>
+    <%= text_field_tag :searchlogic, params[:searchlogic] %>
+    <%= submit_tag "Search", :name => nil %>
+  </p>
+<% end %>
+<table class="pretty">
+  <tr>
+    <th><%= sortable "id" %></th>
+    <th><%= sortable "title" %></th>
+    <th><%= sortable "user_id", "Author" %></th>    
+    <th><%= sortable "state" %></th>
+    <th><%= sortable "updated_at", "Updated" %></th>
+  </tr>
+  <% for publication in @publications %>
+    <tr>
+      <td><%= publication.id %></td>
+      <td><%= publication.title %></td>
+      <td><%= publication.user_id %></td>
+      <td><%= publication.state %></td>
+      <td><%= publication.updated_at.strftime("%B %e, %Y") %></td>
+    </tr>
+  <% end %>
+</table>
+<%= will_paginate @publications %>

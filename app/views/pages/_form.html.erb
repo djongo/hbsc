@@ -1,0 +1,11 @@
+<% form_for @page do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :content %><br />
+    <%= f.text_area :content, :rows => 15, :cols => 80 %>
+    <%= set_focus_to_id 'page_content' %>
+  </p>
+  <p class="explanation">The above field will accept HTML code, which will in turn be displayed as is.</p>
+  <p><%= f.submit %></p>
+<% end %>

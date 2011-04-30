@@ -1,0 +1,16 @@
+<% title "Pages" %>
+
+<table class="pretty">
+  <tr>
+    <th>Title</th>
+    <th>Content</th>
+    <th>Action</th>
+  </tr>
+  <% for page in @pages %>
+    <tr>
+      <td><%=h page.title.capitalize %></td>
+      <td><%=h page.content %></td>
+      <td><%= link_to "Edit", edit_page_path(page) %></td>
+    </tr>
+  <% end %>
+</table>
