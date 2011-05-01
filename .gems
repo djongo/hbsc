@@ -8,5 +8,5 @@ pdfkit -v '>=0.4.6' -s 'http://gemcutter.org'
 aasm -v '>=2.2.0' -s 'http://gemcutter.org'
 paper_trail -v '>=1.6.4' -s 'http://gemcutter.org' --ignore-dependencies
 whenever -v '>=0.6.7' -s 'http://gemcutter.org'
-searchlogic -v '>=2.4.19' -s 'http://gemcutter.org'
+searchlogic -v 2.4.28 -s 'http://gemcutter.org'
 delayed_job -v 2.0.7 -s 'http://gemcutter.org'
