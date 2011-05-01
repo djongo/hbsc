@@ -23,7 +23,7 @@ Rails::Initializer.run do |config|
   config.gem 'acts_as_indexed', :source => 'http://gemcutter.org'
   config.gem 'pdfkit', :source => 'http://gemcutter.org'
   config.gem 'aasm', :source => 'http://gemcutter.org'
-  config.gem 'paper_trail', :source => 'http://gemcutter.org'
+  config.gem 'paper_trail', :source => 'http://gemcutter.org', :version => '1.6.4'
   config.gem 'whenever', :source => 'http://gemcutter.org' 
   config.gem 'searchlogic', :source => 'http://gemcutter.org', :version => '2.4.28' 
   config.gem 'delayed_job', :source => 'http://gemcutter.org', :version => '2.0.7'
