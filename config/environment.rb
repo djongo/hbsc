@@ -25,7 +25,7 @@ Rails::Initializer.run do |config|
   config.gem 'aasm', :source => 'http://gemcutter.org'
   config.gem 'paper_trail', :source => 'http://gemcutter.org', :version => '1.6.4'
   config.gem 'whenever', :source => 'http://gemcutter.org' 
-  config.gem 'searchlogic', :source => 'http://gemcutter.org', :version => '2.4.28' 
+  config.gem 'searchlogic', :source => 'http://gemcutter.org', :version => '2.4.19' 
   config.gem 'delayed_job', :source => 'http://gemcutter.org', :version => '2.0.7'
     
   # Only load the plugins named here, in the order given (default is alphabetical).
