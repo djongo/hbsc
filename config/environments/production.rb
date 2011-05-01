@@ -26,6 +26,12 @@ config.action_view.cache_template_loading            = true
 
 # Enable threaded mode
 # config.threadsafe!
+#config.threadsafe! unless ENV['THREADSAFE'] == 'off'
+
+#config.dependency_loading = true if $rails_rake_task
+config.threadsafe! unless $rails_rake_task
+
+
 config.action_mailer.delivery_method = :smtp
 config.action_mailer.raise_delivery_errors = true
 ActionMailer::Base.smtp_settings = {
