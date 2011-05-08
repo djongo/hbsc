@@ -1,5 +1,4 @@
 class TargetJournalsController < ApplicationController
-  auto_complete_for :name
 
   def index
     @target_journals = TargetJournal.all

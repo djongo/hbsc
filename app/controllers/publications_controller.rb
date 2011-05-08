@@ -3,6 +3,7 @@ class PublicationsController < ApplicationController
   filter_access_to :all
   
   auto_complete_for :variable, :name
+  auto_complete_for :target_journal, :name
   # above loads current publication
   helper_method :sort_column, :sort_direction
   
