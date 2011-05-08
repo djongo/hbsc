@@ -40,7 +40,11 @@
 <h3>Author(s)</h3>
 <p>
       <%= f.label "First author" %><br />
+      <% if !@publication.id %>
       <%= f.collection_select :user_id, User.all, :id, :full_name, options = { :selected => current_user.id } %>
+      <% else %>
+      <%= f.collection_select :user_id, User.all, :id, :full_name %>
+      <% end %>
 </p>
 <p>
   <%= f.label "Additional author" %><br />

@@ -1,0 +1,12 @@
+<div class="child">
+  <%= f.text_field_with_auto_complete :target_journal_name,
+                  {},
+                  { :method => :get, 
+                    :skip_style => true,
+                    :url => '/auto_complete_for_target_journal_name',
+                    :param_name => 'target_journal[name]'
+                  }
+          %>
+  <%= f.hidden_field :_destroy, :class => 'destroy' %>
+  <%= remove_child_link 'remove', f %>
+</div>
