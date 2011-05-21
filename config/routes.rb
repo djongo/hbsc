@@ -54,7 +54,7 @@ ActionController::Routing::Routes.draw do |map|
   map.home "/", :controller => "pages", :action => "home"  
   map.connect 'auto_complete_for_variable_name', :controller => 'publications', :action => 'auto_complete_for_variable_name'
  
-  map.connect 'auto_complete_for_target_journal_name', :controller => 'target_journals', :action => 'auto_complete_for_target_journal_name'
+  map.connect 'auto_complete_for_target_journal_name', :controller => 'publications', :action => 'auto_complete_for_target_journal_name'
 
 
   map.connect ':controller/:action/:id'

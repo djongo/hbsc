@@ -18,6 +18,7 @@ authorization do
 #    end
     has_permission_on :variables, :to => [:new,:create]
     has_permission_on :publications, :to => [:auto_complete_for_variable_name]
+    has_permission_on :publications, :to => [:auto_complete_for_target_journal_name]    
     has_permission_on :publications, :to => :submit   
     has_permission_on :notes, :to => :manage
             

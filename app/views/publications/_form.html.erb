@@ -121,10 +121,19 @@
   
    <div class="box_bottom"></div>
 </div>
-<p>
-      <%= f.label "Target Journal" %><br />
-      <%= f.collection_select :target_journal_id, TargetJournal.all, :id, :name, options = { :prompt => "Select one..." } %>
-</p>
+
+
+    Target Journal:
+
+      <% f.fields_for :target_journal do |target_journal_form| %>
+  <%= target_journal_form.text_field_with_auto_complete :name,
+                  {}, { :method => :get, :skip_style => true,
+                    :url => '/auto_complete_for_target_journal_name',
+                    :param_name => 'target_journal[name]'
+                                       }
+          %>
+      <% end %>
+
 <p>
   <%= f.label "Article Promotion" %><br />
   Would you like the ICC to promote your final work? 

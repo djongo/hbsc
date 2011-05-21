@@ -44,7 +44,13 @@ class Publication < ActiveRecord::Base
   validates_associated :variables
   validates_associated :surveys
   validates_associated :populations
+  validates_associated :target_journal
 #  validates_associated :users
+
+  accepts_nested_attributes_for :target_journal,
+                                :allow_destroy => false,
+                                :reject_if => proc { |attrs|
+                                attrs['target_journal_name'].blank? }
   
   accepts_nested_attributes_for :keywords,
                                 :allow_destroy => true,
