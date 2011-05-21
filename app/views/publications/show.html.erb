@@ -177,7 +177,7 @@
   <strong>Current State:</strong>
   <%=h @publication.state.humanize %>
 </p>
-<% if !@publication.notes.empty? %>
+<% if !@publication.notes.empty? && ( current_user.roles.include?("publication_group") || @publication.user_id == current_user.id ) %>
 <table class="pretty">
   <tr>
     <th align="left">State</th>
