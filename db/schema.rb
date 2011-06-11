@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110430100457) do
+ActiveRecord::Schema.define(:version => 20110611161231) do
 
   create_table "authorships", :force => true do |t|
     t.integer  "publication_id"
@@ -140,11 +140,12 @@ ActiveRecord::Schema.define(:version => 20110430100457) do
     t.integer  "user_id"
     t.string   "state",                              :default => "preplanned"
     t.text     "reference",           :limit => 255
-    t.boolean  "promotion",                          :default => false
+    t.boolean  "promotion",                          :default => true
     t.integer  "responsible_id"
     t.integer  "contact_id"
     t.integer  "target_journal_id"
     t.boolean  "archived",                           :default => false
+    t.string   "url"
   end
 
   create_table "reminders", :force => true do |t|

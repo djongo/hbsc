@@ -3,46 +3,49 @@
 <%= @page.content %>
 
 <% if current_user %>
-  <% if !@pending.empty? %>
-    <% if current_user.roles.include?("publication_group") %>
-      <p>Publications awaiting acceptance:</p>
-      <table class="pretty">
-        <tr>
-          <th>ID</th>
-          <th>Title</th>
-          <th>Last updated</th>
-          <th>Current state</th>
-          <th colspan="3">Actions</th>    
-        </tr>    
-        <% for pending in @pending %>
+  <% if !@pending.nil? %>
+    <% if !@pending.empty? %>
+      <% if current_user.roles.include?("publication_group") %>
+        <p>Publications awaiting acceptance:</p>
+        <table class="pretty">
           <tr>
-            <td><%=h pending.id %></td> 
-            <td><%=h pending.title %></td>
-            <td><%=h pending.updated_at.strftime('%Y-%m-%d') %></td>
-            <td><%=h pending.state.humanize %></td>
-            <td><%= link_to "Show", pending %></td>
-            <td>
-              <% if pending.state == "preplanned_submitted" %>
-                <%= link_to "Accept", preplanned_accept_publication_path(pending), :method => :put if permitted_to? :progress, :publications %></td><td>
-                <%= link_to "Reject", preplanned_reject_publication_path(pending), :method => :put if permitted_to? :progress, :publications %>
-              <% elsif pending.state == "planned_submitted" %>
-                <%= link_to "Accept", planned_accept_publication_path(pending), :method => :put if permitted_to? :progress, :publications %></td><td>
-                <%= link_to "Reject", planned_reject_publication_path(pending), :method => :put if permitted_to? :progress, :publications %>
-              <% elsif pending.state == "inprogress_submitted" %>
-                <%= link_to "Accept", inprogress_accept_publication_path(pending), :method => :put if permitted_to? :progress, :publications %></td><td>
-                <%= link_to "Reject", inprogress_reject_publication_path(pending), :method => :put if permitted_to? :progress, :publications %>
-              <% elsif pending.state == "submitted_submitted" %>
-                <%= link_to "Accept", submitted_accept_publication_path(pending), :method => :put if permitted_to? :progress, :publications %></td><td>
-                <%= link_to "Reject", submitted_reject_publication_path(pending), :method => :put if permitted_to? :progress, :publications %>
-              <% else pending.state == "accepted_submitted" %>
-                <%= link_to "Accept", accepted_accept_publication_path(pending), :method => :put if permitted_to? :progress, :publications %></td><td>
-                <%= link_to "Reject", accepted_reject_publication_path(pending), :method => :put if permitted_to? :progress, :publications %>
-              <% end %>
-          </td>          
-          
-        </tr>
-      <% end %>
-    </table>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Last updated</th>
+            <th>Current state</th>
+            <th colspan="4">Actions</th>    
+          </tr>    
+          <% for pending in @pending %>
+            <tr>
+              <td><%=h pending.id %></td> 
+              <td><%=h pending.title %></td>
+              <td><%=h pending.updated_at.strftime('%Y-%m-%d') %></td>
+              <td><%=h pending.state.humanize %></td>
+              <td><%= link_to "Show", pending %></td>
+              <td><%= link_to "Edit", edit_publication_path(pending) %></td>              
+              <td>
+                <% if pending.state == "preplanned_submitted" %>
+                  <%= link_to "Accept", preplanned_accept_publication_path(pending), :method => :put if permitted_to? :progress, :publications %></td><td>
+                  <%= link_to "Reject", preplanned_reject_publication_path(pending), :method => :put if permitted_to? :progress, :publications %>
+                <% elsif pending.state == "planned_submitted" %>
+                  <%= link_to "Accept", planned_accept_publication_path(pending), :method => :put if permitted_to? :progress, :publications %></td><td>
+                  <%= link_to "Reject", planned_reject_publication_path(pending), :method => :put if permitted_to? :progress, :publications %>
+                <% elsif pending.state == "inprogress_submitted" %>
+                  <%= link_to "Accept", inprogress_accept_publication_path(pending), :method => :put if permitted_to? :progress, :publications %></td><td>
+                  <%= link_to "Reject", inprogress_reject_publication_path(pending), :method => :put if permitted_to? :progress, :publications %>
+                <% elsif pending.state == "submitted_submitted" %>
+                  <%= link_to "Accept", submitted_accept_publication_path(pending), :method => :put if permitted_to? :progress, :publications %></td><td>
+                  <%= link_to "Reject", submitted_reject_publication_path(pending), :method => :put if permitted_to? :progress, :publications %>
+                <% else pending.state == "accepted_submitted" %>
+                  <%= link_to "Accept", accepted_accept_publication_path(pending), :method => :put if permitted_to? :progress, :publications %></td><td>
+                  <%= link_to "Reject", accepted_reject_publication_path(pending), :method => :put if permitted_to? :progress, :publications %>
+                <% end %>
+            </td>          
+            
+          </tr>
+        <% end %>
+      </table>
+    <% end %>
   <% end %>
 <% end %>
 
@@ -58,7 +61,7 @@
       </tr>
       <% for publication in @publication %>
         <tr>
-          <% if publication.updated_at >= current_user.last_login_at %>
+          <% if !current_user.last_login_at.nil? && publication.updated_at >= current_user.last_login_at %>
             <td style="color:red;"><%=h publication.id %> *</td>
           <% else %>
             <td><%=h publication.id %></td>      

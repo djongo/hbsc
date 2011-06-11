@@ -123,37 +123,43 @@
 </div>
 
 
-    Target Journal:
-
-      <% f.fields_for :target_journal do |target_journal_form| %>
-  <%= target_journal_form.text_field_with_auto_complete :name,
-                  {}, { :method => :get, :skip_style => true,
-                    :url => '/auto_complete_for_target_journal_name',
-                    :param_name => 'target_journal[name]'
-                                       }
-          %>
-      <% end %>
-
+<p>
+  <%= f.label "Target Journal" %><br />
+    <%= text_field_with_auto_complete :target_journal, 
+            :name, 
+          { :size => 60 },
+          { :method => :get, 
+            :skip_style => true,
+            :url => '/auto_complete_for_target_journal_name',
+            :param_name => 'target_journal[name]' }
+    %>
+</p>
+<p>
+  <%= f.label "Publication URL" %><br />
+  <%= f.text_field :url, :size => 80 %>
+</p>
 <p>
   <%= f.label "Article Promotion" %><br />
   Would you like the ICC to promote your final work? 
   <%= f.radio_button :promotion, true %><%= f.label "Yes" %>
-  <%= f.radio_button :promotion, false, options = { :checked => true } %><%= f.label "No" %>
-</p>
-<p>
-  <%= f.label "Reference/Citation" %><br />
-   <%= f.text_area :description, :cols => 60, :rows => 10 %>  
-</p>
-<p>
-  <%= f.label "Notes" %><br />
-     <div id="note_children">
-      <% f.fields_for :notes do |note_form| %>
-        <%= render :partial => "note", :locals => { :f => note_form } %>
-      <% end %>
-     </div>
-  <%= add_child_link "Add a note", 'note', f  %>
+  <%= f.radio_button :promotion, false %><%= f.label "No" %>
 </p>
 
+<p>
+  <%= f.label "Reference/Citation" %><br />
+  <%= f.text_area :description, :cols => 60, :rows => 10 %>  
+</p>
+<% if @publication.id %>
+  <p>
+    <%= f.label "Notes" %><br />
+       <div id="note_children">
+        <% f.fields_for :notes do |note_form| %>
+          <%= render :partial => "note", :locals => { :f => note_form } %>
+        <% end %>
+       </div>
+    <%= add_child_link "Add a note", 'note', f  %>
+  </p>
+<% end %>
 <p>
   <%= f.submit %>
 </p>

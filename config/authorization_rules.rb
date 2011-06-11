@@ -12,11 +12,12 @@ authorization do
   
   role :author do
     includes :guest
-    has_permission_on :publications, :to => [:edit, :update]
+    has_permission_on :publications, :to => [:create, :new, :edit, :update]
 #     do 
 #      if_attribute :user => is { user }
 #    end
     has_permission_on :variables, :to => [:new,:create]
+    has_permission_on :target_journals, :to => [:new,:create]
     has_permission_on :publications, :to => [:auto_complete_for_variable_name]
     has_permission_on :publications, :to => [:auto_complete_for_target_journal_name]    
     has_permission_on :publications, :to => :submit   
@@ -45,6 +46,7 @@ authorization do
     has_permission_on :publications, :to => :progress
     has_permission_on :publications, :to => :remind    
     has_permission_on :publications, :to => :list
+    has_permission_on :publications, :to => :audit    
     has_permission_on :publications, :to => [ :archive, :unarchive ]
     has_permission_on :target_journals, :to => :manage
     has_permission_on :versions, :to => :manage

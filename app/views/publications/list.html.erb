@@ -5,7 +5,8 @@
     <th><%= sortable "id" %></th>
     <th><%= sortable "title" %></th>
     <th><%= sortable "state" %></th>
-    <th colspan="6">Actions</th>
+    <th colspan="5">Actions</th>
+    <th>Reports</th>    
   </tr>
   <% for publication in @publications %>
     <tr>
@@ -58,7 +59,8 @@
 <% end %>
 </td>
       <td><%= link_to "Destroy", publication, :confirm => 'Are you sure?', :method => :delete %></td>
-    </tr>
+      <td><%= link_to "Audit", audit_publication_path(publication) %></td>      
+  </tr>
   <% end %>
 </table>
 <p>

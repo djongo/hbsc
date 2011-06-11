@@ -1,0 +1,25 @@
+<% title "Publication Audit Report" %>
+
+<p id="pdf_link">
+  Number of versions: <%=h @publication.versions.length %>  
+</p>
+<% current_book = @publication.versions.last.reify %>
+<% previous_book = @publication.versions.last.previous.reify %>
+Current version: <%=h current_book.version.index.to_s %><br />
+Previous version: <%=h previous_book.version.index.to_s %>
+<% @publication.versions.reverse.each do |version| %>
+  <% book = version.reify %>
+ 
+ <p>
+    <%=h link_to "Version " + version.index.to_s, :version => version %> created at <%=h (version.created_at.strftime('%Y-%m-%d %H:%M')) %> by <%=h User.find(version.whodunnit.to_i).full_name %><br />
+Event was: <strong><%=h version.event %></strong><br />
+<%=h book.title %><br />
+<%=h book.description %><br />
+<%=h book.promotion %><br />
+<%=h book.version.index.to_s %><br /> 
+</p>
+<% end %>
+<% if params[:version] %>
+  <%=h link_to "Lastest version", :version => nil %> from <%=h @publication.updated_at %>
+<% end %>
+</div> 

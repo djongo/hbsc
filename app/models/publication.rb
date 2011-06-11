@@ -38,6 +38,17 @@ class Publication < ActiveRecord::Base
   has_many :inclusions
   has_many :populations, :through => :inclusions
 
+  # Approach to get fully custom error message
+  HUMANIZED_ATTRIBUTES = { 
+      :title => "Working title",
+      :contact_id => "Contact person",
+      :responsible_id => "Responsible pi"
+  }
+
+  def self.human_attribute_name(attr)
+    HUMANIZED_ATTRIBUTES[attr.to_sym] || super
+  end
+
   validates_presence_of :title, :language_id, :publication_type, :user_id
   validates_presence_of :responsible_id, :contact_id
   validates_inclusion_of :promotion, :in => [true,false]
@@ -83,6 +94,35 @@ class Publication < ActiveRecord::Base
                                 :reject_if => proc { |attrs|
                                 attrs['full_name'].blank? &&
                                   attrs['user_id'].blank? }
+
+  def validate
+    # require a minimum of one keyword, population, determinant, outcome
+    # measure, confounder/mediator, survey_data
+    undestroyed_keyword_count = 0
+    undestroyed_foundation_count = 0
+    undestroyed_inclusion_count = 0
+    undestroyed_determinant_count = 0
+    undestroyed_mediator_count = 0
+    undestroyed_outcome_count = 0
+                      
+    keywords.each { |t| undestroyed_keyword_count += 1 unless t.marked_for_destruction? }
+    errors.add_to_base 'There must be at least one keyword' if undestroyed_keyword_count < 1
+    
+    foundations.each { |u| undestroyed_foundation_count +=1 unless u.marked_for_destruction? }
+    errors.add_to_base 'There must be at least one set of survey data' if undestroyed_foundation_count < 1
+    
+    inclusions.each { |v| undestroyed_inclusion_count +=1 unless v.marked_for_destruction? }
+    errors.add_to_base 'There must be at least one population' if undestroyed_inclusion_count < 1    
+
+    outcomes.each { |w| undestroyed_outcome_count +=1 unless w.marked_for_destruction? }
+    errors.add_to_base 'There must be at least one outcome measure' if undestroyed_outcome_count < 1  
+
+    determinants.each { |x| undestroyed_determinant_count +=1 unless x.marked_for_destruction? }
+    errors.add_to_base 'There must be at least one determinant' if undestroyed_determinant_count < 1  
+
+    mediators.each { |y| undestroyed_mediator_count +=1 unless y.marked_for_destruction? }
+    errors.add_to_base 'There must be at least one confounder or mediator' if undestroyed_mediator_count < 1  
+  end
 #  accepts_nested_attributes_for :users
     
   # functions for acts_as_indexed to enable 
