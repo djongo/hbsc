@@ -1,13 +1,15 @@
 class Publication < ActiveRecord::Base
 #  attr_accessible :title, :description, :language_id, :publication_type_id
   include AASM
-  has_paper_trail
+  has_paper_trail :ignore => [:updated_at]
   acts_as_indexed :fields => [
     :title, :description,
     :variable_list, :survey_list, :language_list, :email_list, :username_list,
     :population_list, :publication_type_list, :state
 #    :focus_group_list, :country_team_list
     ]
+
+#  require 'differ'
 
   belongs_to :language
   belongs_to :publication_type
@@ -155,6 +157,84 @@ class Publication < ActiveRecord::Base
   def publication_type_list
     publication_type.name
   end
+
+  # compare with previous version and output differences
+  def compare
+    version_change_array = []
+    self.versions.first
+    # must check that previous versions exists 
+    # number of versions > 1
+    puts "getting started"
+    self.versions.reverse.each do |v|
+      puts "in loop"
+      if v.index > 1
+        puts "VERSION_INDEX " + v.index.to_s
+        current_version = v.object
+        puts "got current version: " + current_version
+        previous_version = v.previous.object
+        puts "got previous version: " + previous_version
+        # convert version objects to hash with field => value
+        puts "creating c and p hashes"
+        ch = Hash[ *current_version.split("\n").collect { |v| [v.split(":")[0],v.split(":")[1]] }.flatten ]
+        ph = Hash[ *previous_version.split("\n").collect { |v| [v.split(":")[0],v.split(":")[1]] }.flatten ]
+        
+        puts "creating diff hash"
+        # create hash of diffs
+        dh = {}
+        dh["title"] = Differ.diff(ch["title"],ph["title"])
+        dh["description"] = Differ.diff(ch["description"],ph["description"])
+        dh["language_id"] = Differ.diff(ch["language_id"],ph["language_id"])
+        dh["publication_type_id"] = Differ.diff(ch["publication_type_id"],ph["publication_type_id"])
+        dh["user_id"] = Differ.diff(ch["user_id"],ph["user_id"])    
+        dh["state"] = Differ.diff(ch["state"],ph["state"])
+        dh["reference"] = Differ.diff(ch["reference"],ph["reference"])
+        dh["promotion"] = Differ.diff(ch["promotion"],ph["promotion"])    
+        dh["archived"] = Differ.diff(ch["archived"],ph["archived"])
+        dh["url"] = Differ.diff(ch["url"],ph["url"])
+        version_change_array << dh
+      end
+    end
+    version_change_array
+    
+
+
+    # run through all versions and create hash
+#    version_hash = ActiveSupport::OrderedHash.new
+#    self.versions.each do |v|
+#      version_hash["index"] = v.index
+#      version_hash["created_at"] = v.created_at
+#      version_hash["event"] = v.event
+#      version_hash["whodunnit"] = v.whodunnit
+#      version_hash["object"] = v.object      
+#    end
+
+#    version_hash
+    
+    
+#    current_version = self.versions.last.object
+#    previous_version = self.versions.last.previous.object
+
+#    # convert version objects to hash with field => value
+#    
+#    ch = Hash[ *current_version.split("\n").collect { |v| [v.split(":")[0],v.split(":")[1]] }.flatten ]
+#    ph = Hash[ *previous_version.split("\n").collect { |v| [v.split(":")[0],v.split(":")[1]] }.flatten ]
+#    
+#    # create hash of diffs
+#    dh = {}
+#    dh["title"] = Differ.diff(ch["title"],ph["title"])
+#    dh["description"] = Differ.diff(ch["description"],ph["description"])
+#    dh["language_id"] = Differ.diff(ch["language_id"],ph["language_id"])
+#    dh["publication_type_id"] = Differ.diff(ch["publication_type_id"],ph["publication_type_id"])
+#    dh["user_id"] = Differ.diff(ch["user_id"],ph["user_id"])    
+#    dh["state"] = Differ.diff(ch["state"],ph["state"])
+#    dh["reference"] = Differ.diff(ch["reference"],ph["reference"])
+#    dh["promotion"] = Differ.diff(ch["promotion"],ph["promotion"])    
+#    dh["archived"] = Differ.diff(ch["archived"],ph["archived"])
+#    dh["url"] = Differ.diff(ch["url"],ph["url"])
+
+#    dh
+  end
+  
 
   # defining the workflow
 

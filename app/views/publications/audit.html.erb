@@ -1,22 +1,43 @@
 <% title "Publication Audit Report" %>
-
+<% require 'differ' %>
 <p id="pdf_link">
   Number of versions: <%=h @publication.versions.length %>  
 </p>
-<% current_book = @publication.versions.last.reify %>
-<% previous_book = @publication.versions.last.previous.reify %>
-Current version: <%=h current_book.version.index.to_s %><br />
-Previous version: <%=h previous_book.version.index.to_s %>
+
+<h2>Hash effort</h2>
+<% versions_array = @publication.compare %>
+  <% versions_array.each do |v| %>
+  <h2>Changed from version <%=h v.id  %></h2>
+
+  <table class="pretty">
+    <tr>
+      <th align="left">Field</th>
+      <th align="left">Previous version</th>
+      <th align="left">Current version</th>
+    </tr>
+
+    <% v.each do |key,value| %>
+      <% if value.to_s.include? ">" %>
+        <% value_nice = value.to_s.gsub('{','').gsub('}','').gsub(
+        '"','') %>
+      <tr>
+        <td><%= key.to_s.humanize %></td>
+        <td><%= value_nice.split('>>')[0] %></td>
+        <td><%= value_nice.split('>>')[1] %></td>
+      </tr>
+      <% end %>
+    <% end %>
+  </table>
+<% end %>
+
+
 <% @publication.versions.reverse.each do |version| %>
-  <% book = version.reify %>
- 
+  <% c = version.reify %>
+
  <p>
     <%=h link_to "Version " + version.index.to_s, :version => version %> created at <%=h (version.created_at.strftime('%Y-%m-%d %H:%M')) %> by <%=h User.find(version.whodunnit.to_i).full_name %><br />
 Event was: <strong><%=h version.event %></strong><br />
-<%=h book.title %><br />
-<%=h book.description %><br />
-<%=h book.promotion %><br />
-<%=h book.version.index.to_s %><br /> 
+
 </p>
 <% end %>
 <% if params[:version] %>
