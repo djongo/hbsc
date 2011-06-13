@@ -236,6 +236,9 @@ table.pretty {
 .pretty td, .pretty th {
   padding: 4px 10px;
   border: solid 1px #AAA;
+  display: table-cell;
+  vertical-align: top;
+  text-align: left;
 }
 
 .pretty th .current {

@@ -22,8 +22,8 @@
 </table>
 
 <p id="pdf_link">
-  <% if @publication.versions.length > 0 %>
-    Number of previous versions: <%=h @publication.versions.length %>  
+  <% if @publication.versions.length > 1 %>
+    Number of previous versions: <%=h @publication.versions.length-1 %>  
     <%= link_to_function("Show/Hide","Element.toggle('version_box')") %>
   <div id="version_box">
   <% else %>
@@ -33,9 +33,9 @@
 
 <% @publication.versions.each do |version| %>
   <% book = version.reify %>
-  <% if version == @version  %>
+  <% if version == @version %>
     Version <%=h version.index.to_s %> Created at <%=h (version.created_at) %> is the version currently displayed<br />
-  <% else %>
+  <% elsif version.event != "create" %>
     <%=h link_to "Version " + version.index.to_s, :version => version %> Created at <%=h (version.created_at) %> by <%=h User.find(version.whodunnit.to_i).full_name %><br />
   <% end %>
 <% end %>

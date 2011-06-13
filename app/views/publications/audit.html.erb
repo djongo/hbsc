@@ -1,46 +1,48 @@
 <% title "Publication Audit Report" %>
 <% require 'differ' %>
-<p id="pdf_link">
-  Number of versions: <%=h @publication.versions.length %>  
-</p>
+<br /> 
+<h2><%=h @publication.title %> (ID: <%=h @publication.id %>)</h2>
+<% if @publication.versions.length-1 > 1 %>
+  <strong>
+    Number of versions: <%=h @publication.versions.length-1 %>  
+  </strong>
+  <% versions_array = @publication.compare %>
+    <% versions_array.each do |v| %>
+    <h3>Changes version <%=h v["index"].to_s.gsub('{','').gsub('}','').gsub(
+          '"','')  %> by <%=h v["whodunnit"] %></h3>
 
-<h2>Hash effort</h2>
-<% versions_array = @publication.compare %>
-  <% versions_array.each do |v| %>
-  <h2>Changed from version <%=h v.id  %></h2>
-
-  <table class="pretty">
-    <tr>
-      <th align="left">Field</th>
-      <th align="left">Previous version</th>
-      <th align="left">Current version</th>
-    </tr>
-
-    <% v.each do |key,value| %>
-      <% if value.to_s.include? ">" %>
-        <% value_nice = value.to_s.gsub('{','').gsub('}','').gsub(
-        '"','') %>
+    <table class="pretty" width="90%">
       <tr>
-        <td><%= key.to_s.humanize %></td>
-        <td><%= value_nice.split('>>')[0] %></td>
-        <td><%= value_nice.split('>>')[1] %></td>
+        <th width="14%">Field</th>
+        <th width="43%">Previous version</th>
+        <th width="43%">Current version</th>
       </tr>
+
+      <% v.each do |key,value| %>
+        <% if value.to_s.include? ">" %>
+          <% value_nice = value.to_s.gsub('{','').gsub('}','').gsub(
+          '"','') %>
+        <tr>
+          <% if key == "index" %>
+            <td valign="top">Version</td>
+          <% elsif key == "title" %>
+            <td valign="top">Working title</td>
+          <% else %>
+            <td valign="top"><%= key.to_s.humanize %></td>
+          <% end %>
+          <td valign="top"><%= value_nice.split('>>')[0].humanize %></td>
+          <td valign="top"><%= value_nice.split('>>')[1].lstrip.humanize %></td>
+        </tr>
+        <% end %>
       <% end %>
-    <% end %>
-  </table>
+    </table><br />
+  <% end %>
+<% else %>
+<p>No versions available.</p>
 <% end %>
-
-
-<% @publication.versions.reverse.each do |version| %>
-  <% c = version.reify %>
-
- <p>
-    <%=h link_to "Version " + version.index.to_s, :version => version %> created at <%=h (version.created_at.strftime('%Y-%m-%d %H:%M')) %> by <%=h User.find(version.whodunnit.to_i).full_name %><br />
-Event was: <strong><%=h version.event %></strong><br />
-
+<p id="pdf_link">
+  <%= link_to "Show", @publication if permitted_to? :show, :publications %> | 
+  <%= link_to "PDF version", audit_publication_path(@publication, :format => "pdf") %>
 </p>
-<% end %>
-<% if params[:version] %>
-  <%=h link_to "Lastest version", :version => nil %> from <%=h @publication.updated_at %>
-<% end %>
 </div> 
+

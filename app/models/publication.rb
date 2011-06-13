@@ -9,8 +9,6 @@ class Publication < ActiveRecord::Base
 #    :focus_group_list, :country_team_list
     ]
 
-#  require 'differ'
-
   belongs_to :language
   belongs_to :publication_type
   belongs_to :user
@@ -160,79 +158,98 @@ class Publication < ActiveRecord::Base
 
   # compare with previous version and output differences
   def compare
+    # creating array for version changes
     version_change_array = []
-    self.versions.first
-    # must check that previous versions exists 
-    # number of versions > 1
-    puts "getting started"
+    puts "COMPARING..."
+#    self.versions.first
     self.versions.reverse.each do |v|
-      puts "in loop"
-      if v.index > 1
-        puts "VERSION_INDEX " + v.index.to_s
-        current_version = v.object
-        puts "got current version: " + current_version
-        previous_version = v.previous.object
-        puts "got previous version: " + previous_version
-        # convert version objects to hash with field => value
-        puts "creating c and p hashes"
-        ch = Hash[ *current_version.split("\n").collect { |v| [v.split(":")[0],v.split(":")[1]] }.flatten ]
-        ph = Hash[ *previous_version.split("\n").collect { |v| [v.split(":")[0],v.split(":")[1]] }.flatten ]
-        
-        puts "creating diff hash"
+      if v.index >= 1
+      puts "IN LOOP " + v.index.to_s
+
+    # current version of publication does not exist in the 
+    # version table so creating hash manually
+        if v.next.nil?
+          puts "first runthrough"
+          ch = {}
+          ch["title"] = self.title
+          ch["description"] = self.description
+          ch["language_id"] = self.language_id.to_s
+          ch["publication_type_id"] = self.publication_type_id.to_s
+          ch["user_id"] = self.user_id.to_s
+          ch["state"] = self.state
+          ch["reference"] = self.reference
+          ch["promotion"] = self.promotion.to_s
+          ch["archived"] = self.archived.to_s
+          ch["url"] = self.url
+          ch["event"] = "update"
+          ch["whodunnit"] = v.terminator.to_s
+          ch["index"] = "current"
+          puts "assigned self as current"
+
+          previous_version = v.object
+          ph = Hash[ *previous_version.split("\n").collect { |e| [e.split(":")[0],e.split(":")[1]] }.flatten ]
+          ph["event"] = v.previous.event
+          ph["whodunnit"] = v.previous.whodunnit
+          ph["index"] = v.previous.index.to_s     
+          puts "assigned first version as previous"   
+      
+        else
+          puts "progressing normally"
+          # convert version objects to hash with field => value
+          current_version = v.next.object
+          ch = Hash[ *current_version.split("\n").collect { |e| [e.split(":")[0],e.split(":")[1]] }.flatten ]
+          ch["event"] = v.event
+          ch["whodunnit"] = v.whodunnit
+          ch["index"] = v.index.to_s
+
+    puts "assigned current"
+
+          previous_version = v.object
+          ph = Hash[ *previous_version.split("\n").collect { |e| [e.split(":")[0],e.split(":")[1]] }.flatten ]
+          ph["event"] = v.previous.event
+          ph["whodunnit"] = v.previous.whodunnit
+          ph["index"] = v.previous.index.to_s
+         
+      puts "assigned previous"
+        end  
         # create hash of diffs
+        puts "figuring out diffs"
         dh = {}
-        dh["title"] = Differ.diff(ch["title"],ph["title"])
-        dh["description"] = Differ.diff(ch["description"],ph["description"])
-        dh["language_id"] = Differ.diff(ch["language_id"],ph["language_id"])
-        dh["publication_type_id"] = Differ.diff(ch["publication_type_id"],ph["publication_type_id"])
-        dh["user_id"] = Differ.diff(ch["user_id"],ph["user_id"])    
-        dh["state"] = Differ.diff(ch["state"],ph["state"])
-        dh["reference"] = Differ.diff(ch["reference"],ph["reference"])
-        dh["promotion"] = Differ.diff(ch["promotion"],ph["promotion"])    
-        dh["archived"] = Differ.diff(ch["archived"],ph["archived"])
-        dh["url"] = Differ.diff(ch["url"],ph["url"])
+        # checking string keys
+        str_keys = %w[title description state reference promotion archived url index]
+        str_keys.each do |key|
+          ch[key].nil? ? c = " " : c = ch[key].lstrip
+          ph[key].nil? ? p = " " : p = ph[key].lstrip          
+          dh[key] = Differ.diff(c,p)
+        end
+        
+        #checking id keys
+        id_keys = %w[language_id publication_type_id user_id]
+        id_keys.each do |idk|
+          ch[idk].nil? ? c = " " : c = idk.gsub('_id','').gsub('_',' ').titleize.gsub(' ','').constantize.first(:conditions => ["id=?",ch[idk].lstrip]).name
+          ph[idk].nil? ? p = " " : p = idk.gsub('_id','').gsub('_',' ').titleize.gsub(' ','').constantize.first(:conditions => ["id=?",ph[idk].lstrip]).name
+          dh[idk] = Differ.diff(c,p)
+        end
+
+#        dh["title"] = Differ.diff(ch["title"].lstrip,ph["title"].lstrip)
+#        dh["description"] = Differ.diff(ch["description"].lstrip,ph["description"].lstrip)
+#        dh["language_id"] = Differ.diff(Language.first(:conditions => ["id=?", ch["language_id"].lstrip]).name,Language.first(:conditions => ["id=?", ph["language_id"].lstrip]).name)
+#        dh["publication_type_id"] = Differ.diff(PublicationType.first(:conditions => ["id=?", ch["publication_type_id"].lstrip]).name,PublicationType.first(:conditions => ["id=?", ph["publication_type_id"].lstrip]).name)
+#        dh["user_id"] = Differ.diff(User.first(:conditions => ["id=?", ch["user_id"].lstrip]).full_name,User.first(:conditions => ["id=?", ph["user_id"].lstrip]).full_name)    
+#        dh["state"] = Differ.diff(ch["state"].lstrip,ph["state"].lstrip)
+#        dh["reference"] = Differ.diff(ch["reference"].lstrip,ph["reference"].lstrip)
+#        dh["promotion"] = Differ.diff(ch["promotion"].lstrip,ph["promotion"].lstrip)    
+#        dh["archived"] = Differ.diff(ch["archived"].lstrip,ph["archived"].lstrip)
+#        dh["url"] = Differ.diff(ch["url"].lstrip,ph["url"].lstrip)
+#        dh["index"] = Differ.diff(ch["index"].lstrip,ph["index"].lstrip)
+        dh["event"] = ch["event"].lstrip
+        dh["whodunnit"] = User.first(:conditions => ["id=?",ch["whodunnit"].lstrip]).full_name
+
         version_change_array << dh
+#        puts "diff added to versions array"
       end
     end
     version_change_array
-    
-
-
-    # run through all versions and create hash
-#    version_hash = ActiveSupport::OrderedHash.new
-#    self.versions.each do |v|
-#      version_hash["index"] = v.index
-#      version_hash["created_at"] = v.created_at
-#      version_hash["event"] = v.event
-#      version_hash["whodunnit"] = v.whodunnit
-#      version_hash["object"] = v.object      
-#    end
-
-#    version_hash
-    
-    
-#    current_version = self.versions.last.object
-#    previous_version = self.versions.last.previous.object
-
-#    # convert version objects to hash with field => value
-#    
-#    ch = Hash[ *current_version.split("\n").collect { |v| [v.split(":")[0],v.split(":")[1]] }.flatten ]
-#    ph = Hash[ *previous_version.split("\n").collect { |v| [v.split(":")[0],v.split(":")[1]] }.flatten ]
-#    
-#    # create hash of diffs
-#    dh = {}
-#    dh["title"] = Differ.diff(ch["title"],ph["title"])
-#    dh["description"] = Differ.diff(ch["description"],ph["description"])
-#    dh["language_id"] = Differ.diff(ch["language_id"],ph["language_id"])
-#    dh["publication_type_id"] = Differ.diff(ch["publication_type_id"],ph["publication_type_id"])
-#    dh["user_id"] = Differ.diff(ch["user_id"],ph["user_id"])    
-#    dh["state"] = Differ.diff(ch["state"],ph["state"])
-#    dh["reference"] = Differ.diff(ch["reference"],ph["reference"])
-#    dh["promotion"] = Differ.diff(ch["promotion"],ph["promotion"])    
-#    dh["archived"] = Differ.diff(ch["archived"],ph["archived"])
-#    dh["url"] = Differ.diff(ch["url"],ph["url"])
-
-#    dh
   end
   
 
