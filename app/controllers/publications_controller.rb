@@ -56,17 +56,16 @@ class PublicationsController < ApplicationController
     if params[:version]
       @version = @publication.versions.find(params[:version])
       @publication = @version.reify
-    end    
-    respond_to do |format|
-      format.html
-      format.pdf do
-        kit = PDFKit.new(render_to_string(:template => "controller/view.html",
-                                          :layout => "layout.html"))
-        # stylesheets in tmp because I'm using compass
-        kit.stylesheets << Rails.root.join('public', 'stylesheets', 'application.css').to_s
-        render :text => kit.to_pdf
-      end  
     end  
+#    respond_to do |format|
+#      format.html
+#      format.pdf do
+#        render  :pdf => @publication.title,
+##                :template => "controller/action.pdf.erb",
+#                :stylesheets => ["application","print"],
+#                :layout => "pdf"
+#      end
+#    end
   end
   
   def new
