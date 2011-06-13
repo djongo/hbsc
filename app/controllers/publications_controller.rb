@@ -57,15 +57,15 @@ class PublicationsController < ApplicationController
       @version = @publication.versions.find(params[:version])
       @publication = @version.reify
     end  
-#    respond_to do |format|
-#      format.html
-#      format.pdf do
-#        render  :pdf => @publication.title,
-##                :template => "controller/action.pdf.erb",
-#                :stylesheets => ["application","print"],
-#                :layout => "pdf"
-#      end
-#    end
+    respond_to do |format|
+      format.html
+      format.pdf do
+        render  :pdf => @publication.title,
+#                :template => "controller/action.pdf.erb",
+                :stylesheets => ["application","print"],
+                :layout => "pdf"
+      end
+    end
   end
   
   def new
