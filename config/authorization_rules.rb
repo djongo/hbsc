@@ -35,6 +35,7 @@ authorization do
     has_permission_on :publication_types, :to => :filter
     has_permission_on :country_teams, :to => :manage
     has_permission_on :focus_groups, :to => :manage    
+    has_permission_on :keywords, :to => :manage
     has_permission_on :variables, :to => :manage
     has_permission_on :outcomes, :to => :manage
     has_permission_on :mediators, :to => :manage            

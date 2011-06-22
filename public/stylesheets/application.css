@@ -238,7 +238,6 @@ table.pretty {
   border: solid 1px #AAA;
   display: table-cell;
   vertical-align: top;
-  text-align: left;
 }
 
 .pretty th .current {

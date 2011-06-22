@@ -1,7 +1,7 @@
 class Publication < ActiveRecord::Base
 #  attr_accessible :title, :description, :language_id, :publication_type_id
   include AASM
-  has_paper_trail :ignore => [:updated_at]
+  has_paper_trail :meta => { :keywords => Proc.new { |publication| publication.keyword_list } }
   acts_as_indexed :fields => [
     :title, :description,
     :variable_list, :survey_list, :language_list, :email_list, :username_list,
@@ -37,7 +37,7 @@ class Publication < ActiveRecord::Base
   has_many :surveys, :through => :foundations
   has_many :inclusions
   has_many :populations, :through => :inclusions
-
+  
   # Approach to get fully custom error message
   HUMANIZED_ATTRIBUTES = { 
       :title => "Working title",
@@ -62,7 +62,6 @@ class Publication < ActiveRecord::Base
                                 :allow_destroy => false,
                                 :reject_if => proc { |attrs|
                                 attrs['target_journal_name'].blank? }
-  
   accepts_nested_attributes_for :keywords,
                                 :allow_destroy => true,
                                 :reject_if => proc { |attrs|
@@ -105,25 +104,24 @@ class Publication < ActiveRecord::Base
     undestroyed_mediator_count = 0
     undestroyed_outcome_count = 0
                       
-    keywords.each { |t| undestroyed_keyword_count += 1 unless t.marked_for_destruction? }
-    errors.add_to_base 'There must be at least one keyword' if undestroyed_keyword_count < 1
+#    keywords.each { |t| undestroyed_keyword_count += 1 unless t.marked_for_destruction? }
+#    errors.add_to_base 'There must be at least one keyword' if undestroyed_keyword_count < 1
     
-    foundations.each { |u| undestroyed_foundation_count +=1 unless u.marked_for_destruction? }
-    errors.add_to_base 'There must be at least one set of survey data' if undestroyed_foundation_count < 1
-    
-    inclusions.each { |v| undestroyed_inclusion_count +=1 unless v.marked_for_destruction? }
-    errors.add_to_base 'There must be at least one population' if undestroyed_inclusion_count < 1    
+#    foundations.each { |u| undestroyed_foundation_count +=1 unless u.marked_for_destruction? }
+#    errors.add_to_base 'There must be at least one set of survey data' if undestroyed_foundation_count < 1
+#    
+#    inclusions.each { |v| undestroyed_inclusion_count +=1 unless v.marked_for_destruction? }
+#    errors.add_to_base 'There must be at least one population' if undestroyed_inclusion_count < 1    
 
-    outcomes.each { |w| undestroyed_outcome_count +=1 unless w.marked_for_destruction? }
-    errors.add_to_base 'There must be at least one outcome measure' if undestroyed_outcome_count < 1  
+#    outcomes.each { |w| undestroyed_outcome_count +=1 unless w.marked_for_destruction? }
+#    errors.add_to_base 'There must be at least one outcome measure' if undestroyed_outcome_count < 1  
 
-    determinants.each { |x| undestroyed_determinant_count +=1 unless x.marked_for_destruction? }
-    errors.add_to_base 'There must be at least one determinant' if undestroyed_determinant_count < 1  
+#    determinants.each { |x| undestroyed_determinant_count +=1 unless x.marked_for_destruction? }
+#    errors.add_to_base 'There must be at least one determinant' if undestroyed_determinant_count < 1  
 
-    mediators.each { |y| undestroyed_mediator_count +=1 unless y.marked_for_destruction? }
-    errors.add_to_base 'There must be at least one confounder or mediator' if undestroyed_mediator_count < 1  
+#    mediators.each { |y| undestroyed_mediator_count +=1 unless y.marked_for_destruction? }
+#    errors.add_to_base 'There must be at least one confounder or mediator' if undestroyed_mediator_count < 1  
   end
-#  accepts_nested_attributes_for :users
     
   # functions for acts_as_indexed to enable 
   # multi model search
@@ -155,6 +153,16 @@ class Publication < ActiveRecord::Base
   def publication_type_list
     publication_type.name
   end
+  
+  def keyword_list
+    l = []
+    self.keywords.each do |k|
+      l << k.variable_id
+    end
+    return l.sort.to_yaml
+  end
+  
+  
 
   # compare with previous version and output differences
   def compare
@@ -184,39 +192,44 @@ class Publication < ActiveRecord::Base
           ch["event"] = "update"
           ch["whodunnit"] = v.terminator.to_s
           ch["index"] = "current"
+          ch["keywords"] = self.keyword_list
           puts "assigned self as current"
 
           previous_version = v.object
+#          ph = YAML.load(previous_version)
           ph = Hash[ *previous_version.split("\n").collect { |e| [e.split(":")[0],e.split(":")[1]] }.flatten ]
           ph["event"] = v.previous.event
           ph["whodunnit"] = v.previous.whodunnit
-          ph["index"] = v.previous.index.to_s     
+          ph["index"] = v.previous.index.to_s
+          ph["keywords"] = v.previous.keywords
           puts "assigned first version as previous"   
       
         else
           puts "progressing normally"
           # convert version objects to hash with field => value
           current_version = v.next.object
+#          ch = YAML.load(current_version)
           ch = Hash[ *current_version.split("\n").collect { |e| [e.split(":")[0],e.split(":")[1]] }.flatten ]
           ch["event"] = v.event
           ch["whodunnit"] = v.whodunnit
           ch["index"] = v.index.to_s
-
+          ch["keywords"] = v.keywords
     puts "assigned current"
 
           previous_version = v.object
+#          ph = YAML.load(previous_version)
           ph = Hash[ *previous_version.split("\n").collect { |e| [e.split(":")[0],e.split(":")[1]] }.flatten ]
           ph["event"] = v.previous.event
           ph["whodunnit"] = v.previous.whodunnit
           ph["index"] = v.previous.index.to_s
-         
+          ph["keywords"] = v.previous.keywords
       puts "assigned previous"
         end  
         # create hash of diffs
         puts "figuring out diffs"
         dh = {}
         # checking string keys
-        str_keys = %w[title description state reference promotion archived url index]
+        str_keys = %w[title description state reference promotion archived url index keywords]
         str_keys.each do |key|
           ch[key].nil? ? c = " " : c = ch[key].lstrip
           ph[key].nil? ? p = " " : p = ph[key].lstrip          
@@ -231,17 +244,7 @@ class Publication < ActiveRecord::Base
           dh[idk] = Differ.diff(c,p)
         end
 
-#        dh["title"] = Differ.diff(ch["title"].lstrip,ph["title"].lstrip)
-#        dh["description"] = Differ.diff(ch["description"].lstrip,ph["description"].lstrip)
-#        dh["language_id"] = Differ.diff(Language.first(:conditions => ["id=?", ch["language_id"].lstrip]).name,Language.first(:conditions => ["id=?", ph["language_id"].lstrip]).name)
-#        dh["publication_type_id"] = Differ.diff(PublicationType.first(:conditions => ["id=?", ch["publication_type_id"].lstrip]).name,PublicationType.first(:conditions => ["id=?", ph["publication_type_id"].lstrip]).name)
-#        dh["user_id"] = Differ.diff(User.first(:conditions => ["id=?", ch["user_id"].lstrip]).full_name,User.first(:conditions => ["id=?", ph["user_id"].lstrip]).full_name)    
-#        dh["state"] = Differ.diff(ch["state"].lstrip,ph["state"].lstrip)
-#        dh["reference"] = Differ.diff(ch["reference"].lstrip,ph["reference"].lstrip)
-#        dh["promotion"] = Differ.diff(ch["promotion"].lstrip,ph["promotion"].lstrip)    
-#        dh["archived"] = Differ.diff(ch["archived"].lstrip,ph["archived"].lstrip)
-#        dh["url"] = Differ.diff(ch["url"].lstrip,ph["url"].lstrip)
-#        dh["index"] = Differ.diff(ch["index"].lstrip,ph["index"].lstrip)
+
         dh["event"] = ch["event"].lstrip
         dh["whodunnit"] = User.first(:conditions => ["id=?",ch["whodunnit"].lstrip]).full_name
 
