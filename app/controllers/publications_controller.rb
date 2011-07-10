@@ -84,6 +84,7 @@ class PublicationsController < ApplicationController
   
   def edit
     @publication = Publication.find(params[:id])
+    @publication.change = ""
     if (@publication.state == "preplanned_submitted" || @publication.state == "planned_submitted" || @publication.state == "inprogress_submitted" || @publication.state == "submitted_submitted" || @publication.state == "accepted_submitted") && !current_user.roles.include?("publication_group")
       flash[:error] = "Publication has been submitted and cannot be edited."
       redirect_to @publication

@@ -237,3 +237,4 @@
   <%= link_to "Destroy", @publication, :confirm => 'Are you sure?', :method => :delete if permitted_to? :destroy, :publications %> |
   <%= link_to "View All", publications_path %>
 </p>
+<strong>Change:</strong> <%=h @publication.change %>

@@ -1,7 +1,12 @@
 class Publication < ActiveRecord::Base
 #  attr_accessible :title, :description, :language_id, :publication_type_id
   include AASM
-  has_paper_trail :meta => { :keywords => Proc.new { |publication| publication.keyword_list } }
+  has_paper_trail :meta => { 
+    :keywords => Proc.new { |publication|  publication.hmt_list(publication.keywords) },
+    :mediators => Proc.new { |publication|  publication.hmt_list(publication.mediators) }, 
+    :outcomes => Proc.new { |publication|  publication.hmt_list(publication.outcomes) },    
+    :determinants => Proc.new { |publication|  publication.hmt_list(publication.determinants) }    
+    }
   acts_as_indexed :fields => [
     :title, :description,
     :variable_list, :survey_list, :language_list, :email_list, :username_list,
@@ -154,15 +159,33 @@ class Publication < ActiveRecord::Base
     publication_type.name
   end
   
-  def keyword_list
+  def hmt_list(hmt)
     l = []
-    self.keywords.each do |k|
+    hmt.each do |k|
       l << k.variable_id
     end
     return l.sort.to_yaml
   end
+
+#  def keyword_list
+#    l = []
+#    self.keywords.each do |k|
+#      l << k.variable_id
+#    end
+#    return l.sort.to_yaml
+#  end  
   
-  
+  # given a yaml list of variable ids return names as concatenated string
+  def list_variable_names(yaml_list)
+    l = ""
+    if !yaml_list.nil?
+      YAML.load(yaml_list).each do |k|
+        l += Variable.find_by_id(k).name + " "
+      end
+    end
+    return l.chomp(" ")
+  end
+
 
   # compare with previous version and output differences
   def compare
@@ -179,20 +202,18 @@ class Publication < ActiveRecord::Base
         if v.next.nil?
           puts "first runthrough"
           ch = {}
-          ch["title"] = self.title
-          ch["description"] = self.description
-          ch["language_id"] = self.language_id.to_s
-          ch["publication_type_id"] = self.publication_type_id.to_s
-          ch["user_id"] = self.user_id.to_s
-          ch["state"] = self.state
-          ch["reference"] = self.reference
-          ch["promotion"] = self.promotion.to_s
-          ch["archived"] = self.archived.to_s
-          ch["url"] = self.url
+          ch_keys = %w[title description language_id publication_type_id user_id state reference promotion archived url]
+          ch_keys.each do |key|
+            ch["#{key}"] = self.send("#{key}".to_sym).to_s
+          end
+
           ch["event"] = "update"
           ch["whodunnit"] = v.terminator.to_s
           ch["index"] = "current"
-          ch["keywords"] = self.keyword_list
+          ch["keyword_list"] = self.hmt_list(self.keywords)
+          ch["outcome_list"] = self.hmt_list(self.outcomes)
+          ch["determinant_list"] = self.hmt_list(self.determinants)          
+          ch["mediator_list"] = self.hmt_list(self.mediators)
           puts "assigned self as current"
 
           previous_version = v.object
@@ -201,7 +222,10 @@ class Publication < ActiveRecord::Base
           ph["event"] = v.previous.event
           ph["whodunnit"] = v.previous.whodunnit
           ph["index"] = v.previous.index.to_s
-          ph["keywords"] = v.previous.keywords
+          ph["keyword_list"] = v.previous.keywords
+          ph["outcome_list"] = v.previous.outcomes
+          ph["determinant_list"] = v.previous.determinants     
+          ph["mediator_list"] = v.previous.mediators
           puts "assigned first version as previous"   
       
         else
@@ -213,7 +237,10 @@ class Publication < ActiveRecord::Base
           ch["event"] = v.event
           ch["whodunnit"] = v.whodunnit
           ch["index"] = v.index.to_s
-          ch["keywords"] = v.keywords
+          ch["keyword_list"] = v.keywords
+          ch["outcome_list"] = v.outcomes
+          ch["determinant_list"] = v.determinants     
+          ch["mediator_list"] = v.mediators          
     puts "assigned current"
 
           previous_version = v.object
@@ -222,14 +249,30 @@ class Publication < ActiveRecord::Base
           ph["event"] = v.previous.event
           ph["whodunnit"] = v.previous.whodunnit
           ph["index"] = v.previous.index.to_s
-          ph["keywords"] = v.previous.keywords
+          ph["keyword_list"] = v.previous.keywords
+          ph["outcome_list"] = v.previous.outcomes
+          ph["determinant_list"] = v.previous.determinants     
+          ph["mediator_list"] = v.previous.mediators          
       puts "assigned previous"
         end  
         # create hash of diffs
         puts "figuring out diffs"
         dh = {}
+        
+        ch["keywords"] = list_variable_names(ch["keyword_list"])
+        ph["keywords"] = list_variable_names(ph["keyword_list"])
+        
+        ch["outcomes"] = list_variable_names(ch["outcome_list"])
+        ph["outcomes"] = list_variable_names(ph["outcome_list"])           
+
+        ch["determinants"] = list_variable_names(ch["determinant_list"])
+        ph["determinants"] = list_variable_names(ph["determinant_list"])  
+        
+        ch["mediators"] = list_variable_names(ch["mediator_list"])
+        ph["mediators"] = list_variable_names(ph["mediator_list"]) 
+        
         # checking string keys
-        str_keys = %w[title description state reference promotion archived url index keywords]
+        str_keys = %w[title description state reference promotion archived url index keywords outcomes determinants mediators]
         str_keys.each do |key|
           ch[key].nil? ? c = " " : c = ch[key].lstrip
           ph[key].nil? ? p = " " : p = ph[key].lstrip          
@@ -243,7 +286,6 @@ class Publication < ActiveRecord::Base
           ph[idk].nil? ? p = " " : p = idk.gsub('_id','').gsub('_',' ').titleize.gsub(' ','').constantize.first(:conditions => ["id=?",ph[idk].lstrip]).name
           dh[idk] = Differ.diff(c,p)
         end
-
 
         dh["event"] = ch["event"].lstrip
         dh["whodunnit"] = User.first(:conditions => ["id=?",ch["whodunnit"].lstrip]).full_name

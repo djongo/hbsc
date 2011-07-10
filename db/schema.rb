@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110615200758) do
+ActiveRecord::Schema.define(:version => 20110709210704) do
 
   create_table "authorships", :force => true do |t|
     t.integer  "publication_id"
@@ -146,6 +146,7 @@ ActiveRecord::Schema.define(:version => 20110615200758) do
     t.integer  "target_journal_id"
     t.boolean  "archived",                           :default => false
     t.string   "url"
+    t.string   "change"
   end
 
   create_table "reminders", :force => true do |t|
@@ -207,6 +208,9 @@ ActiveRecord::Schema.define(:version => 20110615200758) do
     t.datetime "created_at"
     t.integer  "publication_id"
     t.string   "keywords"
+    t.string   "mediators"
+    t.string   "outcomes"
+    t.string   "determinants"
   end
 
   add_index "versions", ["item_type", "item_id"], :name => "index_versions_on_item_type_and_item_id"
