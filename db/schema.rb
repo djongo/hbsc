@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110709210704) do
+ActiveRecord::Schema.define(:version => 20110710183343) do
 
   create_table "authorships", :force => true do |t|
     t.integer  "publication_id"
@@ -211,6 +211,8 @@ ActiveRecord::Schema.define(:version => 20110709210704) do
     t.string   "mediators"
     t.string   "outcomes"
     t.string   "determinants"
+    t.string   "inclusions"
+    t.string   "foundations"
   end
 
   add_index "versions", ["item_type", "item_id"], :name => "index_versions_on_item_type_and_item_id"

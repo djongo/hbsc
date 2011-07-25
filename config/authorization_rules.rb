@@ -30,7 +30,9 @@ authorization do
     has_permission_on :publications, :to => :manage
     has_permission_on :languages, :to => :manage
     has_permission_on :surveys, :to => :manage
-    has_permission_on :populations, :to => :manage    
+    has_permission_on :populations, :to => :manage
+    has_permission_on :inclusions, :to => :manage
+    has_permission_on :foundations, :to => :manage
     has_permission_on :publication_types, :to => :manage
     has_permission_on :publication_types, :to => :filter
     has_permission_on :country_teams, :to => :manage
@@ -58,7 +60,7 @@ end
 
 privileges do
   privilege :manage do
-    includes :create, :new, :edit, :update, :destroy, :index, :show
+    includes :create, :new, :edit, :update, :destroy, :index, :show, :delete
   end
   
   privilege :progress do 

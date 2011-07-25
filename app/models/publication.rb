@@ -1,11 +1,13 @@
 class Publication < ActiveRecord::Base
 #  attr_accessible :title, :description, :language_id, :publication_type_id
   include AASM
-  has_paper_trail :meta => { 
+  has_paper_trail   :meta => { 
     :keywords => Proc.new { |publication|  publication.hmt_list(publication.keywords) },
     :mediators => Proc.new { |publication|  publication.hmt_list(publication.mediators) }, 
     :outcomes => Proc.new { |publication|  publication.hmt_list(publication.outcomes) },    
-    :determinants => Proc.new { |publication|  publication.hmt_list(publication.determinants) }    
+    :determinants => Proc.new { |publication|  publication.hmt_list(publication.determinants) },   
+    :inclusions => Proc.new { |publication|  publication.inclusions_list },    
+    :foundations => Proc.new { |publication|  publication.foundations_list }            
     }
   acts_as_indexed :fields => [
     :title, :description,
@@ -56,7 +58,9 @@ class Publication < ActiveRecord::Base
 
   validates_presence_of :title, :language_id, :publication_type, :user_id
   validates_presence_of :responsible_id, :contact_id
+  
   validates_inclusion_of :promotion, :in => [true,false]
+  
   validates_associated :variables
   validates_associated :surveys
   validates_associated :populations
@@ -109,23 +113,23 @@ class Publication < ActiveRecord::Base
     undestroyed_mediator_count = 0
     undestroyed_outcome_count = 0
                       
-#    keywords.each { |t| undestroyed_keyword_count += 1 unless t.marked_for_destruction? }
-#    errors.add_to_base 'There must be at least one keyword' if undestroyed_keyword_count < 1
+    keywords.each { |t| undestroyed_keyword_count += 1 unless t.marked_for_destruction? }
+    errors.add_to_base 'There must be at least one keyword' if undestroyed_keyword_count < 1
     
-#    foundations.each { |u| undestroyed_foundation_count +=1 unless u.marked_for_destruction? }
-#    errors.add_to_base 'There must be at least one set of survey data' if undestroyed_foundation_count < 1
-#    
-#    inclusions.each { |v| undestroyed_inclusion_count +=1 unless v.marked_for_destruction? }
-#    errors.add_to_base 'There must be at least one population' if undestroyed_inclusion_count < 1    
+    foundations.each { |u| undestroyed_foundation_count +=1 unless u.marked_for_destruction? }
+    errors.add_to_base 'There must be at least one set of survey data' if undestroyed_foundation_count < 1
+    
+    inclusions.each { |v| undestroyed_inclusion_count +=1 unless v.marked_for_destruction? }
+    errors.add_to_base 'There must be at least one population' if undestroyed_inclusion_count < 1    
 
-#    outcomes.each { |w| undestroyed_outcome_count +=1 unless w.marked_for_destruction? }
-#    errors.add_to_base 'There must be at least one outcome measure' if undestroyed_outcome_count < 1  
+    outcomes.each { |w| undestroyed_outcome_count +=1 unless w.marked_for_destruction? }
+    errors.add_to_base 'There must be at least one outcome measure' if undestroyed_outcome_count < 1  
 
-#    determinants.each { |x| undestroyed_determinant_count +=1 unless x.marked_for_destruction? }
-#    errors.add_to_base 'There must be at least one determinant' if undestroyed_determinant_count < 1  
+    determinants.each { |x| undestroyed_determinant_count +=1 unless x.marked_for_destruction? }
+    errors.add_to_base 'There must be at least one determinant' if undestroyed_determinant_count < 1  
 
-#    mediators.each { |y| undestroyed_mediator_count +=1 unless y.marked_for_destruction? }
-#    errors.add_to_base 'There must be at least one confounder or mediator' if undestroyed_mediator_count < 1  
+    mediators.each { |y| undestroyed_mediator_count +=1 unless y.marked_for_destruction? }
+    errors.add_to_base 'There must be at least one confounder or mediator' if undestroyed_mediator_count < 1  
   end
     
   # functions for acts_as_indexed to enable 
@@ -162,7 +166,8 @@ class Publication < ActiveRecord::Base
   def hmt_list(hmt)
     l = []
     hmt.each do |k|
-      l << k.variable_id
+#      puts "just before adding to array: #{k}"
+      l << k.variable_id unless k.marked_for_destruction?
     end
     return l.sort.to_yaml
   end
@@ -186,6 +191,41 @@ class Publication < ActiveRecord::Base
     return l.chomp(" ")
   end
 
+  def inclusions_list
+    l = []
+    self.inclusions.each do |k|
+      l << k.population_id unless k.marked_for_destruction?
+    end
+    return l.sort.to_yaml
+  end
+
+  def list_inclusion_names(yaml_list)
+    l = ""
+    if !yaml_list.nil?
+      YAML.load(yaml_list).each do |k|
+        l += Population.find_by_id(k).name + " "
+      end
+    end
+    return l.chomp(" ")
+  end
+
+  def foundations_list
+    l = []
+    self.foundations.each do |k|
+      l << k.survey_id unless k.marked_for_destruction?
+    end
+    return l.sort.to_yaml
+  end
+
+  def list_foundation_names(yaml_list)
+    l = ""
+    if !yaml_list.nil?
+      YAML.load(yaml_list).each do |k|
+        l += Survey.find_by_id(k).name + " "
+      end
+    end
+    return l.chomp(" ")
+  end
 
   # compare with previous version and output differences
   def compare
@@ -214,6 +254,8 @@ class Publication < ActiveRecord::Base
           ch["outcome_list"] = self.hmt_list(self.outcomes)
           ch["determinant_list"] = self.hmt_list(self.determinants)          
           ch["mediator_list"] = self.hmt_list(self.mediators)
+          ch["inclusion_list"] = self.inclusions_list
+          ch["foundation_list"] = self.foundations_list
           puts "assigned self as current"
 
           previous_version = v.object
@@ -226,6 +268,8 @@ class Publication < ActiveRecord::Base
           ph["outcome_list"] = v.previous.outcomes
           ph["determinant_list"] = v.previous.determinants     
           ph["mediator_list"] = v.previous.mediators
+          ph["inclusion_list"] = v.previous.inclusions
+          ph["foundation_list"] = v.previous.foundations
           puts "assigned first version as previous"   
       
         else
@@ -240,7 +284,9 @@ class Publication < ActiveRecord::Base
           ch["keyword_list"] = v.keywords
           ch["outcome_list"] = v.outcomes
           ch["determinant_list"] = v.determinants     
-          ch["mediator_list"] = v.mediators          
+          ch["mediator_list"] = v.mediators     
+          ch["inclusion_list"] = v.inclusions
+          ch["foundation_list"] = v.foundations     
     puts "assigned current"
 
           previous_version = v.object
@@ -252,7 +298,9 @@ class Publication < ActiveRecord::Base
           ph["keyword_list"] = v.previous.keywords
           ph["outcome_list"] = v.previous.outcomes
           ph["determinant_list"] = v.previous.determinants     
-          ph["mediator_list"] = v.previous.mediators          
+          ph["mediator_list"] = v.previous.mediators      
+          ph["inclusion_list"] = v.previous.inclusions
+          ph["foundation_list"] = v.previous.foundations
       puts "assigned previous"
         end  
         # create hash of diffs
@@ -269,10 +317,17 @@ class Publication < ActiveRecord::Base
         ph["determinants"] = list_variable_names(ph["determinant_list"])  
         
         ch["mediators"] = list_variable_names(ch["mediator_list"])
-        ph["mediators"] = list_variable_names(ph["mediator_list"]) 
+        ph["mediators"] = list_variable_names(ph["mediator_list"])
+        
+        ch["inclusions"] = list_inclusion_names(ch["inclusion_list"])
+        ph["inclusions"] = list_inclusion_names(ph["inclusion_list"])
+
+        ch["foundations"] = list_foundation_names(ch["foundation_list"])
+        ph["foundations"] = list_foundation_names(ph["foundation_list"])
+
         
         # checking string keys
-        str_keys = %w[title description state reference promotion archived url index keywords outcomes determinants mediators]
+        str_keys = %w[title description state reference promotion archived url index keywords outcomes determinants mediators inclusions foundations]
         str_keys.each do |key|
           ch[key].nil? ? c = " " : c = ch[key].lstrip
           ph[key].nil? ? p = " " : p = ph[key].lstrip          

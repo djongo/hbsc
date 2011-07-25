@@ -1,5 +1,4 @@
 <div class="child" id="population">
   <%= f.collection_select(:population_id, Population.all, :id, :name, { :prompt => true }) %>
-  <%= f.hidden_field :_destroy, :class => 'destroy' %>
   <%= remove_child_link 'remove', f %>
 </div>
