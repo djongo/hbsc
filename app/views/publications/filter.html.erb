@@ -148,3 +148,6 @@
 <% end %>    
   </table>
 <p><%= will_paginate @publications %></p>
+<p>
+  <%= link_to "Download search result as Excel spreadsheet", filter_publications_path(@publications, :search => params[:search], :format => "xls") if permitted_to? :filter, :publications %>
+</p>

@@ -19,4 +19,5 @@ module PublicationsHelper
       render(:partial => child.underscore, :locals => { :f => f })
     end
   end
+
 end

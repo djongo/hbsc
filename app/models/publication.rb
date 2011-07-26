@@ -163,6 +163,33 @@ class Publication < ActiveRecord::Base
     publication_type.name
   end
   
+  # methods for export
+  def keywords_xls
+    self.keywords.map(&:variable_name).join(', ')
+  end
+  
+  def outcomes_xls
+    self.outcomes.map(&:variable_name).join(', ')    
+  end
+
+  def determinants_xls
+    self.determinants.map(&:variable_name).join(', ')    
+  end
+
+  def mediators_xls
+    self.mediators.map(&:variable_name).join(', ')    
+  end
+
+  def surveys_xls
+    self.surveys.map(&:name).join(', ')
+  end
+  
+  def populations_xls
+    self.populations.map(&:name).join(', ')
+  end
+  
+  
+  # methods for meta data for versions
   def hmt_list(hmt)
     l = []
     hmt.each do |k|

@@ -5,8 +5,8 @@ class PublicationsController < ApplicationController
   auto_complete_for :variable, :name
   auto_complete_for :target_journal, :name
   # above loads current publication
-  helper_method :sort_column, :sort_direction
-  
+  helper_method :sort_column, :sort_direction, :export_options
+
   def index
     # , :conditions => ['archived = ?', false] ensures that the index
     # never shows publications that are archived
@@ -16,13 +16,24 @@ class PublicationsController < ApplicationController
 
     if(params[:search]).blank?
       @publications = Publication.paginate(:page => params[:page], :per_page => @per_page, :order => 'title', :conditions => ['archived = ?', false])
+      @export = Publication.find(:all, :order => 'title', :conditions => ['archived = ?', false])
     else
       @publications = Publication.with_query(params[:search]).paginate(:page => params[:page], :per_page => @per_page, :order => 'title', :conditions => ['archived = ?', false])
+      logger.debug "hello world!!!!"
+      @export = Publication.with_query(params[:search]).paginate(:page => params[:page], :per_page => 10000, :order => 'title', :conditions => ['archived = ?', false])
     end
     # No match for your search criteria    
     if @publications.empty?
       flash[:error] = "No publications matched your search criteria."
     end
+    
+    respond_to do |format|
+      format.html
+      format.xls { 
+        send_data @export.to_xls_data(export_options),
+            :filename => 'publications.xls' }
+    end
+    
   end
   
   # action for advanced search
@@ -31,6 +42,13 @@ class PublicationsController < ApplicationController
     @search = Publication.searchlogic(params[:search])
     @pcount = @search.all.count
     @publications = @search.all.paginate(:page => params[:page], :per_page => @per_page)
+
+    respond_to do |format|
+      format.html
+      format.xls { send_data @search.all.to_xls_data(export_options), :filename => 'publications.xls' }
+    end
+
+
   end
   
   def list
@@ -335,5 +353,48 @@ class PublicationsController < ApplicationController
     %w[asc desc].include?(params[:direction]) ? params[:direction] : "asc"
   end
 
+  def export_options
+    @export_options ||= { 
+            :columns => [ :id, 
+                          :title, 
+                          :created_at, 
+                          :updated_at, 
+                          :keywords_xls,                          
+                          {:language => [:name]},
+                          {:publication_type => [:name]},
+                          :description,
+                          {:user => [:full_name]},
+                          :surveys_xls,
+                          :populations_xls,
+                          :outcomes_xls,
+                          :determinants_xls,
+                          :mediators_xls,
+                          {:target_journal => [:name]},
+                          :url,
+                          :promotion,
+                          :reference,
+                          :state
+                          ], 
+            :headers => [ 'ID',
+                          'Title', 
+                          'Created At',
+                          'Updated At',
+                          'Keywords',                          
+                          'Language',
+                          'Publication Type',
+                          'Description',
+                          'First Author',
+                          'Survey Data',
+                          'Populations',
+                          'Outcome Measures',
+                          'Determinants',
+                          'Confounders/Mediators',
+                          'Target Journal',
+                          'URL',
+                          'Promotion',
+                          'Reference/Citation',
+                          'State']
+          }
+  end
     
 end
