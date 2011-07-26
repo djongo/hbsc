@@ -29,4 +29,5 @@ class Notifier < ActionMailer::Base
     content_type  "text/plain"
     sent_on       Time.now
     body          exception
+  end
 end
