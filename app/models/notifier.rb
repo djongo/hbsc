@@ -22,4 +22,11 @@ class Notifier < ActionMailer::Base
   end
 #  handle_asynchronously :workflow_notification
   
+  def error_notification(exception)
+    subject       "Puma HBSC Error"
+    from          "Puma HBSC"
+    recipients    "puma.hbsc@gmail.com"
+    content_type  "text/plain"
+    sent_on       Time.now
+    body          exception
 end
