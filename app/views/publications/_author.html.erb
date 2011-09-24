@@ -1,0 +1,9 @@
+<li id="author_<%= f.object[:id] %>">
+<span class="handle">[drag]</span>
+<%= f.text_field :name, :size => 20 %>
+<%= f.text_field :email, :size => 20 %>
+<%= f.collection_select :country_team_id, CountryTeam.all, :id, :name, options = { :prompt => "Select one..." } %>
+<%= f.collection_select :focus_group_id, FocusGroup.all, :id, :name, options = { :prompt => "Select one..." } %>
+<%= remove_child_link 'remove', f %>
+
+</li>

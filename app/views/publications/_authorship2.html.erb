@@ -1,0 +1,10 @@
+<div class="child" id="authorship2">
+  <tr>
+    <td><%= f.text_field :name, :size => 20 %></td>
+    <td><%= f.text_field :email, :size => 20 %></td>
+    <td><%= f.collection_select :country_team, CountryTeam.all, :id, :name, options = { :prompt => "Select one..." } %></td>
+    <td><%= f.collection_select :focus_group, FocusGroup.all, :id, :name, options = { :prompt => "Select one..." } %></td>
+    <td>radio_button</td>
+    <td><%= remove_child_link 'remove', f %></td>
+  </tr>
+</div>

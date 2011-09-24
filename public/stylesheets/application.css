@@ -1,6 +1,6 @@
 body {
-  background-color: #4B7399;
-  font-family: Verdana, Helvetica, Arial;
+  background-color: #444F51;
+  font-family: 'Trebuchet MS', Helvetica, sans-serif;
   font-size: 12px;
 }
 
@@ -107,7 +107,7 @@ div#site_nav {
 
 /* Publications */
 #publications {
-  font-family: Verdana, Helvetica, Arial;
+  font-family: 'Trebuchet MS', Helvetica, sans-serif;
 }
 
 #publications h2 {
@@ -223,7 +223,7 @@ div.auto_complete ul strong.highlight {
   margin-top:10px;
   margin-left:auto;
   margin-right:auto;
-  font-family: Verdana, Helvetica, Arial;
+  font-family: 'Trebuchet MS', Helvetica, sans-serif;
   font-size: 10px;  
 }
 
@@ -253,3 +253,10 @@ table.pretty {
 .pretty th .desc {
   background-image: url(/images/down_arrow.gif);
 }
+
+li .handle {
+    font-size: 10px;
+    cursor: move;
+    color: #777;
+}
+

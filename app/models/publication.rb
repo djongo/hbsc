@@ -27,6 +27,7 @@ class Publication < ActiveRecord::Base
   accepts_nested_attributes_for :notes, :reject_if => lambda { |a| a[:content].blank? }, :allow_destroy => true
 
   has_many :reminders, :dependent => :destroy
+  has_many :authors, :order => "position", :dependent => :destroy
  
   has_many :authorships
   has_many :users, :through => :authorships
@@ -102,6 +103,14 @@ class Publication < ActiveRecord::Base
                                 :reject_if => proc { |attrs|
                                 attrs['full_name'].blank? &&
                                   attrs['user_id'].blank? }
+                                  
+  accepts_nested_attributes_for :authors,
+                                :allow_destroy => true,
+                                :reject_if => proc { |attrs|
+                                attrs['name'].blank? &&
+                                  attrs['user_id'].blank? }                                  
+
+#  serialize :author_information, Hash
 
   def validate
     # require a minimum of one keyword, population, determinant, outcome
@@ -187,7 +196,6 @@ class Publication < ActiveRecord::Base
   def populations_xls
     self.populations.map(&:name).join(', ')
   end
-  
   
   # methods for meta data for versions
   def hmt_list(hmt)

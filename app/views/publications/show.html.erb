@@ -83,6 +83,29 @@
   </div>
 <% end %>
 </p>
+
+<p>
+  <strong>Authors 2:</strong>
+    <table class="pretty">
+      <tr>
+      <th>Position</th>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Country Team</th>
+      <th>Focus/Writing Group</th>
+      </tr>
+       <% @publication.authors.each do |a| %>
+       <tr>
+        <td><%=h a.position %></td>
+        <td><%=h a.name %></td>
+        <td><%=h a.email %></td>
+        <td><%=h a.country_team.name %></td>
+        <td><%=h a.focus_group.name %></td>
+       </tr>
+       <% end %>   
+    </table>
+</p>
+
 <table>
   <tr>
     <td>

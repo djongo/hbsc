@@ -1,0 +1,27 @@
+<% title "Authors" %>
+
+<table>
+  <tr>
+    <th>Publication</th>
+    <th>Name</th>
+    <th>Email</th>
+    <th>Country Team</th>
+    <th>Focus Group</th>
+    <th>First Author</th>
+  </tr>
+  <% for author in @authors %>
+    <tr>
+      <td><%=h author.publication_id %></td>
+      <td><%=h author.name %></td>
+      <td><%=h author.email %></td>
+      <td><%=h author.country_team_id %></td>
+      <td><%=h author.focus_group_id %></td>
+      <td><%=h author.first_author %></td>
+      <td><%= link_to "Show", author %></td>
+      <td><%= link_to "Edit", edit_author_path(author) %></td>
+      <td><%= link_to "Destroy", author, :confirm => 'Are you sure?', :method => :delete %></td>
+    </tr>
+  <% end %>
+</table>
+
+<p><%= link_to "New Author", new_author_path %></p>

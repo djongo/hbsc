@@ -56,6 +56,18 @@
    <%= add_child_link "Add an author", 'authorship', f  %>
 </p>
 <p>
+  <%= f.label "Additional author 2" %><br />
+     <div id="author_children">
+       <ul id="authors">
+       <% f.fields_for :authors do |author_form| %>
+         <%= render :partial => 'author', :locals => { :f => author_form } %>
+       <% end %>
+       </ul>
+<%= sortable_element("authors", :url => sort_authors_path, :handle => "handle") %>
+     </div>
+   <%= add_child_link "Add an author", 'author', f  %>
+</p>
+<p>
       <%= f.label "Responsible PI" %><br />
       <%= f.collection_select :responsible_id, User.all, :id, :full_name, options = { :prompt => "Select one..." } %>
 </p>

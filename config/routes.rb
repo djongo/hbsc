@@ -1,4 +1,5 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :authors, :collection => { :sort => :post }
   map.resources :reminders
   map.resources :notes
   map.resources :emails

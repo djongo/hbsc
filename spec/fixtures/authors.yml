@@ -1,0 +1,15 @@
+one:
+  publication_id: 1
+  name: MyString
+  email: MyString
+  country_team_id: 1
+  focus_group_id: 1
+  first_author: false
+
+two:
+  publication_id: 1
+  name: MyString
+  email: MyString
+  country_team_id: 1
+  focus_group_id: 1
+  first_author: false

@@ -1,0 +1,32 @@
+<% title "Author" %>
+
+<p>
+  <strong>Publication:</strong>
+  <%=h @author.publication_id %>
+</p>
+<p>
+  <strong>Name:</strong>
+  <%=h @author.name %>
+</p>
+<p>
+  <strong>Email:</strong>
+  <%=h @author.email %>
+</p>
+<p>
+  <strong>Country Team:</strong>
+  <%=h @author.country_team_id %>
+</p>
+<p>
+  <strong>Focus Group:</strong>
+  <%=h @author.focus_group_id %>
+</p>
+<p>
+  <strong>First Author:</strong>
+  <%=h @author.first_author %>
+</p>
+
+<p>
+  <%= link_to "Edit", edit_author_path(@author) %> |
+  <%= link_to "Destroy", @author, :confirm => 'Are you sure?', :method => :delete %> |
+  <%= link_to "View All", authors_path %>
+</p>

@@ -22,7 +22,8 @@ authorization do
     has_permission_on :publications, :to => [:auto_complete_for_target_journal_name]    
     has_permission_on :publications, :to => :submit   
     has_permission_on :notes, :to => :manage
-            
+    has_permission_on :authors, :to => :manage
+    has_permission_on :authors, :to => :sort    
   end
  
   role :publication_group do
@@ -54,7 +55,9 @@ authorization do
     has_permission_on :target_journals, :to => :manage
     has_permission_on :versions, :to => :manage
     has_permission_on :emails, :to => :manage
-    has_permission_on :notes, :to => :manage        
+    has_permission_on :notes, :to => :manage     
+    has_permission_on :authors, :to => :manage       
+    has_permission_on :authors, :to => :sort
   end
 end
 
