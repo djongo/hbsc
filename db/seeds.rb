@@ -34,7 +34,7 @@ end
 end
 
 # Load Focus Groups
-["SI"].each do |fg|
+["SI","Test","Creative","Brainstorm"].each do |fg|
   FocusGroup.find_or_create_by_name(fg)
 end
 
@@ -73,6 +73,21 @@ if User.find_by_email('Ashley.Theunissen@ed.ac.uk').nil?
   User.create! :email => 'Ashley.Theunissen@ed.ac.uk', :password => 'admin123', :password_confirmation => 'admin123', :first_name => "Ashley", :last_name => "Theunissen", :roles_mask => "3", :hbsc_member => true 
 end
 
+if User.find_by_email('tppe@si-folkesundhed.dk').nil?
+  User.create! :email => 'tppe@si-folkesundhed.dk', :password => 'admin123', :password_confirmation => 'admin123', :first_name => "Trine Pagh", :last_name => "Pedersen", :roles_mask => "3", :hbsc_member => true 
+end
+
+if User.find_by_email('krma@si-folkesundhed.dk').nil?
+  User.create! :email => 'krma@si-folkesundhed.dk', :password => 'admin123', :password_confirmation => 'admin123', :first_name => "Katrine Rich", :last_name => "Madsen", :roles_mask => "3", :hbsc_member => true 
+end
+
+if User.find_by_email('pebn@si-folkesundhed.dk').nil?
+  User.create! :email => 'pebn@si-folkesundhed.dk', :password => 'admin123', :password_confirmation => 'admin123', :first_name => "Pernille", :last_name => "Bendtsen", :roles_mask => "3", :hbsc_member => true 
+end
+
+if User.find_by_email('bho@si-folkesundhed.dk').nil?
+  User.create! :email => 'bho@si-folkesundhed.dk', :password => 'admin123', :password_confirmation => 'admin123', :first_name => "Bjørn", :last_name => "Holstein", :roles_mask => "3", :hbsc_member => true 
+end
 
 # Load standard email texts
 if Email.find_by_trigger('preplanned_submit').nil?

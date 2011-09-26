@@ -1,0 +1,9 @@
+one:
+  publication_id: 1
+  name: MyString
+  email: MyString
+
+two:
+  publication_id: 1
+  name: MyString
+  email: MyString

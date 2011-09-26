@@ -1,0 +1,153 @@
+<% title "Advanced Publication Search" %>
+
+<table>
+  
+<% form_for @search do |f| %>
+<tr>
+  <td>
+    <%= f.label :id_equals, "ID" %></td><td>
+    <%= f.text_field :id_equals, :size => 8 %>
+  </td>
+  <td>
+    <%= f.label :keywords_variable_name_like, "Keywords" %></td><td>
+    <%= f.text_field :keywords_variable_name_like %>
+  </td>
+</tr>
+<tr>
+  <td>
+    <%= f.label :title_like_any, "Title" %></td><td>
+    <%= f.text_field :title_like_any %>
+  </td>
+  <td>
+    <%= f.label :description_like_any, "Description" %></td><td>
+    <%= f.text_field :description_like_any %>
+  </td>  
+</tr>
+<tr>
+  <td>
+    <%= f.label :language_id_equals, "Language" %></td><td>
+    <%= f.collection_select :language_id_equals, Language.all, :id, :name, :include_blank => true %>
+  </td>
+  <td>
+    <%= f.label :publication_type_id_equals, "Publication Type" %></td><td>
+    <%= f.collection_select :publication_type_id_equals,  PublicationType.all, :id, :name, :include_blank => true %>
+  </td>
+</tr>
+ <tr>
+  <td>
+    <%= f.label :created_at, "Created between" %></td><td>
+    <%= f.text_field :created_at_gte, :size => 12 %> - <%= f.text_field :created_at_lte, :size => 12 %>
+  </td>
+  <td>
+    <%= f.label :updated_at, "Updated between" %></td><td>
+    <%= f.text_field :updated_at_gte, :size => 12 %> - <%= f.text_field :updated_at_lte, :size => 12 %>
+  </td>
+</tr>
+ <tr>
+  <td>
+    <%= f.label :user_id, "First author" %></td><td>
+    <%= f.collection_select :user_id_equals,  User.all, :id, :full_name, :include_blank => true %>
+  </td>
+  <td>
+  <%= f.label :authors_name_or_authors_email_like_any, "Other authors" %></td><td>
+  <%= f.text_field :authors_name_or_authors_email_like_any %>
+  </td>
+</tr>
+ <tr>
+  <td>
+    <%= f.label :responsible_id, "Responsible PI" %></td><td>
+    <%= f.collection_select :responsible_id_equals,  User.all, :id, :full_name, :include_blank => true %>
+  </td>
+  <td>
+    <%= f.label :contact_name_or_contact_email_like_any, "Contact person" %></td><td>
+    <%= f.text_field :contact_name_or_contact_email_like_any %>
+  </td>
+</tr>
+ <tr>
+  <td>
+    <%= f.label :surveys_name_like, "Survey data" %></td><td>
+    <%= f.text_field :surveys_name_like, :size => 12 %>
+  </td>
+  <td>
+    <%= f.label :populations_name_like, "Populations" %></td><td>
+    <%= f.text_field :populations_name_like %>
+  </td>
+</tr>
+ <tr>
+  <td>
+    <%= f.label :outcomes_variable_name_like, "Outcome Measures" %></td><td>
+    <%= f.text_field :outcomes_variable_name_like %>
+  </td>
+  <td>
+    <%= f.label :target_journal_id_equals, "Target journal" %></td><td>
+    <%= f.collection_select :target_journal_id_equals,  TargetJournal.all, :id, :name, :include_blank => true %>
+  </td>  
+</tr>
+ <tr>
+  <td>
+    <%= f.label :determinants_variable_name_like, "Determinants" %></td><td>
+    <%= f.text_field :determinants_variable_name_like %>
+  </td>
+  <td>
+    <%= f.label :promotion_equals %></td><td>
+    <%= f.select :promotion, { 'Yes'=>true, 'No'=>false }, :include_blank => :true %>
+  </td>  
+</tr>
+ <tr>
+  <td>
+    <%= f.label :mediators_variable_name_like, "Confounder/mediators" %></td><td>
+    <%= f.text_field :mediators_variable_name_like %>
+  </td>
+  <td>
+    <%= f.label :reference_like, "Reference" %></td><td>
+    <%= f.text_field :reference_like %>
+  </td>  
+</tr>
+ <tr>
+  <td>
+    <%= f.label :state %></td><td>
+    <% states = ['preplanned','planned','inprogress','submitted','accepted','published'] %>
+    <%= select_tag :state, options_for_select(states), :multiple => true  %>
+  </td>
+  <td>
+    <%= f.label :notes_content_like, "Notes" %></td><td>
+    <%= f.text_field :notes_content_like %>
+  </td>
+</tr>
+ <tr>
+  <td colspan="4" align=left>
+    <%= f.submit "Search" %>
+  </td>
+</tr>
+<% end %>
+</table>
+
+<table width="100%"><tr><td>Search had <%=h @pcount %> results</td><td align=right>Publications per page: <%= select_tag :per_page, options_for_select([5,10,20,50,100], params[:per_page].to_i) %></td></tr></table>
+
+<p><%= will_paginate @publications %></p>
+
+  <table class="pretty">
+    <tr>
+      <th>ID</th>
+      <th>Title</th>
+      <th>State</th>
+      <th>Language</th>
+      <th>Publication Type</th>
+      <th>Author</th>
+    </tr>
+<% for publication in @publications %>
+    <tr>
+      <td><%= link_to publication.id, publication %></td>
+      <td><%=h publication.title %></td>
+      <td><%=h publication.state.humanize %></td>
+      <td><%=h publication.language.name %></td>
+      <td><%=h publication.publication_type.name %></td>
+      <td><%=h publication.user.full_name %></td>
+    </tr>
+
+<% end %>    
+  </table>
+<p><%= will_paginate @publications %></p>
+<p>
+  <%= link_to "Download search result as Excel spreadsheet", filter_publications_path(@publications, :search => params[:search], :format => "xls") if permitted_to? :filter, :publications %>
+</p>

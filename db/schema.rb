@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110921201540) do
+ActiveRecord::Schema.define(:version => 20110926195322) do
 
   create_table "authors", :force => true do |t|
     t.integer  "publication_id"
@@ -20,13 +20,6 @@ ActiveRecord::Schema.define(:version => 20110921201540) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "position"
-  end
-
-  create_table "authorships", :force => true do |t|
-    t.integer  "publication_id"
-    t.integer  "user_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
   end
 
   create_table "country_teams", :force => true do |t|
@@ -153,12 +146,12 @@ ActiveRecord::Schema.define(:version => 20110921201540) do
     t.text     "reference",           :limit => 255
     t.boolean  "promotion",                          :default => true
     t.integer  "responsible_id"
-    t.integer  "contact_id"
     t.integer  "target_journal_id"
     t.boolean  "archived",                           :default => false
     t.string   "url"
     t.string   "change"
-    t.string   "author_information"
+    t.string   "contact_name"
+    t.string   "contact_email"
   end
 
   create_table "reminders", :force => true do |t|

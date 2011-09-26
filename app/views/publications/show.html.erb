@@ -10,11 +10,11 @@
     <td>
       <strong>Created at:</strong> <%=h @publication.created_at.strftime('%Y-%m-%d') %>
     </td>
-    <td>
+    <td align="right">
       <strong>Updated at:</strong> <%=h @publication.updated_at.strftime('%Y-%m-%d') %>
     </td>
 <% if @publication.archived %>
-    <td>
+    <td align="right">
       <font style="letter-spacing:2px;font-weight:bold;color:red;">Archived</font>
     </td>           
 <% end %>
@@ -58,65 +58,65 @@
   </div>
    <div class="box_bottom"></div>
 </div>
-<p>
-  <strong>Language:</strong>
-  <%=h @publication.language.name %>
-</p>
-<p>
-  <strong>Publication Type:</strong>
-  <%=h @publication.publication_type.name %>
-</p>
+<table width="80%">
+  <tr>
+    <td><strong>Publication type:</strong>&nbsp;
+      <%=h @publication.publication_type.name %></td>
+    <td><strong>Language:</strong>&nbsp;
+      <%=h @publication.language.name %></td>
+  </tr>
+</table>
 <p>
   <strong>Description:</strong>
   <%=h @publication.description %>
 </p>
-<h3>Authors</h3>
-<p>
-  <strong>First author:</strong>
-  <%=h @publication.user.full_name %>
-</p>
-<p>
-  <strong>Additional author(s):</strong>
-<% @publication.authorships.each do |authorship| %>
-  <div class="child">
-      <%=h authorship.user_name %><br />
-  </div>
-<% end %>
-</p>
 
+<h3>Author(s)</h3>
 <p>
-  <strong>Authors 2:</strong>
-    <table class="pretty">
-      <tr>
-      <th>Position</th>
+  <table class="pretty" width="80%">
+    <tr>
+    <th>Author no</th>
+    <th>Name</th>
+    <th>Email</th>
+    <th>Country team</th>
+    <th>Focus/Writing group</th>
+    </tr>
+     <% @publication.authors.each do |a| %>
+     <tr>
+      <td><%=h a.position %></td>
+      <td><%=h a.name %></td>
+      <td><%=h a.email %></td>
+      <td><%=h a.country_team.name %></td>
+      <td><%=h a.focus_group.name %></td>
+     </tr>
+     <% end %>   
+  </table>
+</p>
+<h3>Contacts</h3>
+<p>
+  <table class="pretty" width="80%">
+    <tr>
+      <th>Contact</th>
       <th>Name</th>
       <th>Email</th>
-      <th>Country Team</th>
-      <th>Focus/Writing Group</th>
-      </tr>
-       <% @publication.authors.each do |a| %>
-       <tr>
-        <td><%=h a.position %></td>
-        <td><%=h a.name %></td>
-        <td><%=h a.email %></td>
-        <td><%=h a.country_team.name %></td>
-        <td><%=h a.focus_group.name %></td>
-       </tr>
-       <% end %>   
-    </table>
+    </tr>
+    <tr>
+      <td>HBSC responsible author</td>
+      <td><%=h @publication.user.full_name %></td>
+      <td><%=h @publication.user.email %></td>    
+    </tr>
+    <tr>
+      <td>Contact person</td>
+      <td><%=h @publication.contact_name %></td>
+      <td><%=h @publication.contact_email %></td>    
+    </tr>
+    <tr>
+      <td>Responsible PI</td>
+      <td><%=h @publication.responsible.full_name %></td>
+      <td><%=h @publication.responsible.email %></td>    
+    </tr>
+  </table>
 </p>
-
-<table>
-  <tr>
-    <td>
-      <strong>Responsible PI:</strong>
-      <%=h @publication.responsible.full_name %>
-    </td><td>
-      <strong>Contact person:</strong>
-      <%=h @publication.contact.full_name %>
-    </td>
-  </tr>
-</table>
 <h3>Data</h3>
 <div class="line_of_boxes">
   <div class="box_in_line">
@@ -260,4 +260,3 @@
   <%= link_to "Destroy", @publication, :confirm => 'Are you sure?', :method => :delete if permitted_to? :destroy, :publications %> |
   <%= link_to "View All", publications_path %>
 </p>
-<strong>Change:</strong> <%=h @publication.change %>

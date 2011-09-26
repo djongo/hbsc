@@ -39,42 +39,50 @@
 </p>
 <h3>Author(s)</h3>
 <p>
-      <%= f.label "First author" %><br />
-      <% if !@publication.id %>
-      <%= f.collection_select :user_id, User.all, :id, :full_name, options = { :selected => current_user.id } %>
-      <% else %>
-      <%= f.collection_select :user_id, User.all, :id, :full_name %>
+  <div id="author_children">
+    <ul id="authors">
+      <% f.fields_for :authors do |author_form| %>
+        <%= render :partial => 'author', :locals => { :f => author_form } %>
       <% end %>
+    </ul>
+    <%= sortable_element("authors", :url => sort_authors_path, :handle => "handle") %>
+  </div>
+  <%= add_child_link "Add an author", 'author', f  %>
 </p>
-<p>
-  <%= f.label "Additional author" %><br />
-     <div id="authorship_children">
-       <% f.fields_for :authorships do |authorship_form| %>
-         <%= render :partial => 'authorship', :locals => { :f => authorship_form } %>
-       <% end %>
-     </div>
-   <%= add_child_link "Add an author", 'authorship', f  %>
-</p>
-<p>
-  <%= f.label "Additional author 2" %><br />
-     <div id="author_children">
-       <ul id="authors">
-       <% f.fields_for :authors do |author_form| %>
-         <%= render :partial => 'author', :locals => { :f => author_form } %>
-       <% end %>
-       </ul>
-<%= sortable_element("authors", :url => sort_authors_path, :handle => "handle") %>
-     </div>
-   <%= add_child_link "Add an author", 'author', f  %>
-</p>
-<p>
+<h3>Contacts</h3>
+<div class="line_of_boxes">
+  <div class="box_in_line">
+    <div class="box_in_line_content">
+      <%= f.label "HBSC Responsible Author" %><br />
+      <% if !@publication.id %>
+        <%= f.collection_select :user_id, User.all, :id, :full_name, options = { :selected => current_user.id } %>
+      <% else %>
+        <%= f.collection_select :user_id, User.all, :id, :full_name %>
+      <% end %>
+    </div>
+  </div>
+  <div class="box_in_line">
+    <div class="box_in_line_content">
       <%= f.label "Responsible PI" %><br />
       <%= f.collection_select :responsible_id, User.all, :id, :full_name, options = { :prompt => "Select one..." } %>
-</p>
-<p>
-      <%= f.label "Contact person" %><br />
-      <%= f.collection_select :contact_id, User.all, :id, :full_name, options = { :prompt => "Select one..." } %>
-</p>
+    </div>
+  </div>
+  <div class="box_in_line">
+    <div class="box_in_line_content">
+      <table>
+        <tr>
+          <td><%= f.label "Contact person name" %></td>
+          <td><%= f.label "Contact person email" %></td>
+        </tr>
+        <tr>
+          <td><%= f.text_field :contact_name, :size => 30 %></td>
+          <td><%= f.text_field :contact_email, :size => 30 %></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+<div class="box_bottom"></div>
+</div>
 <h3>Data</h3>   
 <div class="line_of_boxes">
   <div class="box_in_line">
@@ -99,7 +107,7 @@
   <div class="box_bottom"></div>
 </div>
  
-<h3>Variables</h3> 
+<h3>Variables</h3>
  <div class="line_of_boxes">
   <div class="box_in_line">
     Outcome measure(s):
@@ -137,11 +145,11 @@
 
 <p>
   <%= f.label "Target Journal" %><br />
-    <%= text_field_with_auto_complete :target_journal, 
+    <%=  text_field_with_auto_complete :target_journal, 
             :name, 
           { :size => 60 },
           { :method => :get, 
-            :skip_style => true,
+           :skip_style => true,
             :url => '/auto_complete_for_target_journal_name',
             :param_name => 'target_journal[name]' }
     %>
@@ -172,10 +180,6 @@
     <%= add_child_link "Add a note", 'note', f  %>
   </p>
 <% end %>
-<p>
-<%= f.label :change %><br />
-<%= f.text_field :change, :size => 80 %>
-</p>
 <p>
   <%= f.submit %>
 </p>

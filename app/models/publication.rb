@@ -11,26 +11,27 @@ class Publication < ActiveRecord::Base
     }
   acts_as_indexed :fields => [
     :title, :description,
-    :variable_list, :survey_list, :language_list, :email_list, :username_list,
+    :variable_list, :survey_list, :language_list, 
     :population_list, :publication_type_list, :state
 #    :focus_group_list, :country_team_list
+#    :email_list, :username_list,
     ]
 
   belongs_to :language
   belongs_to :publication_type
   belongs_to :user
   belongs_to :responsible, :class_name => "User"
-  belongs_to :contact, :class_name => "User"
+  #belongs_to :contact, :class_name => "User"
   belongs_to :target_journal
-  
+
   has_many :notes, :dependent => :destroy
   accepts_nested_attributes_for :notes, :reject_if => lambda { |a| a[:content].blank? }, :allow_destroy => true
 
   has_many :reminders, :dependent => :destroy
   has_many :authors, :order => "position", :dependent => :destroy
  
-  has_many :authorships
-  has_many :users, :through => :authorships
+#  has_many :authorships
+#  has_many :users, :through => :authorships
   
   has_many :keywords
   has_many :variables, :through => :keywords
@@ -49,7 +50,7 @@ class Publication < ActiveRecord::Base
   # Approach to get fully custom error message
   HUMANIZED_ATTRIBUTES = { 
       :title => "Working title",
-      :contact_id => "Contact person",
+#      :contact_id => "Contact person",
       :responsible_id => "Responsible pi"
   }
 
@@ -58,7 +59,7 @@ class Publication < ActiveRecord::Base
   end
 
   validates_presence_of :title, :language_id, :publication_type, :user_id
-  validates_presence_of :responsible_id, :contact_id
+  validates_presence_of :responsible_id #, :contact_id
   
   validates_inclusion_of :promotion, :in => [true,false]
   
@@ -98,17 +99,16 @@ class Publication < ActiveRecord::Base
                                 :reject_if => proc { |attrs|
                                 attrs['population_name'].blank? &&
                                   attrs['population_id'].blank? }
-  accepts_nested_attributes_for :authorships,
-                                :allow_destroy => true,
-                                :reject_if => proc { |attrs|
-                                attrs['full_name'].blank? &&
-                                  attrs['user_id'].blank? }
-                                  
+#  accepts_nested_attributes_for :authorships,
+#                                :allow_destroy => true,
+#                                :reject_if => proc { |attrs|
+#                                attrs['full_name'].blank? &&
+#                                  attrs['user_id'].blank? }
   accepts_nested_attributes_for :authors,
                                 :allow_destroy => true,
                                 :reject_if => proc { |attrs|
                                 attrs['name'].blank? &&
-                                  attrs['user_id'].blank? }                                  
+                                  attrs['user_id'].blank? }     
 
 #  serialize :author_information, Hash
 
@@ -156,13 +156,13 @@ class Publication < ActiveRecord::Base
     language.name
   end
 
-  def email_list
-    users.map(&:email).join(' ')
-  end
+#  def email_list
+#    users.map(&:email).join(' ')
+#  end
 
-  def username_list
-    users.map(&:full_name).join(' ')
-  end
+#  def username_list
+#    users.map(&:full_name).join(' ')
+#  end
 
   def population_list
     populations.map(&:name).join(' ')

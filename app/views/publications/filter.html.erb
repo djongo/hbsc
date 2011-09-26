@@ -1,37 +1,45 @@
 <% title "Advanced Publication Search" %>
 
 <table>
-  
 <% form_for @search do |f| %>
 <tr>
-  <td>
-    <%= f.label :id_equals, "ID" %></td><td>
+  <td width="20%">
+    <%= f.label :id_equals, "ID" %></td><td width="30%">
     <%= f.text_field :id_equals, :size => 8 %>
   </td>
-  <td>
-    <%= f.label :keywords_variable_name_like, "Keywords" %></td><td>
-    <%= f.text_field :keywords_variable_name_like %>
+  <td rowspan="4" width="20%">
+    <%= f.label :state %></td><td rowspan="4" width="30%">
+    <% states = ['preplanned','planned','inprogress','submitted','accepted','published'] %>
+    <%= select_tag :state, options_for_select(states), :multiple => true  %>
   </td>
-</tr>
-<tr>
-  <td>
-    <%= f.label :title_like_any, "Title" %></td><td>
-    <%= f.text_field :title_like_any %>
-  </td>
-  <td>
-    <%= f.label :description_like_any, "Description" %></td><td>
-    <%= f.text_field :description_like_any %>
-  </td>  
 </tr>
 <tr>
   <td>
     <%= f.label :language_id_equals, "Language" %></td><td>
     <%= f.collection_select :language_id_equals, Language.all, :id, :name, :include_blank => true %>
   </td>
+</tr>
+<tr>  
   <td>
     <%= f.label :publication_type_id_equals, "Publication Type" %></td><td>
     <%= f.collection_select :publication_type_id_equals,  PublicationType.all, :id, :name, :include_blank => true %>
   </td>
+</tr>
+<tr>
+  <td>
+    <%= f.label :promotion_equals %></td><td>
+    <%= f.select :promotion, { 'Yes'=>true, 'No'=>false }, :include_blank => :true %>
+  </td>
+</tr>
+<tr>  
+  <td>
+    <%= f.label :user_id, "HSBC responsible author" %></td><td>
+    <%= f.collection_select :user_id_equals,  User.all, :id, :full_name, :include_blank => true %>
+  </td>
+  <td>
+    <%= f.label :responsible_id, "Responsible PI" %></td><td>
+    <%= f.collection_select :responsible_id_equals,  User.all, :id, :full_name, :include_blank => true %>
+  </td>   
 </tr>
  <tr>
   <td>
@@ -43,75 +51,12 @@
     <%= f.text_field :updated_at_gte, :size => 12 %> - <%= f.text_field :updated_at_lte, :size => 12 %>
   </td>
 </tr>
- <tr>
+<tr colspan="4">
   <td>
-    <%= f.label :user_id, "First author" %></td><td>
-    <%= f.collection_select :user_id_equals,  User.all, :id, :full_name, :include_blank => true %>
-  </td>
-  <td>
-  <%= f.label :authorships_user_first_name_or_user_last_name_or_user_email_like_any, "Other authors" %></td><td>
-  <%= f.text_field :authorships_user_first_name_or_user_last_name_or_user_email_like_any %>
-  </td>
-</tr>
- <tr>
-  <td>
-    <%= f.label :responsible_id, "Responsible PI" %></td><td>
-    <%= f.collection_select :responsible_id_equals,  User.all, :id, :full_name, :include_blank => true %>
-  </td>
-  <td>
-    <%= f.label :contact_id, "Contact person" %></td><td>
-    <%= f.collection_select :contact_id_equals,  User.all, :id, :full_name, :include_blank => true %>
-  </td>
-</tr>
- <tr>
-  <td>
-    <%= f.label :surveys_name_like, "Survey data" %></td><td>
-    <%= f.text_field :surveys_name_like, :size => 12 %>
-  </td>
-  <td>
-    <%= f.label :populations_name_like, "Populations" %></td><td>
-    <%= f.text_field :populations_name_like %>
-  </td>
-</tr>
- <tr>
-  <td>
-    <%= f.label :outcomes_variable_name_like, "Outcome Measures" %></td><td>
-    <%= f.text_field :outcomes_variable_name_like %>
-  </td>
-  <td>
-    <%= f.label :target_journal_id_equals, "Target journal" %></td><td>
-    <%= f.collection_select :target_journal_id_equals,  TargetJournal.all, :id, :name, :include_blank => true %>
-  </td>  
-</tr>
- <tr>
-  <td>
-    <%= f.label :determinants_variable_name_like, "Determinants" %></td><td>
-    <%= f.text_field :determinants_variable_name_like %>
-  </td>
-  <td>
-    <%= f.label :promotion_equals %></td><td>
-    <%= f.select :promotion, { 'Yes'=>true, 'No'=>false }, :include_blank => :true %>
-  </td>  
-</tr>
- <tr>
-  <td>
-    <%= f.label :mediators_variable_name_like, "Confounder/mediators" %></td><td>
-    <%= f.text_field :mediators_variable_name_like %>
-  </td>
-  <td>
-    <%= f.label :reference_like, "Reference" %></td><td>
-    <%= f.text_field :reference_like %>
-  </td>  
-</tr>
- <tr>
-  <td>
-    <%= f.label :state %></td><td>
-    <% states = ['preplanned','planned','inprogress','submitted','accepted','published'] %>
-    <%= select_tag :state, options_for_select(states), :multiple => true  %>
-  </td>
-  <td>
-    <%= f.label :notes_content_like, "Notes" %></td><td>
-    <%= f.text_field :notes_content_like %>
+    <%= f.label "Title, description, keywords, outcomes, determinants, confounders, 
+    survey data, populations, target journal, notes, reference, and authors" %></td>
+    <td colspan="3">
+    <%= f.text_area :title_like_any, :rows => "5", :cols => "100%"%>
   </td>
 </tr>
  <tr>
@@ -151,3 +96,4 @@
 <p>
   <%= link_to "Download search result as Excel spreadsheet", filter_publications_path(@publications, :search => params[:search], :format => "xls") if permitted_to? :filter, :publications %>
 </p>
+

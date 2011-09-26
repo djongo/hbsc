@@ -3,22 +3,32 @@ namespace :db do
   task :populate => :environment do
     require 'populator'
     require 'faker'
-    [Publication, User, Keyword, Outcome, Determinant, Mediator, Foundation, Variable, Inclusion, Authorship].each(&:delete_all)
+    [Publication, User, Keyword, Outcome, Determinant, Mediator, Foundation, Variable, Inclusion, Author].each(&:delete_all)
     
     Publication.populate 60 do |publication|
       publication.title = Populator.words(3..7).titleize
       publication.description = Populator.sentences(4..10)
       publication.publication_type_id = (1..3)
       publication.language_id = (1..5)
-      publication.user_id = (1..12)
-      publication.state = ["preplanned","planned","inprogess","submitted","accepted"]
+      publication.user_id = (1..17)
+      publication.state = ["preplanned","planned","inprogess","submitted","accepted","published"]
       publication.created_at = 2.years.ago..Time.now
       publication.reference = Populator.words(3..7).titleize
       publication.promotion = ["false","true"]
-      publication.responsible_id = (1..12)
-      publication.contact_id = (1..12)
+      publication.responsible_id = (1..17)
+#      publication.contact_id = (1..12)
       publication.target_journal_id = (1..4)
-      publication.archived = [false,true]      
+      publication.archived = [false,true]
+      publication.contact_name = Faker::Name.name
+      publication.contact_email = Faker::Internet.email
+      Author.populate 2..4 do |author|      
+        author.publication_id = publication.id
+        author.position = (1..4)
+        author.name = Faker::Name.name
+        author.email = Faker::Internet.email
+        author.country_team_id = (1..6)
+        author.focus_group_id = (1..4)
+      end
     end
 
     Variable.populate 80 do |variable|
@@ -55,10 +65,10 @@ namespace :db do
       inclusion.population_id = (1..7)
     end
 
-    Authorship.populate 150 do |authorship|
-      authorship.publication_id = (1..60)
-      authorship.user_id = (1..11)
-    end
+#    Authorship.populate 150 do |authorship|
+#      authorship.publication_id = (1..60)
+#      authorship.user_id = (1..11)
+#    end
         
     User.populate 10 do |user|
       user.first_name = Faker::Name.first_name
@@ -70,5 +80,6 @@ namespace :db do
       user.roles_mask = (0..3)
       user.hbsc_member = ["false","true"]
     end
+    
   end
 end

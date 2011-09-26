@@ -18,7 +18,7 @@ class Notifier < ActionMailer::Base
     recipients    user.email
     content_type  "text/plain"
     sent_on       Time.now
-    body          :content => email.content.gsub("[title]",publication.title).gsub("[id]",publication.id.to_s).gsub("[pi]",publication.responsible.full_name).gsub("[contact]",publication.contact.full_name).gsub("[created]",publication.created_at.strftime('%Y-%m-%d')).gsub("[updated]",publication.updated_at.strftime('%Y-%m-%d')).gsub("[first_name]",user.first_name).gsub("[last_name]",user.last_name).gsub("[full_name]",user.full_name).gsub("[email]",user.email)
+    body          :content => email.content.gsub("[title]",publication.title).gsub("[id]",publication.id.to_s).gsub("[pi]",publication.responsible.full_name).gsub("[contact]",publication.contact_name).gsub("[created]",publication.created_at.strftime('%Y-%m-%d')).gsub("[updated]",publication.updated_at.strftime('%Y-%m-%d')).gsub("[first_name]",user.first_name).gsub("[last_name]",user.last_name).gsub("[full_name]",user.full_name).gsub("[email]",user.email)
   end
 #  handle_asynchronously :workflow_notification
   
