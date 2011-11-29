@@ -1,6 +1,6 @@
 <% title "Advanced Publication Search" %>
 
-<table>
+<table border="0" width="100%">
 <% form_for @search do |f| %>
 <tr>
   <td width="20%">
@@ -41,22 +41,24 @@
     <%= f.collection_select :responsible_id_equals,  User.all, :id, :full_name, :include_blank => true %>
   </td>   
 </tr>
- <tr>
-  <td>
-    <%= f.label :created_at, "Created between" %></td><td>
-    <%= f.text_field :created_at_gte, :size => 12 %> - <%= f.text_field :created_at_lte, :size => 12 %>
-  </td>
-  <td>
-    <%= f.label :updated_at, "Updated between" %></td><td>
-    <%= f.text_field :updated_at_gte, :size => 12 %> - <%= f.text_field :updated_at_lte, :size => 12 %>
-  </td>
+<tr>
+  <td><%= f.label :created_at, "Created between" %></td>
+  <td><%= f.date_select :created_at_gte, :include_blank => true %></td>
+  <td>and</td>
+  <td><%= f.date_select :created_at_lte, :include_blank => true %></td>
+</tr>
+<tr>
+  <td><%= f.label :updated_at, "Updated between" %></td>
+  <td><%= f.date_select :updated_at_gte, :include_blank => true %></td>
+  <td>and</td>
+  <td><%= f.date_select :updated_at_lte, :include_blank => true %></td>
 </tr>
 <tr colspan="4">
   <td>
     <%= f.label "Title, description, keywords, outcomes, determinants, confounders, 
     survey data, populations, target journal, notes, reference, and authors" %></td>
     <td colspan="3">
-    <%= f.text_area :title_like_any, :rows => "5", :cols => "100%"%>
+    <%= f.text_area :title_like_any, :rows => "5", :cols => "80"%>
   </td>
 </tr>
  <tr>

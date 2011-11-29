@@ -252,7 +252,7 @@
 <% end %>
 </p>
 <p id="pdf_link">
-  <%= link_to "PDF version", publication_path(@publication, :format => "pdf") %>
+  <%= link_to image_tag("/images/acroread.png", { :size => "50x50", :alt => "PDF version", :title => "PDF version"}), publication_path(@publication, :format => "pdf") %>
 </p>
 
 <p id="pdf_link">

@@ -37,6 +37,7 @@
   <%= f.label :description %><br />
   <%= f.text_area :description, :cols => 100, :rows => 10 %>
 </p>
+
 <h3>Author(s)</h3>
 <p>
   <div id="author_children">
@@ -48,6 +49,7 @@
     <%= sortable_element("authors", :url => sort_authors_path, :handle => "handle") %>
   </div>
   <%= add_child_link "Add an author", 'author', f  %>
+
 </p>
 <h3>Contacts</h3>
 <div class="line_of_boxes">
@@ -169,6 +171,7 @@
   <%= f.label "Reference/Citation" %><br />
   <%= f.text_area :reference, :cols => 60, :rows => 10 %>  
 </p>
+
 <% if @publication.id %>
   <p>
     <%= f.label "Notes" %><br />
@@ -180,6 +183,7 @@
     <%= add_child_link "Add a note", 'note', f  %>
   </p>
 <% end %>
+
 <p>
   <%= f.submit %>
 </p>

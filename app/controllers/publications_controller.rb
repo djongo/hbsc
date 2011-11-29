@@ -18,9 +18,31 @@ class PublicationsController < ApplicationController
       @publications = Publication.paginate(:page => params[:page], :per_page => @per_page, :order => 'title', :conditions => ['archived = ?', false])
       @export = Publication.find(:all, :order => 'title', :conditions => ['archived = ?', false])
     else
-      @publications = Publication.with_query(params[:search]).paginate(:page => params[:page], :per_page => @per_page, :order => 'title', :conditions => ['archived = ?', false])
-      logger.debug "hello world!!!!"
-      @export = Publication.with_query(params[:search]).paginate(:page => params[:page], :per_page => 10000, :order => 'title', :conditions => ['archived = ?', false])
+      
+      # changes for thinking sphix
+      @publications = Publication.search params[:search], 
+            :page => params[:page], 
+            :per_page => @per_page, 
+            :match_mode => :boolean,
+            :field_weights => {
+              :title => 20,
+              :keyword_name => 10,
+              :variable_name => 5
+              }
+      
+#      @publications = Publication.with_query(params[:search]).paginate(:page => params[:page], :per_page => @per_page, :order => 'title', :conditions => ['archived = ?', false])
+ #     logger.debug "hello world!!!!"
+
+#      @export = Publication.with_query(params[:search]).paginate(:page => params[:page], :per_page => 10000, :order => 'title', :conditions => ['archived = ?', false])
+  @export = Publication.search params[:search],
+    :match_mode => :boolean,
+            :field_weights => {
+              :title => 20,
+              :keyword_name => 10,
+              :variable_name => 5
+              }
+    
+
     end
     # No match for your search criteria    
     if @publications.empty?
@@ -47,8 +69,6 @@ class PublicationsController < ApplicationController
       format.html
       format.xls { send_data @search.all.to_xls_data(export_options), :filename => 'publications.xls' }
     end
-
-
   end
   
   def list
@@ -115,6 +135,7 @@ class PublicationsController < ApplicationController
   
   def update
     @publication = Publication.find(params[:id])
+     
     if @publication.update_attributes(params[:publication])
       flash[:notice] = "Successfully updated publication. Please note that this did not submit the publication for review."
       redirect_to @publication

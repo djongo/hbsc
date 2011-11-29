@@ -8,9 +8,9 @@
   <% for language in @languages %>
     <tr>
       <td><%=h language.name %></td>
-      <td><%= link_to "Show", language %></td>
-      <td><%= link_to "Edit", edit_language_path(language) %></td>
-      <td><%= link_to "Destroy", language, :confirm => 'Are you sure?', :method => :delete %></td>
+      <td><%= link_to image_tag("/images/documents2.png", { :size => "18x18", :alt => "Show", :title => "Show" }), language %></td>
+      <td><%= link_to image_tag("/images/edit48.png", { :size => "18x18", :alt => "Edit", :title => "Edit" }), edit_language_path(language) %></td>
+      <td><%= link_to image_tag("/images/delete48.png", { :size => "18x18", :alt => "Destroy", :title => "Destroy" }), language, :confirm => 'Are you sure?', :method => :delete %></td>
     </tr>
   <% end %>
 </table>

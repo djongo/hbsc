@@ -4,6 +4,14 @@ body {
   font-size: 12px;
 }
 
+input {
+  font-size: 10px;
+}
+
+select {
+  font-size: 10px;
+}
+
 a img {
   border: none;
 }
@@ -265,4 +273,10 @@ li .handle {
     font-size: 10px;
     cursor: move;
     color: #777;
+}
+
+span.match {
+    color: red;
+    background-color: yellow;
+    font-weight: bold;
 }

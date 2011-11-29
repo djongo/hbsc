@@ -142,12 +142,12 @@ ActiveRecord::Schema.define(:version => 20110926195322) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "user_id"
-    t.string   "state",                              :default => "preplanned"
-    t.text     "reference",           :limit => 255
-    t.boolean  "promotion",                          :default => true
+    t.string   "state",               :default => "preplanned"
+    t.text     "reference"
+    t.boolean  "promotion",           :default => true
     t.integer  "responsible_id"
     t.integer  "target_journal_id"
-    t.boolean  "archived",                           :default => false
+    t.boolean  "archived",            :default => false
     t.string   "url"
     t.string   "change"
     t.string   "contact_name"

@@ -9,13 +9,13 @@ class Publication < ActiveRecord::Base
     :inclusions => Proc.new { |publication|  publication.inclusions_list },    
     :foundations => Proc.new { |publication|  publication.foundations_list }            
     }
-  acts_as_indexed :fields => [
-    :title, :description,
-    :variable_list, :survey_list, :language_list, 
-    :population_list, :publication_type_list, :state
-#    :focus_group_list, :country_team_list
-#    :email_list, :username_list,
-    ]
+#  acts_as_indexed :fields => [
+#    :title, :description,
+#    :variable_list, :survey_list, :language_list, 
+#    :population_list, :publication_type_list, :state
+##    :focus_group_list, :country_team_list
+##    :email_list, :username_list,
+#    ]
 
   belongs_to :language
   belongs_to :publication_type
@@ -25,7 +25,7 @@ class Publication < ActiveRecord::Base
   belongs_to :target_journal
 
   has_many :notes, :dependent => :destroy
-  accepts_nested_attributes_for :notes, :reject_if => lambda { |a| a[:content].blank? }, :allow_destroy => true
+
 
   has_many :reminders, :dependent => :destroy
   has_many :authors, :order => "position", :dependent => :destroy
@@ -35,6 +35,7 @@ class Publication < ActiveRecord::Base
   
   has_many :keywords
   has_many :variables, :through => :keywords
+  has_many :keyword_variables, :through => :keywords
 
   has_many :determinants
   has_many :variables, :through => :determinants
@@ -46,6 +47,41 @@ class Publication < ActiveRecord::Base
   has_many :surveys, :through => :foundations
   has_many :inclusions
   has_many :populations, :through => :inclusions
+  
+  # Defining indexes for thinking sphinx
+  define_index do 
+    indexes title, :sortable => true
+    indexes description
+    indexes language.name, :as => :language_name
+    indexes publication_type.name, :as => :publication_type
+    indexes :id, :as => :publication_id
+    indexes state, :sortable => true
+    indexes reference
+    indexes target_journal.name, :as => :target_journal_name
+    indexes populations(:name), :as => :inclusion_name
+    indexes surveys(:name), :as => :foundation_name
+    indexes notes.content, :as => :note_content
+    
+    # Keywords, mediators, outcomes, and determinants
+    indexes keyword_variables, :as => :keyword_name
+    indexes variables(:name), :as => :variable_name
+
+    # People information
+    indexes [user.first_name, user.last_name, user.email], :as => :responsible_author
+    indexes [responsible.first_name, responsible.last_name, responsible.email], :as => :responsible_pi
+    indexes contact_name
+    indexes contact_email    
+
+    # Author information
+    indexes authors(:name), :as => :author_name
+    indexes authors.email, :as => :author_email
+    indexes authors.country_team(:name), :as => :country_team_name
+    indexes authors.focus_group(:name), :as => :focus_group_name
+
+  # SOLUTION FOR HMT: http://railsforum.com/viewtopic.php?id=28917
+    has created_at, updated_at, :id
+    where "archived = 'false'"
+  end
   
   # Approach to get fully custom error message
   HUMANIZED_ATTRIBUTES = { 
@@ -99,16 +135,20 @@ class Publication < ActiveRecord::Base
                                 :reject_if => proc { |attrs|
                                 attrs['population_name'].blank? &&
                                   attrs['population_id'].blank? }
-#  accepts_nested_attributes_for :authorships,
-#                                :allow_destroy => true,
-#                                :reject_if => proc { |attrs|
-#                                attrs['full_name'].blank? &&
-#                                  attrs['user_id'].blank? }
+##  accepts_nested_attributes_for :authorships,
+##                                :allow_destroy => true,
+##                                :reject_if => proc { |attrs|
+##                                attrs['full_name'].blank? &&
+##                                  attrs['user_id'].blank? }
   accepts_nested_attributes_for :authors,
                                 :allow_destroy => true,
                                 :reject_if => proc { |attrs|
                                 attrs['name'].blank? &&
                                   attrs['user_id'].blank? }     
+  accepts_nested_attributes_for :notes,
+                                :reject_if => lambda { |a| a[:content].blank? }, 
+                                :allow_destroy => true
+
 
 #  serialize :author_information, Hash
 

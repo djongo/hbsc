@@ -13,21 +13,23 @@
 
 
 <%= render :partial => "layouts/search_help" %>
-
-  <p>Searching for numbers? Use '^' in front of the number.
-  </p>
-<p><%= link_to "Advanced Search", filter_publications_path if permitted_to? :filter, :publications %>
-</p>
-
-
-  <p><%= link_to "New Publication", new_publication_path if permitted_to? :new, :publications %></p>  
+<table width=100%>
+  <tr>
+    <td>Found <%=h @publications.total_entries %> publications matching your search criteria.</td>
+    <td align="right">
+    <%= link_to image_tag("/images/kfind.png", { :size => "48x48", :alt => "Advanced Search", :title => "Advanced Search"}), filter_publications_path if permitted_to? :filter, :publications %>
+      <%= link_to image_tag("/images/filenew.png", { :size => "48x48", :alt => "New Publication", :title => "New Publication"}), new_publication_path if permitted_to? :new, :publications %>
+      <%= link_to image_tag("/images/cal.png", { :size => "48x48", :alt => "Download search result as spreadsheet", :title => "Download search result as spreadsheet" }), publications_path(@publications, :search => params[:search], :format => "xls") if permitted_to? :index, :publications %></td>
+  </tr>
+</table>
+  
 <% end %>
 <div id="publications">
   <%= will_paginate(@publications) %>
   <hr />
   <% for publication in @publications %>
     <h2>
-      <%= link_to h(publication.title), publication if permitted_to? :show, :publications %> ( ID: <%=h publication.id %> )
+      <%= link_to h(publication.title), publication if permitted_to? :show, :publications %> ( ID: <%=h publication.id %> ) 
     </h2>
   <i>- a <%=h publication.publication_type.name %> in <%=h publication.language.name %></i> ( <%=h publication.state %> )
   <p><%=h truncate(publication.description, :omission => "...", :length => 300) %>
@@ -37,5 +39,5 @@
   <%= will_paginate(@publications) %>
 </div>
 <p>
-  <%= link_to "Download search result as Excel spreadsheet", publications_path(@publications, :search => params[:search], :format => "xls") if permitted_to? :index, :publications %>
+  <%= link_to image_tag("/images/cal.png", { :size => "48x48", :alt => "Download search result as Excel spreadsheet", :title => "Download search result as Excel spreadsheet" }), publications_path(@publications, :search => params[:search], :format => "xls") if permitted_to? :index, :publications %>
 </p>
