@@ -1,6 +1,19 @@
 <div class="child" id="note">
-  <%= f.text_field :state, :value => @publication.state  %><br />
-  <%= f.text_area :content, :cols => 60, :rows => 4 %>
-  <%= f.text_field :user_id, :value => current_user.id %>
+Note added by <%= f.label current_user.name %> while in <%= f.object.state %> state
+
+<%= f.hidden_field :user_id, :value => current_user.id %>
+
+<% if f.object.new_record? %>
+  <%= f.hidden_field :state, :value => @publication.state  %><br />
+  <%= f.text_area :content, :cols => 60, :rows => 4 %><br />  
+<% elsif f.object.state == @publication.state %>
+  <%= f.hidden_field :state, :disabled => true %><br />
+  <%= f.text_area :content, :cols => 60, :rows => 4 %>  
+<% else %>
+  <%= f.hidden_field :state %><br />
+  <%= f.text_area :content, :disabled => true, :cols => 60, :rows => 4 %><br />    
+<% end %>
+
   <%= remove_child_link 'remove', f %>
 </div>
+

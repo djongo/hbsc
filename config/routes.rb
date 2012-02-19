@@ -37,6 +37,7 @@ ActionController::Routing::Routes.draw do |map|
                                             :accepted_accept => :put,
                                             :accepted_reject => :put,
                                             :accepted_remind => :put,
+                                            :unlock => :put,
                                             :archive => :put,
                                             :unarchive => :put,
                                             :audit => :get

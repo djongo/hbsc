@@ -7,6 +7,7 @@ class PublicationsController < ApplicationController
   # above loads current publication
   helper_method :sort_column, :sort_direction, :export_options
 
+  
   def index
     # , :conditions => ['archived = ?', false] ensures that the index
     # never shows publications that are archived
@@ -135,10 +136,9 @@ class PublicationsController < ApplicationController
   
   def update
     @publication = Publication.find(params[:id])
-     
-    if @publication.update_attributes(params[:publication])
+      if @publication.update_attributes(params[:publication])
       flash[:notice] = "Successfully updated publication. Please note that this did not submit the publication for review."
-      redirect_to @publication
+     redirect_to @publication
     else
       render :action => 'edit'
     end
@@ -363,6 +363,17 @@ class PublicationsController < ApplicationController
     flash[:notice] = "Accepted publication first author reminder sent."  
     redirect_to list_publications_path    
   end 
+
+  # rescue publication from rejected preplanned
+  def unlock
+    @publication = Publication.find(params[:id])
+    @publication.lock!
+    @publication.unlock!
+    flash[:notice] = "Previously rejected publication accepted as preplanned. Email sent to the author."
+    @email = Email.find_by_trigger('unlock')    
+    Notifier.deliver_workflow_notification(@publication.user,@email,@publication)
+    redirect_to publication_url    
+  end
 
   private
   

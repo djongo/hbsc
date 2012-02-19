@@ -7,12 +7,18 @@ class ApplicationController < ActionController::Base
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
 
   before_filter { |c| Authorization.current_user = c.current_user }
+  before_filter :mailer_set_url_options
 
 
   # Scrub sensitive parameters from your log
   filter_parameter_logging :password, :password_confirmation
   
   helper_method :current_user, :current_user_session
+
+
+  def mailer_set_url_options
+    ActionMailer::Base.default_url_options[:host] = request.host_with_port
+  end
 
 #  private
   protected

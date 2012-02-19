@@ -40,7 +40,7 @@
   <%= link_to "Reject", inprogress_reject_publication_path(publication), :method => :put if permitted_to? :progress, :publications %>
   
 <% elsif publication.state == "inprogress" %>
-  <%= link_to "Remind", inprogess_remind_publication_path(publication), :method => :put if permitted_to? :remind, :publications %>
+  <%= link_to "Remind", inprogress_remind_publication_path(publication), :method => :put if permitted_to? :remind, :publications %>
     
 <% elsif publication.state == "submitted_submitted" %>
   <%= link_to "Accept", submitted_accept_publication_path(publication), :method => :put if permitted_to? :progress, :publications %>/
@@ -54,8 +54,8 @@
   <%= link_to "Reject", accepted_reject_publication_path(publication), :method => :put if permitted_to? :progress, :publications %>
 <% elsif publication.state == "accepted" %>
   <%= link_to "Remind", accepted_remind_publication_path(publication), :method => :put if permitted_to? :remind, :publications %>
-<% else %>
-  NA
+<% elsif publication.state == "locked" %>
+  <%= link_to "Unlock", unlock_publication_path(publication), :method => :put if permitted_to? :progress, :publications  %>
 <% end %>
 </td>
       <td><%= link_to "Destroy", publication, :confirm => 'Are you sure?', :method => :delete %></td>

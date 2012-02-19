@@ -24,6 +24,8 @@ class Publication < ActiveRecord::Base
   #belongs_to :contact, :class_name => "User"
   belongs_to :target_journal
 
+#  before_validation :validate_variables
+  
   has_many :notes, :dependent => :destroy
 
 
@@ -103,7 +105,6 @@ class Publication < ActiveRecord::Base
   validates_associated :surveys
   validates_associated :populations
   validates_associated :target_journal
-#  validates_associated :users
 
   accepts_nested_attributes_for :target_journal,
                                 :allow_destroy => false,
@@ -149,12 +150,10 @@ class Publication < ActiveRecord::Base
                                 :reject_if => lambda { |a| a[:content].blank? }, 
                                 :allow_destroy => true
 
-
-#  serialize :author_information, Hash
-
   def validate
     # require a minimum of one keyword, population, determinant, outcome
-    # measure, confounder/mediator, survey_data
+    # measure, confounder/mediator, survey_datas
+    puts 'in validate function'
     undestroyed_keyword_count = 0
     undestroyed_foundation_count = 0
     undestroyed_inclusion_count = 0
@@ -162,25 +161,27 @@ class Publication < ActiveRecord::Base
     undestroyed_mediator_count = 0
     undestroyed_outcome_count = 0
                       
-    keywords.each { |t| undestroyed_keyword_count += 1 unless t.marked_for_destruction? }
+    @keywords.target.each { |t| undestroyed_keyword_count += 1 unless t.marked_for_destruction? }
     errors.add_to_base 'There must be at least one keyword' if undestroyed_keyword_count < 1
     
-    foundations.each { |u| undestroyed_foundation_count +=1 unless u.marked_for_destruction? }
+    @foundations.target.each { |u| undestroyed_foundation_count +=1 unless u.marked_for_destruction? }
     errors.add_to_base 'There must be at least one set of survey data' if undestroyed_foundation_count < 1
     
-    inclusions.each { |v| undestroyed_inclusion_count +=1 unless v.marked_for_destruction? }
+    @inclusions.target.each { |v| undestroyed_inclusion_count +=1 unless v.marked_for_destruction? }
     errors.add_to_base 'There must be at least one population' if undestroyed_inclusion_count < 1    
 
-    outcomes.each { |w| undestroyed_outcome_count +=1 unless w.marked_for_destruction? }
+    @outcomes.target.each { |w| undestroyed_outcome_count +=1 unless w.marked_for_destruction? }
     errors.add_to_base 'There must be at least one outcome measure' if undestroyed_outcome_count < 1  
 
-    determinants.each { |x| undestroyed_determinant_count +=1 unless x.marked_for_destruction? }
+    @determinants.target.each { |x| undestroyed_determinant_count +=1 unless x.marked_for_destruction? }
     errors.add_to_base 'There must be at least one determinant' if undestroyed_determinant_count < 1  
 
-    mediators.each { |y| undestroyed_mediator_count +=1 unless y.marked_for_destruction? }
+    @mediators.target.each { |y| undestroyed_mediator_count +=1 unless y.marked_for_destruction? }
     errors.add_to_base 'There must be at least one confounder or mediator' if undestroyed_mediator_count < 1  
   end
-    
+  
+#  serialize :author_information, Hash
+
   # functions for acts_as_indexed to enable 
   # multi model search
 
@@ -443,6 +444,12 @@ class Publication < ActiveRecord::Base
   aasm_state :accepted
   aasm_state :accepted_submitted
   aasm_state :published
+  aasm_state :locked
+
+  # Locked to unlocked (preplanned)
+  aasm_event :unlock do
+    transitions :to => :preplanned, :from => [:locked]
+  end
 
   # Preplanned to planned  
   aasm_event :preplanned_submit do
@@ -450,7 +457,7 @@ class Publication < ActiveRecord::Base
   end
   
   aasm_event :preplanned_reject do
-    transitions :to => :preplanned, :from => [:preplanned_submitted]
+    transitions :to => :locked, :from => [:preplanned_submitted]
   end
 
   aasm_event :preplanned_accept do

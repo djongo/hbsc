@@ -169,3 +169,7 @@ end
 if Email.find_by_trigger('accepted_remind').nil?
   Email.create! :trigger => 'accepted_remind', :subject => 'Publication reminder', :content => 'You accepted publication not been updated for a long time.', :delay => 60
 end
+
+if Email.find_by_trigger('unlock').nil?
+  Email.create! :trigger => 'unlock', :subject => 'Publication acceptance', :content => 'You previously rejected publication has been acceptance as preplanned.', :delay => 0
+end

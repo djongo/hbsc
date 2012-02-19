@@ -1,6 +1,6 @@
 class Notifier < ActionMailer::Base
 
-  default_url_options[:host] = "lrnbijxp.heroku.com" 
+#  default_url_options[:host] = request.host_with_port #"lrnbijxp.heroku.com" 
 
   def password_reset_instructions(user)
     subject     "Password Reset Instructions for HBSC"
