@@ -21,7 +21,7 @@ Rails::Initializer.run do |config|
   config.gem 'will_paginate', :source => 'http://gemcutter.org'
   config.gem 'repeated_auto_complete', :source => 'http://gemcutter.org'
   config.gem 'acts_as_indexed', :source => 'http://gemcutter.org'
-  config.gem 'pdfkit', :source => 'http://gemcutter.org'
+  config.gem 'pdfkit', :source => 'http://gemcutter.org', :version => '0.5.1'
   config.gem 'aasm', :source => 'http://gemcutter.org'
   config.gem 'paper_trail', :source => 'http://gemcutter.org', :version => '1.6.4'
   config.gem 'whenever', :source => 'http://gemcutter.org' 
