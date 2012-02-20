@@ -31,8 +31,8 @@ Rails::Initializer.run do |config|
   config.gem 'to_xls', :source => 'http://gemcutter.org'
   config.gem 'ezprint', :source => 'http://gemcutter.org'
   config.gem 'acts_as_list', :source => 'http://gemcutter.org', :version => '0.1.2'
-  config.gem 'thinking-sphinx', :source => 'http://gemcutter.org', :version => '1.4.9'
-  
+  config.gem 'thinking-sphinx', :source => 'http://gemcutter.org', :version => '1.4.11'
+  config.gem 'flying-sphinx', :source => 'http://gemcutter.org', :version => '0.6.2'
   # Only load the plugins named here, in the order given (default is alphabetical).
   # :all can be used as a placeholder for all plugins not explicitly named
   # config.plugins = [ :exception_notification, :ssl_requirement, :all ]
