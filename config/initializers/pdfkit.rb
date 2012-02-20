@@ -5,6 +5,6 @@ PDFKit.configure do |config|
 # http://blog.mattgornick.com/using-pdfkit-on-heroku
 # config.wkhtmltopdf = Rails.root.join('vendor', 'wkhtmltopdf-amd64').to_s if RAILS_ENV == 'production'
 # https://gist.github.com/768696#file_assets.rb
-  config.root = "file://#(Rails.root.join('public'))/"
+  config.root_url = "file://#(Rails.root.join('public'))/" if RAILS_ENV=='production'
 end
 
