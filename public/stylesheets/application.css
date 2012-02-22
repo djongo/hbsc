@@ -141,6 +141,7 @@ div#site_nav {
 div.line_of_boxes {
         position:relative;
         padding-bottom: 10px;
+        page-break-inside:avoid;
 }
 
 div.box_in_line {
