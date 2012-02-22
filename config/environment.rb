@@ -31,6 +31,7 @@ Rails::Initializer.run do |config|
   config.gem 'to_xls', :source => 'http://gemcutter.org'
   config.gem 'ezprint', :source => 'http://gemcutter.org'
   config.gem 'acts_as_list', :source => 'http://gemcutter.org', :version => '0.1.2'
+  config.gem 'riddle', :source => 'http://gemcutter.org', :version => '1.5.1'
   config.gem 'thinking-sphinx', :lib => 'thinking_sphinx', :source => 'http://gemcutter.org', :version => '1.4.11'
   config.gem 'flying-sphinx', :source => 'http://gemcutter.org', :version => '0.6.2'
   # Only load the plugins named here, in the order given (default is alphabetical).
