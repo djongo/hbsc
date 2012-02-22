@@ -55,7 +55,7 @@ class ApplicationController < ActionController::Base
     end
     
     def rescue_action_in_public(exception)
-      Notifier.error_notification(exception)
+#      Notifier.error_notification(exception)
       flash[:error] = "We're sorry, but something went wrong. We've been notified about this issue and we'll take a look at it shortly."     
       redirect_to root_url
     end
