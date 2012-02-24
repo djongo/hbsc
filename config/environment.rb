@@ -14,7 +14,7 @@ Rails::Initializer.run do |config|
   # Add additional load paths for your own custom dirs
   # config.load_paths += %W( #{RAILS_ROOT}/extras )
 
-  # Specify gems that this application depends on and have them installed with rake gems:install
+  # Specify gems that this application depends on and have them installed with rake gems:install  
   config.gem 'rails', :source => 'http://gemcutter.org', :version => '2.3.8'
   config.gem 'authlogic', :source => 'http://gemcutter.org'
   config.gem 'declarative_authorization', :source => 'http://gemcutter.org'
@@ -34,6 +34,8 @@ Rails::Initializer.run do |config|
   config.gem 'riddle', :source => 'http://gemcutter.org', :version => '1.5.0'
   config.gem 'thinking-sphinx', :lib => 'thinking_sphinx', :source => 'http://gemcutter.org', :version => '1.4.10'
   config.gem 'flying-sphinx', :source => 'http://gemcutter.org', :version => '0.6.1'
+  config.gem 'wicked_pdf', :source => 'http://gemcutter.org', :version => '0.7.5'
+  
   # Only load the plugins named here, in the order given (default is alphabetical).
   # :all can be used as a placeholder for all plugins not explicitly named
   # config.plugins = [ :exception_notification, :ssl_requirement, :all ]
@@ -52,9 +54,16 @@ Rails::Initializer.run do |config|
   # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
   # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}')]
   # config.i18n.default_locale = :de
+  config.after_initialize do
+    ActionController::Base.asset_host = Proc.new do |source, request|
+      if request.format == 'pdf'
+        "file://#{Rails.root.join('public')}"
+      end
+    end
+  end  
 
   # middleware for pdf
-  config.middleware.use "PDFKit::Middleware", :print_media_type => true
+#  config.middleware.use "PDFKit::Middleware", :print_media_type => true
 
   # mail settings
   config.action_mailer.raise_delivery_errors = true

@@ -101,8 +101,8 @@ class PublicationsController < ApplicationController
       format.pdf do
         render  :pdf => @publication.title,
 #                :template => "controller/action.pdf.erb",
-                :stylesheets => ["application","print"],
-                :layout => "pdf"
+#                :stylesheets => ["application","print"],
+#                :layout => "pdf"
       end
     end
   end
