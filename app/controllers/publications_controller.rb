@@ -99,7 +99,7 @@ class PublicationsController < ApplicationController
     respond_to do |format|
       format.html
       format.pdf do
-        render  :pdf => @publication.title,
+        render  :pdf => @publication.title #,
 #                :template => "controller/action.pdf.erb",
 #                :stylesheets => ["application","print"],
 #                :layout => "pdf"
