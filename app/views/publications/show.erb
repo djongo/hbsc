@@ -1,0 +1,496 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title><%=h @publication.title %></title>
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+<%= stylesheet_link_tag("applicaton") %>
+<style type="text/css" media="screen">
+  <%# css urls have to be the absolute file path for pdfs (handled automatically by `asset_host` setting) %>
+body {
+  font-family: 'Trebuchet MS', Helvetica, sans-serif;
+  font-size: 12px;
+}
+
+input {
+  font-size: 10px;
+}
+
+select {
+  font-size: 10px;
+}
+
+a img {
+  border: none;
+}
+
+a {
+  color: #0000FF;
+}
+
+.clear {
+  clear: both;
+  height: 0;
+  overflow: hidden;
+}
+
+#container {
+  width: 670px; /* was 75% */ 
+  margin: 0 auto;
+  background-color: #FFF;
+  padding: 20px 40px;
+  border: solid 1px black;
+  margin-top: 20px;
+}
+
+img.logo {
+
+display: block;
+margin-left:auto;
+margin-right:auto;
+}
+
+#flash_notice, #flash_error {
+  width: 75%;
+  padding: 5px 8px;
+  margin: 30px 0;
+  margin-right: 280px;
+}
+
+#flash_notice {
+  background-color: #CFC;
+  border: solid 1px #6C6;
+}
+
+#flash_error {
+  background-color: #FCC;
+  border: solid 1px #C66;
+}
+
+.fieldWithErrors {
+  display: inline;
+}
+
+#errorExplanation {
+  width: 400px;
+  border: 2px solid #CF0000;
+  padding: 0px;
+  padding-bottom: 12px;
+  margin-bottom: 20px;
+  background-color: #f0f0f0;
+}
+
+#errorExplanation h2 {
+  text-align: left;
+  font-weight: bold;
+  padding: 5px 5px 5px 15px;
+  font-size: 10px;
+  margin: 0;
+  background-color: #c00;
+  color: #fff;
+}
+
+#errorExplanation p {
+  color: #333;
+  margin-bottom: 0;
+  padding: 8px;
+}
+
+#errorExplanation ul {
+  margin: 2px 24px;
+}
+
+#errorExplanation ul li {
+  font-size: 10px;
+  list-style: disc;
+}
+
+p.explanation {
+    font-size: 0.8em;
+    font-style: italic;
+}
+
+/* Navigation */
+
+div#nav {
+    height: 30px;
+}
+
+div#user_nav {
+    float: right; 
+    font-size: 0.9em; 
+    position: relative;
+}
+
+div#site_nav {
+    float: left; 
+    font-size: 0.9em; 
+    position: relative;    
+}
+
+/* Publications */
+#publications {
+  font-family: 'Trebuchet MS', Helvetica, sans-serif;
+}
+
+#publications h2 {
+  font-size: 12px;
+  margin: 5px;
+}
+
+#publications p {
+  font-size: 10px;
+  opacity: 0.8;
+
+}
+
+/* Boxes */ 
+
+div.line_of_boxes {
+        position:relative;
+        padding-bottom: 10px;
+        page-break-inside:avoid;
+}
+
+div.box_in_line {
+        float: left;
+        margin-left: 5px;
+        padding: 5px;
+        height: 100%;
+}
+
+div.box_in_line_content {
+        border: 1px solid #ccc;
+        padding: 5px;
+        height: 100%;
+}
+
+div.box_bottom{
+        clear:both;
+}
+
+/* Auto complete */
+
+div.auto_complete {
+  width: 350px;
+  background: #fff;
+}
+div.auto_complete ul {
+  border:1px solid #888;
+  margin:0;
+  padding:0;
+  width:100%;
+  list-style-type:none;
+}
+div.auto_complete ul li {
+  margin:0;
+  padding:3px;
+}
+div.auto_complete ul li.selected {
+  background-color: #ffb;
+}
+div.auto_complete ul strong.highlight {
+  color: #800; 
+  margin:0;
+  padding:0;
+}
+
+.child {
+  padding-left:10px;
+  padding-top:5px;
+  padding-bottom:5px;
+}
+
+@media print {
+    body {
+        background-color: #FFF;
+    }
+    
+    #container {
+        width: auto;
+        margin: 0;
+        padding: 0;
+        border: none;
+    }
+
+    #pdf_link {
+        display: none;
+    }
+
+    div#nav {
+        display: none;
+    }
+    
+    #version_box {
+        display: none;
+    }
+
+/*    div.line_of_boxes {
+        page-break-before: always;
+    }    
+*/        
+}
+
+#version_box {
+  width: 75%;
+  background-color: #FFD700;
+  border: solid 1px #B8860B;
+  padding: 5px 8px;
+  margin: 10px 0;  
+}
+
+#help_explanation_box {
+  width: 75%;
+  background-color: #DDD;
+  border: solid 1px #AAA;
+  padding: 5px 8px;
+  margin-top:10px;
+  margin-left:auto;
+  margin-right:auto;
+  font-family: 'Trebuchet MS', Helvetica, sans-serif;
+  font-size: 10px;  
+}
+
+/* Pretty tables */
+
+table.pretty {
+  border-collapse: collapse;
+}
+
+.pretty td, .pretty th {
+  padding: 4px 10px;
+  border: solid 1px #AAA;
+  display: table-cell;
+  vertical-align: top;
+}
+
+.pretty th .current {
+  padding-right: 12px;
+  background-repeat: no-repeat;
+  background-position: right center;
+}
+
+.pretty th .asc {
+  background-image: url(/images/up_arrow.gif);
+}
+
+.pretty th .desc {
+  background-image: url(/images/down_arrow.gif);
+}
+
+li .handle {
+    font-size: 10px;
+    cursor: move;
+    color: #777;
+}
+
+span.match {
+    color: red;
+    background-color: yellow;
+    font-weight: bold;
+}
+</style>
+</head>
+<body>
+<% title "Publication" %>
+<table width="100%">
+  <tr>
+    <td>
+      <strong>Title:</strong> <%=h @publication.title %>
+    </td>
+    <td>
+      <strong>ID:</strong> <%=h @publication.id %>
+    </td>
+    <td>
+      <strong>Created at:</strong> <%=h @publication.created_at.strftime('%Y-%m-%d') %>
+    </td>
+    <td align="right">
+      <strong>Updated at:</strong> <%=h @publication.updated_at.strftime('%Y-%m-%d') %>
+    </td>
+<% if @publication.archived %>
+    <td align="right">
+      <font style="letter-spacing:2px;font-weight:bold;color:red;">Archived</font>
+    </td>           
+<% end %>
+  </tr>
+</table>
+</p>
+<div class="line_of_boxes">
+  <div class="box_in_line">
+    Keyword(s):
+    <div class="box_in_line_content">
+      <% @publication.keywords.each do |keyword| %>
+        <div class="child">
+            <%=h keyword.variable_name %><br />
+        </div>
+      <% end %>
+      </div>
+  </div>
+   <div class="box_bottom"></div>
+</div>
+<table width="80%">
+  <tr>
+    <td><strong>Publication type:</strong>&nbsp;
+      <%=h @publication.publication_type.name %></td>
+    <td><strong>Language:</strong>&nbsp;
+      <%=h @publication.language.name %></td>
+  </tr>
+</table>
+<p>
+  <strong>Description:</strong>
+  <%=h @publication.description %>
+</p>
+
+<h3>Author(s)</h3>
+<p>
+  <table class="pretty" width="80%">
+    <tr>
+    <th>Author no</th>
+    <th>Name</th>
+    <th>Email</th>
+    <th>Country team</th>
+    <th>Focus/Writing group</th>
+    </tr>
+     <% @publication.authors.each do |a| %>
+     <tr>
+      <td><%=h a.position %></td>
+      <td><%=h a.name %></td>
+      <td><%=h a.email %></td>
+      <td><%=h a.country_team.name %></td>
+      <td><%=h a.focus_group.name %></td>
+     </tr>
+     <% end %>   
+  </table>
+</p>
+<h3>Contacts</h3>
+<p>
+  <table class="pretty" width="80%">
+    <tr>
+      <th>Contact</th>
+      <th>Name</th>
+      <th>Email</th>
+    </tr>
+    <tr>
+      <td>HBSC responsible author</td>
+      <td><%=h @publication.user.full_name %></td>
+      <td><%=h @publication.user.email %></td>    
+    </tr>
+    <tr>
+      <td>Contact person</td>
+      <td><%=h @publication.contact_name %></td>
+      <td><%=h @publication.contact_email %></td>    
+    </tr>
+    <tr>
+      <td>Responsible PI</td>
+      <td><%=h @publication.responsible.full_name %></td>
+      <td><%=h @publication.responsible.email %></td>    
+    </tr>
+  </table>
+</p>
+<h3>Data</h3>
+<div class="line_of_boxes">
+  <div class="box_in_line">
+    Survey data:
+    <div class="box_in_line_content">
+      <% @publication.foundations.each do |foundation| %>
+        <div class="child">
+            <%=h foundation.survey_name %><br />
+        </div>
+      <% end %>
+      </div>
+  </div>
+  <div class="box_in_line">
+    Population(s):
+    <div class="box_in_line_content">
+      <% @publication.inclusions.each do |inclusion| %>
+        <div class="child">
+            <%=h inclusion.population_name %><br />
+        </div>
+      <% end %>
+      </div>
+  </div>
+   <div class="box_bottom"></div>
+</div>
+<h3>Variables</h3>
+ <div class="line_of_boxes">
+  <div class="box_in_line">
+    Outcome measure(s):
+    <div class="box_in_line_content">
+      <% @publication.outcomes.each do |outcome| %>
+        <div class="child">
+            <%=h outcome.variable_name %><br />
+        </div>
+      <% end %>
+      </div>
+  </div>
+
+  <div class="box_in_line">
+    Determinant(s):
+    <div class="box_in_line_content">
+      <% @publication.determinants.each do |determinant| %>
+      <div class="child">
+          <%=h determinant.variable_name %></br />
+      </div>
+      <% end %>
+      </div>
+  </div>
+  <div class="box_in_line">
+    Confounder(s)/mediator(s):
+    <div class="box_in_line_content">
+    <% @publication.mediators.each do |mediator| %>
+      <div class="child">
+        <%=h mediator.variable_name %><br />
+      </div>
+    <% end %>
+    </div>
+    </div>
+
+   <div class="box_bottom"></div>
+</div>
+
+<p>
+  <strong>Target Journal:</strong>
+  <% if @publication.target_journal %>
+      <%=h @publication.target_journal.name %>
+  <% else %>
+    None chosen.
+  <% end %>
+</p>
+<p>
+  <strong>Publication URL:</strong>
+  <%=link_to @publication.url, @publication.url %>
+</p>
+
+<p>
+  <strong>Article Promotion:</strong>
+  <%=h @publication.promotion? ? 'Yes' : 'No' %>
+</p>
+<p>
+  <strong>Reference/Citation:</strong>
+  <%=h @publication.reference %>
+</p>
+<p>
+  <strong>Current State:</strong>
+  <%=h @publication.state.humanize %>
+</p>
+<% if !@publication.notes.empty? && ( current_user.roles.include?("publication_group") || @publication.user_id == current_user.id ) %>
+<table class="pretty">
+  <tr>
+    <th align="left">State</th>
+    <th>Date</th>
+    <th>User</th>
+    <th>Notes</th>
+  </tr>
+  <% for notes in @publication.notes %>
+    <tr>
+      <td><%=h notes.state.humanize %></td>
+      <td><%=h notes.created_at.strftime('%Y-%m-%d %H:%M') %></td>
+      <td><%=h notes.user.full_name %></td>
+      <td><%=h notes.content %></td>
+    </tr>
+  <% end %>
+</table>
+<% end %>
+</body>
+</html>
