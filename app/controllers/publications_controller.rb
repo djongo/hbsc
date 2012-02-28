@@ -103,7 +103,8 @@ class PublicationsController < ApplicationController
 #                :template => "views/publications/publication.pdf.erb",
 #                :stylesheets => ["application","print"],
                 :layout => "pdf.html",
-                :page_size => 'A4'
+                :page_size => 'A4',
+                :wkhtmltopdf  => Rails.root.join('vendor', 'wkhtmltopdf-amd64').to_s
       end
     end
   end
