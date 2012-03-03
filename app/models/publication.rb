@@ -37,7 +37,7 @@ class Publication < ActiveRecord::Base
   
   has_many :keywords
   has_many :variables, :through => :keywords
-  has_many :keyword_variables, :through => :keywords, :source => :variable_name
+  has_many :keyword_variables, :through => :keywords, :source => :variable
 
   has_many :determinants
   has_many :variables, :through => :determinants
@@ -65,7 +65,7 @@ class Publication < ActiveRecord::Base
     indexes notes.content, :as => :note_content
     
     # Keywords, mediators, outcomes, and determinants
-    indexes keyword_variables(:variable_name), :as => :keyword_name
+    indexes keyword_variables(:name), :as => :keyword_name
     indexes variables(:name), :as => :variable_name
 
     # People information
