@@ -65,7 +65,7 @@ class Publication < ActiveRecord::Base
     indexes notes.content, :as => :note_content
     
     # Keywords, mediators, outcomes, and determinants
-    indexes keyword_variables, :as => :keyword_name
+    indexes keyword_variables(:name), :as => :keyword_name
     indexes variables(:name), :as => :variable_name
 
     # People information
