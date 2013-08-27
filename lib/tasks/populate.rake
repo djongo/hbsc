@@ -3,14 +3,14 @@ namespace :db do
   task :populate => :environment do
     require 'populator'
     require 'faker'
-    [Publication, User, Keyword, Outcome, Determinant, Mediator, Foundation, Variable, Inclusion, Author].each(&:delete_all)
+    [Publication, Keyword, Outcome, Determinant, Mediator, Foundation, Variable, Inclusion, Author].each(&:delete_all)
     
     Publication.populate 60 do |publication|
       publication.title = Populator.words(3..7).titleize
       publication.description = Populator.sentences(4..10)
       publication.publication_type_id = (1..3)
       publication.language_id = (1..5)
-      publication.user_id = (1..17)
+      publication.user_id = (1..7)
       publication.state = ["preplanned","planned","inprogess","submitted","accepted","published"]
       publication.created_at = 2.years.ago..Time.now
       publication.reference = Populator.words(3..7).titleize
@@ -70,16 +70,16 @@ namespace :db do
 #      authorship.user_id = (1..11)
 #    end
         
-    User.populate 10 do |user|
-      user.first_name = Faker::Name.first_name
-      user.last_name = Faker::Name.last_name      
-      user.email = Faker::Internet.email
-      user.login_count = (1..10)
-      user.failed_login_count = (0..5)
-      user.perishable_token = Populator.words(1)
-      user.roles_mask = (0..3)
-      user.hbsc_member = ["false","true"]
-    end
+#    User.populate 10 do |user|
+#      user.first_name = Faker::Name.first_name
+#      user.last_name = Faker::Name.last_name      
+#      user.email = Faker::Internet.email
+#      user.login_count = (1..10)
+#      user.failed_login_count = (0..5)
+#      user.perishable_token = Populator.words(1)
+#      user.roles_mask = (0..3)
+#      user.hbsc_member = ["false","true"]
+#    end
     
   end
 end

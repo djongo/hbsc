@@ -5,13 +5,21 @@ development:
 #  database: db/development.sqlite3
 #  pool: 5
 #  timeout: 5000
-    adapter: mysql
+#    adapter: mysql
+#    encoding: utf8
+#    database: hbsc_development
+#    pool: 5
+#    username: rails
+#    password: ruby
+#    socket: /var/run/mysqld/mysqld.sock
+    adapter: postgresql
     encoding: utf8
     database: hbsc_development
+    port: 5432
     pool: 5
-    username: rails
-    password: ruby
-    socket: /var/run/mysqld/mysqld.sock
+    username: 
+    host: localhost
+
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
