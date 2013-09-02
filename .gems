@@ -19,7 +19,7 @@ riddle -v 1.5.0 -s 'http://gemcutter.org'
 wicked_pdf -v 0.7.5 -s 'http://gemcutter.org'
 pg -v 0.16.0 -s 'http://gemcutter.org'
 fastercsv -v 1.5.5 -s 'http://gemcutter.org'
-thinking-sphinx -v 1.4.14 -s 'http://gemcutter.org'
-flying-sphinx -v 1.0.0 -s 'http://gemcutter.org'
+thinking-sphinx -v 1.5.0 -s 'http://gemcutter.org' --ignore-dependencies
+flying-sphinx -v 1.0.0 -s 'http://gemcutter.org' --ignore-dependencies
 openssl-nonblock --version 0.2.1 -s 'http://gemcutter.org'
 
