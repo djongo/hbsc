@@ -66,3 +66,10 @@
 <p>
   <%= will_paginate @publications %>
 </p>
+
+<h2>Import Publications</h2>
+<% form_tag( import_publications_path, :multipart => true) do %>
+  <%= file_field_tag :file %>
+  <%= submit_tag "Import" %>
+<% end %>
+

@@ -44,7 +44,8 @@ ActionController::Routing::Routes.draw do |map|
                                             }, 
                             :collection =>  { 
                                             :list => :get,
-                                            :filter => :get
+                                            :filter => :get,
+                                            :import => :post
                                              }
   map.resources :user_sessions
   map.resources :users

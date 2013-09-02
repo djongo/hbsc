@@ -2,7 +2,7 @@
   <%= f.error_messages %>
 <p>
   <%= f.label :title %><br />
-  <%= f.text_field :title, :size => 80 %>
+  <%= f.text_field :title, :size => 120 %>
   <%= set_focus_to_id 'publication_title' %>
 </p>
 
@@ -34,7 +34,7 @@
   </tr>
 </table>
 <p>
-  <%= f.label :description %><br />
+  <%= f.label "Description/Abstract" %><br />
   <%= f.text_area :description, :cols => 80, :rows => 10 %>
 </p>
 
@@ -61,26 +61,6 @@
       <% else %>
         <%= f.collection_select :user_id, User.all, :id, :full_name %>
       <% end %>
-    </div>
-  </div>
-  <div class="box_in_line">
-    <div class="box_in_line_content">
-      <%= f.label "Responsible PI" %><br />
-      <%= f.collection_select :responsible_id, User.all, :id, :full_name, options = { :prompt => "Select one..." } %>
-    </div>
-  </div>
-  <div class="box_in_line">
-    <div class="box_in_line_content">
-      <table>
-        <tr>
-          <td><%= f.label "Contact person name" %></td>
-          <td><%= f.label "Contact person email" %></td>
-        </tr>
-        <tr>
-          <td><%= f.text_field :contact_name, :size => 30 %></td>
-          <td><%= f.text_field :contact_email, :size => 30 %></td>
-        </tr>
-      </table>
     </div>
   </div>
 <div class="box_bottom"></div>
@@ -148,7 +128,7 @@
 <p>
   <%= f.label "Target Journal" %><br />
     <%=  text_field_with_auto_complete :target_journal, 
-            :name, 
+			:name,
           { :size => 60 },
           { :method => :get, 
            :skip_style => true,
@@ -159,12 +139,6 @@
 <p>
   <%= f.label "Publication URL" %><br />
   <%= f.text_field :url, :size => 80 %>
-</p>
-<p>
-  <%= f.label "Article Promotion" %><br />
-  Would you like the ICC to promote your final work? 
-  <%= f.radio_button :promotion, true %><%= f.label "Yes" %>
-  <%= f.radio_button :promotion, false %><%= f.label "No" %>
 </p>
 
 <p>

@@ -40,7 +40,7 @@
   <% end %>
 <% end %>
 <% if params[:version] %>
-  <%=h link_to "Lastest version", :version => nil %> from <%=h @publication.updated_at %>
+  <%=h link_to "Latest version", :version => nil %> from <%=h @publication.updated_at %>
 <% end %>
 </div> 
     
@@ -67,7 +67,7 @@
   </tr>
 </table>
 <p>
-  <strong>Description:</strong>
+  <strong>Description/Abstract:</strong>
   <%=h @publication.description %>
 </p>
 
@@ -86,8 +86,16 @@
       <td><%=h a.position %></td>
       <td><%=h a.name %></td>
       <td><%=h a.email %></td>
-      <td><%=h a.country_team.name %></td>
-      <td><%=h a.focus_group.name %></td>
+      <td>
+			<% unless a.country_team_id.nil? %>
+				<%=h a.country_team.name %>
+			<% end %>
+	  </td>
+      <td>
+			<% unless a.focus_group_id.nil? %>
+				<%=h a.focus_group.name %>
+			<% end %>		
+	</td>			
      </tr>
      <% end %>   
   </table>
@@ -104,16 +112,6 @@
       <td>HBSC responsible author</td>
       <td><%=h @publication.user.full_name %></td>
       <td><%=h @publication.user.email %></td>    
-    </tr>
-    <tr>
-      <td>Contact person</td>
-      <td><%=h @publication.contact_name %></td>
-      <td><%=h @publication.contact_email %></td>    
-    </tr>
-    <tr>
-      <td>Responsible PI</td>
-      <td><%=h @publication.responsible.full_name %></td>
-      <td><%=h @publication.responsible.email %></td>    
     </tr>
   </table>
 </p>
@@ -180,20 +178,13 @@
 
 <p>
   <strong>Target Journal:</strong>
-  <% if @publication.target_journal %>
+<% if @publication.target_journal %>
       <%=h @publication.target_journal.name %>
-  <% else %>
-    None chosen.
-  <% end %>
+<% end %>
 </p>
 <p>
   <strong>Publication URL:</strong>
   <%=link_to @publication.url, @publication.url %>
-</p>
-
-<p>
-  <strong>Article Promotion:</strong>
-  <%=h @publication.promotion? ? 'Yes' : 'No' %>
 </p>
 <p>
   <strong>Reference/Citation:</strong>
@@ -260,3 +251,4 @@
   <%= link_to "Destroy", @publication, :confirm => 'Are you sure?', :method => :delete if permitted_to? :destroy, :publications %> |
   <%= link_to "View All", publications_path %>
 </p>
+	

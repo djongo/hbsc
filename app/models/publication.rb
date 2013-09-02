@@ -20,7 +20,7 @@ class Publication < ActiveRecord::Base
   belongs_to :language
   belongs_to :publication_type
   belongs_to :user
-  belongs_to :responsible, :class_name => "User"
+  # belongs_to :responsible, :class_name => "User"
   #belongs_to :contact, :class_name => "User"
   belongs_to :target_journal
 
@@ -70,9 +70,9 @@ class Publication < ActiveRecord::Base
 
     # People information
     indexes [user.first_name, user.last_name, user.email], :as => :responsible_author
-    indexes [responsible.first_name, responsible.last_name, responsible.email], :as => :responsible_pi
-    indexes contact_name
-    indexes contact_email    
+    # indexes [responsible.first_name, responsible.last_name, responsible.email], :as => :responsible_pi
+    # indexes contact_name
+    # indexes contact_email    
 
     # Author information
     indexes authors(:name), :as => :author_name
@@ -97,9 +97,9 @@ class Publication < ActiveRecord::Base
   end
 
   validates_presence_of :title, :language_id, :publication_type, :user_id
-  validates_presence_of :responsible_id #, :contact_id
+  # validates_presence_of :responsible_id #, :contact_id
   
-  validates_inclusion_of :promotion, :in => [true,false]
+  # validates_inclusion_of :promotion, :in => [true,false]
   
   validates_associated :variables
   validates_associated :surveys
@@ -153,31 +153,31 @@ class Publication < ActiveRecord::Base
   def validate
     # require a minimum of one keyword, population, determinant, outcome
     # measure, confounder/mediator, survey_datas
-    puts 'in validate function'
-    undestroyed_keyword_count = 0
-    undestroyed_foundation_count = 0
-    undestroyed_inclusion_count = 0
-    undestroyed_determinant_count = 0
-    undestroyed_mediator_count = 0
-    undestroyed_outcome_count = 0
-                      
-    @keywords.target.each { |t| undestroyed_keyword_count += 1 unless t.marked_for_destruction? }
-    errors.add_to_base 'There must be at least one keyword' if undestroyed_keyword_count < 1
-    
-    @foundations.target.each { |u| undestroyed_foundation_count +=1 unless u.marked_for_destruction? }
-    errors.add_to_base 'There must be at least one set of survey data' if undestroyed_foundation_count < 1
-    
-    @inclusions.target.each { |v| undestroyed_inclusion_count +=1 unless v.marked_for_destruction? }
-    errors.add_to_base 'There must be at least one population' if undestroyed_inclusion_count < 1    
-
-    @outcomes.target.each { |w| undestroyed_outcome_count +=1 unless w.marked_for_destruction? }
-    errors.add_to_base 'There must be at least one outcome measure' if undestroyed_outcome_count < 1  
-
-    @determinants.target.each { |x| undestroyed_determinant_count +=1 unless x.marked_for_destruction? }
-    errors.add_to_base 'There must be at least one determinant' if undestroyed_determinant_count < 1  
-
-    @mediators.target.each { |y| undestroyed_mediator_count +=1 unless y.marked_for_destruction? }
-    errors.add_to_base 'There must be at least one confounder or mediator' if undestroyed_mediator_count < 1  
+    # puts 'in validate function'
+    # undestroyed_keyword_count = 0
+    # undestroyed_foundation_count = 0
+    # undestroyed_inclusion_count = 0
+    # undestroyed_determinant_count = 0
+    # undestroyed_mediator_count = 0
+    # undestroyed_outcome_count = 0
+    #                   
+    # @keywords.target.each { |t| undestroyed_keyword_count += 1 unless t.marked_for_destruction? }
+    # errors.add_to_base 'There must be at least one keyword' if undestroyed_keyword_count < 1
+    # 
+    # @foundations.target.each { |u| undestroyed_foundation_count +=1 unless u.marked_for_destruction? }
+    # errors.add_to_base 'There must be at least one set of survey data' if undestroyed_foundation_count < 1
+    # 
+    # @inclusions.target.each { |v| undestroyed_inclusion_count +=1 unless v.marked_for_destruction? }
+    # errors.add_to_base 'There must be at least one population' if undestroyed_inclusion_count < 1    
+    # 
+    # @outcomes.target.each { |w| undestroyed_outcome_count +=1 unless w.marked_for_destruction? }
+    # errors.add_to_base 'There must be at least one outcome measure' if undestroyed_outcome_count < 1  
+    # 
+    # @determinants.target.each { |x| undestroyed_determinant_count +=1 unless x.marked_for_destruction? }
+    # errors.add_to_base 'There must be at least one determinant' if undestroyed_determinant_count < 1  
+    # 
+    # @mediators.target.each { |y| undestroyed_mediator_count +=1 unless y.marked_for_destruction? }
+    # errors.add_to_base 'There must be at least one confounder or mediator' if undestroyed_mediator_count < 1  
   end
   
 #  serialize :author_information, Hash
@@ -236,6 +236,189 @@ class Publication < ActiveRecord::Base
   
   def populations_xls
     self.populations.map(&:name).join(', ')
+  end
+  
+  # Methods for import
+  def self.import(file)
+    require 'FasterCSV'
+    
+    # Set defaults
+    undecided = PublicationType.find_by_name("Undecided")
+    english = Language.find_by_name("English")
+    pg_user = User.find_by_email('bho@si-folkesundhed.dk')
+
+    FasterCSV.foreach(file.path, :headers => true, :col_sep => ";", :encoding => 'u') do |row|
+      r = row.to_hash
+
+      # Variables to be user in publication table
+      given_state = r["Status (state)"] 
+      title = r["Title"]
+      created_at = r["Created at"] # Convert to correct format or insert default
+      id = r["ID"]      
+      reference = r["Reference"]
+      target_journal = r["Target journal"]
+      url = r["Publication URL"]
+
+      # Default state to preplanned if not included or incorrect
+      if given_state
+        given_state_cleaned = given_state.downcase.gsub(/\s+/, "") # Set to lowercase and remove whitespaces
+        if ["preplanned","planned","inprogess","submitted","accepted","published"].include?(given_state_cleaned) 
+          state = given_state_cleaned
+        else
+          state = "preplanned"
+        end
+      end
+      
+      if created_at.blank?
+        created_at = Time.now
+      else
+        begin
+          created_at = DateTime.parse(created_at)
+        rescue
+          created_at = Time.now
+        end
+      end
+      
+      # other variable
+      surveys = r["Survey data"]
+      populations = r["Populations"]
+      authors = r["Author(s)"]
+      user_hbsc_member = r["First author: registered member?"] #.downcase.gsub(/\s+/, "")
+      responsible_author = r["HBSC responsible author "]
+      responsible_author_email = r["HBSC responsible author email "]
+      country_team = r["Country team"]
+      date_submitted = r["Date submitted"]
+      date_accepted = r["Date accepted"]
+      date_published = r["Date published"]
+
+      # Find country team. They should be given per author, but import spreadsheet is incorrect, will get first value if given
+      if country_team.to_s.strip.gsub(/\s+/, "\"").strip.length > 0 
+        country_teams = country_team.split(",")
+        country_teams.each do |ct|
+          ctname = ct.strip
+          unless CountryTeam.find_by_name(ctname) || ctname.blank?
+            CountryTeam.create!(:name => ctname)
+          end
+        end
+        first_country = country_teams.first.strip
+        given_country_team_id = CountryTeam.find_by_name(first_country).id
+      end
+
+      # Sorting local db sync issue
+      ActiveRecord::Base.connection.tables.each do |t|
+        ActiveRecord::Base.connection.reset_pk_sequence!(t)
+      end;nil
+      
+    
+      # Does publication exist, so we can add a new version?
+      publication = Publication.find_by_id(id) || Publication.new
+      publication.id = id
+      publication.title = title
+      publication.state = state # check that correct in csv before uploading
+      publication.created_at = created_at
+      publication.updated_at = Time.now
+      publication.publication_type_id = undecided.id
+      publication.language_id = english.id
+      publication.reference = reference
+      publication.archived = false
+      publication.url = url
+
+      # Set up Target Journal
+      if target_journal
+        unless TargetJournal.find_by_name(target_journal.strip)
+          tj = TargetJournal.new
+          tj.name = target_journal.strip
+          tj.save
+        end
+        publication.target_journal_id = TargetJournal.find_by_name(target_journal.strip)        
+      end
+
+      # Set up authors
+      if publication.id.to_i > 0
+        existing_authors = []  
+        publication.authors.each do |ea|
+          existing_authors.push( ea.name )
+        end
+      end
+      
+      if authors != nil
+        authors_arr = authors.split(",")
+        authors_arr.each do |a|
+          author = Author.new
+          author.name = a.strip
+          author.position = authors_arr.index(a)
+          author.publication_id = publication.id
+          if given_country_team_id
+            author.country_team_id = given_country_team_id
+          end
+          unless existing_authors.include? author.name
+            author.save!
+          end
+        end
+      end
+      
+      # Set up survey data
+      if surveys
+        surveys.split(",").each do |s|
+          s_name = s.strip
+          survey = Survey.find_by_name(s_name) || Survey.new
+          unless Survey.find_by_name(s_name) || s_name.blank?
+            survey.name = s_name            
+            survey.save!
+          end
+          unless Foundation.find_by_publication_id_and_survey_id(publication.id, survey.id)
+            if publication.id.to_i > 0 && survey.id.to_i > 0 
+              Foundation.create(:publication_id => publication.id, :survey_id => survey.id)
+            end
+          end
+        end
+      end
+
+      # Set up populations
+      if populations
+        populations.split(",").each do |p|
+          p_name = p.strip
+          population = Population.find_by_name(p_name) || Population.new
+          unless Population.find_by_name(p_name)
+            population.name = p_name
+            population.save!
+          end
+          unless Inclusion.find_by_publication_id_and_population_id(publication.id, population.id)
+            if publication.id.to_i > 0 && population.id.to_i > 0
+              Inclusion.create!(:publication_id => publication.id, :population_id => population.id)
+            end
+          end
+        end
+      end
+
+      # Publication has to be tied to a user, in this case it is the HBSC responsible author
+      # if none is listed, default to Bjørn (pg_user)
+      if responsible_author_email
+        rae = responsible_author_email.downcase.strip
+        ra = responsible_author.strip
+        if User.find_by_email(rae)
+          user = User.find_by_email(rae)
+        else
+          if rae.include?(";") || rae.include?(" ")
+            user = pg_user
+          else
+            user = User.new
+            user.full_name = ra
+            user.email = rae
+            user.password = ra
+            user.password_confirmation = ra
+            user.roles_mask = 2
+            user.save!
+          end
+        end      
+      else
+        user = pg_user
+      end
+  
+      # Save publication
+      publication.user_id = user.id
+      publication.save
+    end
   end
   
   # methods for meta data for versions

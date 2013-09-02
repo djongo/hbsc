@@ -7,7 +7,7 @@ class TargetJournal < ActiveRecord::Base
   end
 
   def target_journal_name=(name)
-    self.name = TargetJournal.find_or_create_by_name(name) unless name.blank?
+    self.target_journal = TargetJournal.find_or_create_by_name(name) unless name.blank?
   end
 #  def variable_name
 #    variable.name if variable

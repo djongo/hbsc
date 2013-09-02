@@ -36,6 +36,8 @@ Rails::Initializer.run do |config|
   config.gem 'thinking-sphinx', :lib => 'thinking_sphinx', :source => 'http://gemcutter.org', :version => '1.4.10'
   config.gem 'flying-sphinx', :source => 'http://gemcutter.org', :version => '0.6.1'
   config.gem 'wicked_pdf', :source => 'http://gemcutter.org', :version => '0.7.5'
+  config.gem 'fastercsv', :source => 'http://gemcutter.org', :version => '1.5.5' 
+
   
   # Only load the plugins named here, in the order given (default is alphabetical).
   # :all can be used as a placeholder for all plugins not explicitly named

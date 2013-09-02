@@ -157,6 +157,17 @@ class PublicationsController < ApplicationController
     @publication = Publication.find(params[:id]) 
   end
   
+  # Import
+  def import
+    # begin
+      Publication.import(params[:file])
+      flash[:notice] = "Publications imported."
+    # rescue
+    #   flash[:error] = "Error in data. Check your import file."
+    # end
+    redirect_to list_publications_url
+  end
+    
   # Workflow via aasm functions below  
   # locking to avoid concurrency issues, see
   # http://www.engineyard.com/blog/2010/concurrency-and-the-aasm-gem/

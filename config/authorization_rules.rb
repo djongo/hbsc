@@ -50,7 +50,8 @@ authorization do
     has_permission_on :publications, :to => :submit    
     has_permission_on :publications, :to => :remind    
     has_permission_on :publications, :to => :list
-    has_permission_on :publications, :to => :audit    
+    has_permission_on :publications, :to => :audit   
+    has_permission_on :publications, :to => :import
     has_permission_on :publications, :to => [ :archive, :unarchive ]
     has_permission_on :publication_types, :to => :manage
     has_permission_on :publication_types, :to => :filter

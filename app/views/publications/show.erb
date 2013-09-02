@@ -451,11 +451,9 @@ span.match {
 
 <p>
   <strong>Target Journal:</strong>
-  <% if @publication.target_journal %>
-      <%=h @publication.target_journal.name %>
-  <% else %>
-    None chosen.
-  <% end %>
+	<% if @publication.target_journal %>
+      <%=h yield @publication.target_journal %>
+	<% end %>
 </p>
 <p>
   <strong>Publication URL:</strong>

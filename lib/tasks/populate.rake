@@ -14,13 +14,13 @@ namespace :db do
       publication.state = ["preplanned","planned","inprogess","submitted","accepted","published"]
       publication.created_at = 2.years.ago..Time.now
       publication.reference = Populator.words(3..7).titleize
-      publication.promotion = ["false","true"]
-      publication.responsible_id = (1..17)
+      # publication.promotion = ["false","true"]
+      # publication.responsible_id = (1..17)
 #      publication.contact_id = (1..12)
-      publication.target_journal_id = (1..4)
+      #publication.target_journal_id = #["International Journal of Public Health","Journal of Adolescent Health","Journal of School Health","International Journal of Clinical and Health Psychology","Journal of Physical Activity and Health"]
       publication.archived = [false,true]
-      publication.contact_name = Faker::Name.name
-      publication.contact_email = Faker::Internet.email
+      # publication.contact_name = Faker::Name.name
+      # publication.contact_email = Faker::Internet.email
       Author.populate 2..4 do |author|      
         author.publication_id = publication.id
         author.position = (1..4)

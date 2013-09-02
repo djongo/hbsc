@@ -14,29 +14,29 @@
 end
 
 # Load survey data
-["83/84","85/86","89/90","93/94","97/98","01/02","05/06","09/10"].each do |survey|
-  Survey.find_or_create_by_name(survey)
-end
+# ["83/84","85/86","89/90","93/94","97/98","01/02","05/06","09/10"].each do |survey|
+#   Survey.find_or_create_by_name(survey)
+# end
 
 # Load Publication Types
-["Journal article","Book","Book chapter"].each do |ptype|
+["Undecided","Journal article","Book","Book chapter"].each do |ptype|
   PublicationType.find_or_create_by_name(ptype)
 end
 
 # Load populations
-["Denmark","Germany","International","Israel","Norway","Scotland","Spain"].each do |population|
-  Population.find_or_create_by_name(population)
-end
+# ["Denmark","Germany","International","Israel","Norway","Scotland","Spain"].each do |population|
+#   Population.find_or_create_by_name(population)
+# end
 
 # Load Country Teams
-["Denmark","Germany","Israel","Norway","Scotland","Spain"].each do |ct|
-  CountryTeam.find_or_create_by_name(ct)
-end
+# ["Denmark","Germany","Israel","Norway","Scotland","Spain"].each do |ct|
+#   CountryTeam.find_or_create_by_name(ct)
+# end
 
 # Load Focus Groups
-["SI","Test","Creative","Brainstorm"].each do |fg|
-  FocusGroup.find_or_create_by_name(fg)
-end
+# ["SI","Test","Creative","Brainstorm"].each do |fg|
+#   FocusGroup.find_or_create_by_name(fg)
+# end
 
 # Load Pages
 if Page.find_by_title('home').nil?
@@ -56,22 +56,22 @@ if Page.find_by_title('master data').nil?
 end
 
 # Load Target Journals
-["International Journal of Public Health","Journal of Adolescent Health","Journal of School Health","International Journal of Clinical and Health Psychology","Journal of Physical Activity and Health"].each do |tj|
-  TargetJournal.find_or_create_by_name(tj)
-end
+#["International Journal of Public Health","Journal of Adolescent Health","Journal of School Health","International Journal of Clinical and Health Psychology","Journal of Physical Activity and Health"].each do |tj|
+#  TargetJournal.find_or_create_by_name(tj)
+# end
 
 # Load admin user
 if User.find_by_email('jonasholstein@gmail.com').nil?
   User.create! :email => 'jonasholstein@gmail.com', :password => 'admin123', :password_confirmation => 'admin123', :first_name => "Jonas", :last_name => "Holstein", :roles_mask => "3", :hbsc_member => true  
 end
 
-if User.find_by_email('kapu@niph.dk').nil?
-  User.create! :email => 'kapu@niph.dk', :password => 'admin123', :password_confirmation => 'admin123', :first_name => "Kaisa", :last_name => "Puhakka", :roles_mask => "3", :hbsc_member => true
-end
-
-if User.find_by_email('Ashley.Theunissen@ed.ac.uk').nil?
-  User.create! :email => 'Ashley.Theunissen@ed.ac.uk', :password => 'admin123', :password_confirmation => 'admin123', :first_name => "Ashley", :last_name => "Theunissen", :roles_mask => "3", :hbsc_member => true 
-end
+# if User.find_by_email('kapu@niph.dk').nil?
+#   User.create! :email => 'kapu@niph.dk', :password => 'admin123', :password_confirmation => 'admin123', :first_name => "Kaisa", :last_name => "Puhakka", :roles_mask => "3", :hbsc_member => true
+# end
+# 
+# if User.find_by_email('Ashley.Theunissen@ed.ac.uk').nil?
+#   User.create! :email => 'Ashley.Theunissen@ed.ac.uk', :password => 'admin123', :password_confirmation => 'admin123', :first_name => "Ashley", :last_name => "Theunissen", :roles_mask => "3", :hbsc_member => true 
+# end
 
 if User.find_by_email('tppe@si-folkesundhed.dk').nil?
   User.create! :email => 'tppe@si-folkesundhed.dk', :password => 'admin123', :password_confirmation => 'admin123', :first_name => "Trine Pagh", :last_name => "Pedersen", :roles_mask => "3", :hbsc_member => true 
