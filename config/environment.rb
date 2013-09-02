@@ -33,10 +33,11 @@ Rails::Initializer.run do |config|
   config.gem 'ezprint', :source => 'http://gemcutter.org'
   config.gem 'acts_as_list', :source => 'http://gemcutter.org', :version => '0.1.2'
   config.gem 'riddle', :source => 'http://gemcutter.org', :version => '1.5.0'
-  config.gem 'thinking-sphinx', :lib => 'thinking_sphinx', :source => 'http://gemcutter.org', :version => '1.4.10'
-  config.gem 'flying-sphinx', :source => 'http://gemcutter.org', :version => '0.6.1'
+  config.gem 'thinking-sphinx', :lib => 'thinking_sphinx', :source => 'http://gemcutter.org', :version => '1.4.14'
+  config.gem 'flying-sphinx', :source => 'http://gemcutter.org', :version => '1.0.0'
   config.gem 'wicked_pdf', :source => 'http://gemcutter.org', :version => '0.7.5'
   config.gem 'fastercsv', :source => 'http://gemcutter.org', :version => '1.5.5' 
+  config.gem 'openssl-nonblock', :source => 'http://gemcutter.org', :version => '0.2.1' 
 
   
   # Only load the plugins named here, in the order given (default is alphabetical).
