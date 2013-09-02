@@ -22,5 +22,5 @@ acts_as_list -v 0.1.2 -s 'http://gemcutter.org'
 wicked_pdf -v 0.7.5 -s 'http://gemcutter.org'
 pg -v 0.16.0 -s 'http://gemcutter.org'
 fastercsv -v 1.5.5 -s 'http://gemcutter.org'
-
-
+rdoc -v 3.2 -s 'http://gemcutter.org'
+rdoc-data -v 3.12 -s 'http://gemcutter.org'
