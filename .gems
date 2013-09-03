@@ -6,8 +6,8 @@ rash -v 0.3.0  -s 'http://gemcutter.org'
 pusher-client -v 0.3.0  -s 'http://gemcutter.org'
 innertube -v 1.0.2 -s 'http://gemcutter.org'
 riddle -v 1.5.6 -s 'http://gemcutter.org'
-thinking-sphinx -v 1.5.0 -s 'http://gemcutter.org' --ignore-dependencies
-flying-sphinx -v 1.0.0 -s 'http://gemcutter.org' --ignore-dependencies
+thinking-sphinx -v 1.4.5 -s 'http://gemcutter.org' --ignore-dependencies
+flying-sphinx -v 0.7.0 -s 'http://gemcutter.org' --ignore-dependencies
 openssl-nonblock --version 0.2.1 -s 'http://gemcutter.org'
 authlogic -v 2.1.6 -s 'http://gemcutter.org'
 will_paginate -v 2.3.15 -s 'http://gemcutter.org'
