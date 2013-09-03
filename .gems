@@ -3,6 +3,7 @@ rake -v 0.8.7 -s 'http://gemcutter.org'
 after_commit -v 1.0.11 -s 'http://gemcutter.org' --ignore-dependencies
 faraday_middleware -v 0.7.0  -s 'http://gemcutter.org'
 rash -v 0.3.0  -s 'http://gemcutter.org'
+pusher-client -v 0.3.0  -s 'http://gemcutter.org'
 innertube -v 1.0.2 -s 'http://gemcutter.org'
 riddle -v 1.5.6 -s 'http://gemcutter.org'
 thinking-sphinx -v 1.5.0 -s 'http://gemcutter.org' --ignore-dependencies
