@@ -18,7 +18,7 @@ rescue LoadError
 end
 
 begin
-  gem 'thinking-sphinx', '~>1.4.9'
+  gem 'thinking-sphinx', '1.5.0'
   require 'thinking_sphinx/tasks'
 rescue LoadError
   puts "You can't load Thinking Sphinx tasks unless the thinking-sphinx gem is installed."
