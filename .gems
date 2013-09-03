@@ -1,7 +1,7 @@
 rails -v 2.3.18 -s 'http://gemcutter.org'
 rake -v 0.8.7 -s 'http://gemcutter.org'
 after_commit -v 1.0.11 -s 'http://gemcutter.org' --ignore-dependencies
-riddle -v 1.5.0 -s 'http://gemcutter.org'
+riddle -v 1.5.6 -s 'http://gemcutter.org'
 thinking-sphinx -v 1.5.0 -s 'http://gemcutter.org' --ignore-dependencies
 flying-sphinx -v 1.0.0 -s 'http://gemcutter.org' --ignore-dependencies
 openssl-nonblock --version 0.2.1 -s 'http://gemcutter.org'
