@@ -38,6 +38,7 @@ Rails::Initializer.run do |config|
   config.gem 'wicked_pdf', :source => 'http://gemcutter.org', :version => '0.7.5'
   config.gem 'fastercsv', :source => 'http://gemcutter.org', :version => '1.5.5' 
   config.gem 'openssl-nonblock', :source => 'http://gemcutter.org', :version => '0.2.1' 
+  config.gem 'net-ssh', :source => 'http://gemcutter.org', :version => '2.0.23' 
 
   
   # Only load the plugins named here, in the order given (default is alphabetical).

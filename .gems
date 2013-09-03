@@ -5,6 +5,7 @@ faraday_middleware -v 0.7.0  -s 'http://gemcutter.org'
 rash -v 0.3.0  -s 'http://gemcutter.org'
 pusher-client -v 0.3.0  -s 'http://gemcutter.org'
 innertube -v 1.0.2 -s 'http://gemcutter.org'
+net-ssh -v 2.0.23 -s 'http://gemcutter.org'
 riddle -v 1.5.6 -s 'http://gemcutter.org'
 thinking-sphinx -v 1.4.5 -s 'http://gemcutter.org' --ignore-dependencies
 flying-sphinx -v 0.7.0 -s 'http://gemcutter.org' --ignore-dependencies
